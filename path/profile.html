@@ -10,8 +10,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet">
 
-         <link rel="stylesheet" href="../css/login.css">
-             <script src="../js/login.js"></script> 
+         <link rel="stylesheet" href="../css/profile.css">
+             <script src="../js/profile.js"></script> 
 
     </head>
 
@@ -65,39 +65,32 @@
                 
                         
         </div>
-         
-        <div class="loginregister">
-            <div class="login">
-                <p style="font-size: 20px;">Login</p>
-                <div class="logininput">
-                <div class="input">
-                <input type="text" name="EMAIL" placeholder="EMAIL">
+        <div class="profileinfo">
+
+            <div class="content">
+            <p style="padding-top: 20px;">Account Information</p>
+                <div class="titlediv">
+                <p class="title">Name</p>
+                <input class="inputprofile" type="text" name="firstname" value="Martin">
+                    
                     </div>
-                <div class="input2">
-                <input type="password" name="PASSWORD" placeholder="PASSWORD">
+                <div>
+                <p class="title">Surname</p>
+                <input class="inputprofile" type="text" name="lastname" value="Zannato">
                     </div>
+                <p class="title">Email</p>
+                <input class="inputprofile" type="text" name="email" value="real.martin.zannato@gmail.com" readonly>
+                <div class="buttons">
+                <button class="changeemail">Change email</button>
+                <button class="changepassword">Change password</button>
+
                     </div>
-                <button class="loginbutton">login</button>
-            </div><div class="register">
-            <p style="font-size: 20px;">New User?</p>
-            <div class="registerinput">
-                <div class="input">
-                <input class="inputregister" type="text" name="firstname" placeholder="First Name">
-                <input class="inputregister" type="text" name="lastname" placeholder="Last Name">
-                    </div>
-                <div class="input2">
-                <input class="inputregister" type="text" name="email" placeholder="Email">
-                <input class="inputregister" type="text" name="confirmemail" placeholder="Confirm email">
-                    </div>
-                <div class="input3">
-                <input class="inputregister" type="password" name="password" placeholder="Password">
-                <input class="inputregister" type="password" name="confirmpassword" placeholder="Confirm Password">
-                    </div>
-                <button class="registerbutton2">Register</button>
-                    </div>
-            <div class="buttondiv">
-                <button class="registerbutton">Register</button></div>
-            </div>
+                <div class="savechanges">
+                <button class="save">Save changes</button>
+
+                
+                </div>
+                </div>
          </div>
          
          

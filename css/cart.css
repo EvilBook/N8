@@ -191,6 +191,7 @@ a{
 .leftinfo{
         display: inline-block;
     height:100%;
+    width:40%;
 
 }
 .rightinfo{

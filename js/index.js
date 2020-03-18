@@ -1,3 +1,39 @@
+
+
+$("#includedContent").load("/projectfolder/html/header.html");
+
+
+console.log(location.href)
+
+
+var items=read_cookie('items');
+
+    
+
+
+
+
+
+
+
+var jsonInfo;
+var jsonFile;
+
+(function () {
+
+fetch('db/items1.json') 
+    .then((response) => {
+            return response.json();
+        })
+        .then((myJson) => {
+        jsonFile=myJson;
+
+    
+    
+            jsonInfo=myJson;
+
+
+
 var x=$(document).width();
 var y=screen.height;
 
@@ -18,184 +54,6 @@ var wrapper=document.getElementById("categorySpace");
 });
 
 
-/*window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-    document.getElementById("navbar2").style.padding = "2px 0px 2px 0px";
-    document.getElementById("navbar2img").style.fontSize = "25px";
-    document.getElementById("navbar2").style.height = "51px";
-  } else {
-    document.getElementById("navbar2").style.padding = "30px 0px 30px 0px";
-    document.getElementById("navbar2img").style.fontSize = "35px";
-          document.getElementById("navbar2").style.height = "89px";
-
-  }
-} 
-*/
-
-
-
-
-
-
-
-
-
-
-
-    /*for(var ii=11; ii<27; ii++){
-var random=Math.floor(Math.random() * (200 - 200) + 200);
-
-        var cardDiv = document.createElement("div");                 
-        cardDiv.setAttribute("class", "productcontainer");
-        cardDiv.setAttribute("id", "productcontainer"+ii);
-        document.getElementById("container1").appendChild(cardDiv);
-        
-        var priceDiv = document.createElement("div");
-        priceDiv.setAttribute("class", "price");
-        priceDiv.setAttribute("id", "price"+ii);
-        priceDiv.innerHTML=Math.floor(Math.random()*4000)+" $";
-        document.getElementById("productcontainer"+ii).appendChild(priceDiv);
-        
-       
-
-        var cardImg = document.createElement("img");                 
-        cardImg.setAttribute("class", "productimg");
-        cardImg.setAttribute("src", "img/img"+ii+".jpg");
-        document.getElementById("productcontainer"+ii).appendChild(cardImg);
-        var ratio=cardImg.naturalWidth/cardImg.naturalHeight;
-        /*
-        if(ratio===1){
-        cardDiv.setAttribute("style", "width: "+200+"px; height: "+200+"px;");
-
-        }else if(ratio<1){
-                    cardDiv.setAttribute("style", "width: "+200+"px; height: "+400+"px;");
-
-
-        }else if(ratio>1){
-                    cardDiv.setAttribute("style", "width: "+400+"px; height: "+200+"px;");
-
-
-        }*/
-
-        
-/*
-        var cardDivInner= document.createElement("div");
-        cardDivInner.setAttribute("class", "productdescription");
-        cardDivInner.setAttribute("id", "productdescription"+ii);
-        cardDivInner.setAttribute("style", "display:none;");
-        cardDiv.addEventListener("mouseover", function(event){
-            event.currentTarget.childNodes[2].setAttribute("style", "");
-                                      });
-        cardDiv.addEventListener("mouseleave", function(event){
-            event.currentTarget.childNodes[2].setAttribute("style", "display:none;");
-                                      });
-        document.getElementById("productcontainer"+ii).appendChild(cardDivInner);
-
-        var cardText= document.createElement("p");
-        cardText.setAttribute("class", "card-text");
-        cardText.innerHTML="Some quick example text to build on the card title and make up the bulk of the card's content";
-        document.getElementById("productdescription"+ii).appendChild(cardText);
-    }
-
-
-
-
-
-
-
-if(typeof console==="undefined"){console={};console.log = function(){return;}}
-
-var defaultArgs = {
-  padding: 30,
-  columns: 3,
-  minWidth: 240,
-  animationDuration: 200
-};
-
-(function($) {
-  $.fn.arrange = function(options) {
-    
-    // Init variables
-    var arg = $.extend({
-      padding: 0,
-      columns: 3,
-      minWidth: 240,
-      animationDuration: 200
-    },options);
-    var gridWidth = this.width()+arg.padding*1;
-      console.log(this);
-    var childrenElements = this.children(arg.selector);
-    var children = [];
-    var columnHeights = [];
-    
-    // Check the column minimum width
-    while(gridWidth/arg.columns<arg.minWidth&&arg.columns>1)
-      arg.columns = arg.columns-1;
-    for(n=0;n<arg.columns;n+=1) columnHeights[n]=0;
-    
-    // Iterate children
-    childrenElements.each(function(i){
-      $(this).css("position","absolute");
-      
-      // Select the shortest column
-      var col = 0;
-      var top = Math.min.apply(Math,columnHeights);
-      for(v=0;v<columnHeights.length;v+=1) if(columnHeights[v]==top) { 
-        col = v; break; }
-      
-      // Calculate the new position
-      var left = col*gridWidth/arg.columns;
-      var width = gridWidth/arg.columns-arg.padding;
-      $(this).outerWidth(width);
-      var child = {
-        obj: $(this),
-        x: left,
-        y: top,
-        w: width,
-        h: $(this).outerHeight(),
-        n: i
-      };
-      columnHeights[col] = child.y+child.h+arg.padding*1;
-      children[children.length] = child;
-    });
-    
-    // Position child elements with animation
-    childrenElements.each(function(i){
-      $(this).stop(1,1).animate({
-        left: children[i].x,
-        top: children[i].y,
-        width: children[i].w
-      },arg.animationDuration);
-    });
-    
-    // Set the final height of the container
-    this.height(Math.max.apply(Math,columnHeights)-arg.padding);
-    return this;
-  };
-}(jQuery));
-
-// Call the arrange function
-clearTimeout(timeout);
-  timeout = setTimeout(function(){ 
-    $( ".grid" ).arrange(defaultArgs);
-  }, 200);
-
-// Resize the grid when the viewport is resized.
-// There is a delay of 0.3 seconds to prevent the function
-// from being called before the resizing is finished.
-var timeout;
-$( window ).resize(function() {
-  clearTimeout(timeout);
-  timeout = setTimeout(function(){ 
-    $( ".grid" ).arrange(defaultArgs);
-  }, 200);
-	
-});
-*/
-
-
 
 $(window).resize(function() {
 
@@ -207,8 +65,6 @@ var rows=document.getElementById("itemrow");
     
 var x=$(document).width();
     var xx=window.innerWidth;
-    console.log(x+" second");
-    console.log(xx+" secondx");
 var y=screen.height;
     var ratio = window.devicePixelRatio || 1;
 var w = screen.width * ratio;
@@ -231,68 +87,65 @@ var h = screen.height * ratio;
  
     });
 
-for(var ii=11; ii<27; ii++){
+for(var ii=0; ii<jsonInfo.length; ii++){
     
 var x=$("#main").width();
     var xx=window.innerWidth;
-    console.log(x+" second");
-    console.log(xx+" secondx");
 var y=screen.height;
     var ratio = window.devicePixelRatio || 1;
 var w = screen.width * ratio;
 var h = screen.height * ratio;
-var cardDiv = document.createElement("div");                 
+var cardDiv = document.createElement("div");      
+    var containerName=jsonInfo[ii].productid;
 
-    if(w>740){
-        console.log(x+"after second");
-    
+    if(w>740){    
         cardDiv.setAttribute("class", "productcontainer");
-        cardDiv.setAttribute("id", "productcontainer"+ii);
+        cardDiv.setAttribute("id", containerName);
         cardDiv.setAttribute("style", "width: "+(Math.floor(x/4))+"px; height: "+Math.floor(y*0.8)+"px;");
         document.getElementById("itemrow").appendChild(cardDiv);
     }else{
 
         cardDiv.setAttribute("class", "productcontainer");
-        cardDiv.setAttribute("id", "productcontainer"+ii);
+        cardDiv.setAttribute("id", containerName);
         cardDiv.setAttribute("style", "width: "+Math.floor(x/2)+"px; height: "+Math.floor(h*1.1)+"px; padding:4px;");
         document.getElementById("itemrow").appendChild(cardDiv);
         
     }
-    cardDiv.addEventListener("click", () => {
+    $(cardDiv).click(function(){
+        var now = new Date();
+               now.setFullYear( now.getFullYear() + 2 );
+            document.cookie="id="+$(this).attr('id')+"; expires=" + now.toUTCString() + "; " + "path=path/search.html";
         document.location.href="/projectfolder/path/item.html";
-    })
+    });
     
     
     var cardImg = document.createElement("img");                 
         cardImg.setAttribute("class", "productimg");
-        cardImg.setAttribute("src", "img/img"+ii+".jpg");
+        cardImg.setAttribute("src", "img/"+jsonInfo[ii].url[0]);
+    console.log(jsonInfo[ii].url[0]);
         //cardImg.setAttribute("src", "img/loading.gif");
-        document.getElementById("productcontainer"+ii).appendChild(cardImg);
+        document.getElementById(containerName).appendChild(cardImg);
         var ratio=cardImg.naturalWidth/cardImg.naturalHeight;
     var x=$(document).width();
-    console.log(x+" fourth");
     
     
     var cardDivInner= document.createElement("div");
         cardDivInner.setAttribute("class", "productdescription");
-        cardDivInner.setAttribute("id", "productdescription"+ii);
+        cardDivInner.setAttribute("id", "productdescription"+containerName);
         
-        document.getElementById("productcontainer"+ii).appendChild(cardDivInner);
+        document.getElementById(containerName).appendChild(cardDivInner);
     var x=$(document).width();
-    console.log(x+" fifth");
     
     var cardTag= document.createElement("strong");
-        cardTag.innerHTML="Livingroom";
-        document.getElementById("productdescription"+ii).appendChild(cardTag);
+        cardTag.innerHTML=jsonInfo[ii].subcategory;
+        document.getElementById("productdescription"+containerName).appendChild(cardTag);
     var x=$(document).width();
-    console.log(x+" sixth");
     
     var cardTitle= document.createElement("p");
         cardTitle.setAttribute("class", "producttitle");
-        cardTitle.innerHTML="WOODY COLUMN HIGH - WHITE";
-        document.getElementById("productdescription"+ii).appendChild(cardTitle);
+        cardTitle.innerHTML=jsonInfo[ii].name;;
+     document.getElementById("productdescription"+containerName).appendChild(cardTitle);
     var x=$("#main").width();
-    console.log(x+" seventh");
 
         var ratio = window.devicePixelRatio || 1;
 var w = screen.width * ratio;
@@ -307,9 +160,8 @@ var h = screen.height * ratio;
      var priceDiv = document.createElement("div");
         priceDiv.setAttribute("class", "price");
         priceDiv.setAttribute("id", "price"+ii);
-        priceDiv.innerHTML=w+" $"+h;
-        document.getElementById("productcontainer"+ii).appendChild(priceDiv);
-    console.log(x+" eigth");
+        priceDiv.innerHTML=jsonInfo[ii].price;
+        document.getElementById(containerName).appendChild(priceDiv);
 
         
 
@@ -356,6 +208,131 @@ var h = screen.height * ratio;
         }
         }
 
+
+
+
+$(document).ready(function(){
+  $(".search").click(function(){
+    console.log("SLUT");
+    
+    $(".searchbar").css("width", "100%");
+      $(".search").css("display", "none");
+      $(".closesearch").css("display", "block");
+      
+      
+  });
+    
+    $(".closesearch").click(function(){
+    console.log("SLUT");
+        $(".searchbar").css("width", "0%");
+      $(".search").css("display", "block");
+      $(".closesearch").css("display", "none");
+
+  });
+    $(".dropbtn-cart").click(function(){
+        var items=['eor3q9s:1', 'e8sry24o:2'];
+     var now = new Date();
+               now.setFullYear( now.getFullYear() + 2 );
+            document.cookie="items="+items+"; expires=" + now.toUTCString() + "; " + "path=/";
+            console.log(now);
+                    document.location.href = '/projectfolder/path/cart.html'
+
+        
+
+  });
+    $(".dropbtn-profile, .profilebtn").click(function(){
+            document.location.href = '/projectfolder/path/login.html'
+            console.log(now);
+        
+
+  });
+});
+
+document.addEventListener('keydown', function(event) {
+    if(event.keyCode == 13) {
+        if($(".inputsearch").is(":focus")){
+            var now = new Date();
+               now.setFullYear( now.getFullYear() + 2 );
+            document.cookie="query="+$(".inputsearch").val()+":"+ $(".inputsearch").val()+"; expires=" + now.toUTCString() + "; " + "path=path/search.html";
+            document.location.href = 'path/search.html?'+$(".inputsearch").val();
+            console.log(now);
+        //console.log($(".inputsearch").val());
+        }
+    }
+});
+    
+    
+    createBasket();
+    
+    
+});
+})();
+
+
+function createBasket(){
+    if(items!=null){
+        items=items.split(",");
+        for(var iii=0; iii<items.length; iii++){
+            var smallArray=items[iii].split(':');
+            items[iii]=smallArray;
+        }    
+    
+    
+    for(var i=0; i<items.length; i++){
+        console.log(items[i]+" "+i+" "+items.length);
+        
+        
+        var jsonItem;
+        
+        for(var ii=0;ii<jsonFile.length;ii++){
+    
+            if(items[i][0]===jsonFile[ii].productid){
+            jsonItem=jsonFile[ii];
+            }
+        }
+        
+        var cardDiv = document.createElement("div");                 
+        cardDiv.setAttribute("class", "basketitem");
+        cardDiv.setAttribute("id", items[i][0]);
+        document.getElementById("itemsdropdown").appendChild(cardDiv);
+        
+        cardDiv = document.createElement("div");                 
+        cardDiv.setAttribute("class", "basketimage");
+        cardDiv.setAttribute("id", "basketimage"+items[i][0]);
+        document.getElementById(items[i][0]).appendChild(cardDiv);
+        
+        cardDiv = document.createElement("img");                 
+        cardDiv.setAttribute("class", "image");
+        cardDiv.setAttribute("src","/projectfolder/img/"+jsonItem.url[0]);
+        document.getElementById("basketimage"+items[i][0]).appendChild(cardDiv);
+            
+        cardDiv = document.createElement("div");                 
+        cardDiv.setAttribute("class", "basketinfo");
+        cardDiv.setAttribute("id", "basketinfo"+items[i][0]);
+        document.getElementById(items[i][0]).appendChild(cardDiv);
+            
+        cardDiv = document.createElement("p");  
+            cardDiv.innerHTML=jsonItem.name;
+        document.getElementById("basketinfo"+items[i][0]).appendChild(cardDiv);
+        
+        cardDiv = document.createElement("p");  
+            cardDiv.innerHTML="quantity: "+items[i][1];
+        document.getElementById("basketinfo"+items[i][0]).appendChild(cardDiv);
+        
+        cardDiv = document.createElement("p");  
+            cardDiv.innerHTML=jsonItem.price;
+        document.getElementById("basketinfo"+items[i][0]).appendChild(cardDiv);
+    }
+    }
+    
+    
+}
+
+function read_cookie(key){
+    var result;
+    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
+}
+    
 
 
 

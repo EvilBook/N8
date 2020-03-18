@@ -1,14 +1,73 @@
+
+
 #main{
-            background-color:#ccc5b9;
+    background-color: #ffffff;
     margin: 0px;
     padding: 0px;
 }
 #navbar{
-    width: 100%;
     background-color: #3f4045;
   position: fixed; /* Set the navbar to fixed position */
   top: 0; 
     z-index: 2;
+    width:100%;
+}
+
+
+
+#itemrow{
+    margin-top: 20px;
+    width: 100%;
+}
+.productimg{
+    
+    width: 100%;
+    height:74%;
+    object-fit: cover;
+    transition: 0.4s;
+    
+
+
+/*-webkit-clip-path: polygon(0 0, 100% 0%, 75% 100%, 0% 100%); 
+    clip-path: polygon(0 0, 100% 0%, 75% 100%, 0% 100%);*/
+
+}
+.productimg:hover{
+    transform: scale(1.5);
+}
+.productcontainer{
+    position: relative;
+    display:inline-block;
+    box-sizing:border-box;
+    padding: 1px;
+    overflow:hidden;
+
+    
+    
+}
+
+.productcontainer:hover{
+
+    
+}
+
+.productdescription{
+    text-align: center;
+    width: 100%;
+    height: 18%;
+    color: #000000;
+    background-color: #ffffff;
+
+    
+}
+.producttitle{
+    
+}
+
+.price{
+    /*background-color: #edafb8;*/
+    color: #000000;
+    text-align: center;
 }
 #wrapper{
     height: 140px;
@@ -19,7 +78,7 @@
     height:51px;
     background-color: crimson;
   position: fixed;
-  top: 83px; 
+  top: 91px; 
     z-index: 1;
     background-color: #ffffff;
     width:100%;
@@ -27,9 +86,6 @@
     height:40px;
     padding: 4px 0px 0px 0px;
     transition: 0.5s;
-    border-width: 0px 0px 1px 0px;
-    border-style: solid;
-    border-color: #3f4045;
 }
 
 
@@ -64,6 +120,26 @@ svg {
 svg:hover {
   fill: #fcdebe;
     border-radius: 50px;
+}
+
+svg.search {
+  fill:#3f4045;
+        position: absolute;
+top:20%;
+}
+svg.search:hover {
+  fill: #fcdebe;
+    border-radius: 50px;
+}
+svg.closesearch {
+  fill:#3f4045;
+    position: absolute;
+top:20%;
+    display:none;
+
+}
+svg.closesearch:hover {
+  fill: crimson;
 }
 
 .menuicons{
@@ -122,94 +198,55 @@ svg:hover {
 a{
     padding: 14px;
 }
-* {box-sizing:border-box}
-
 *{
     line-height: 18px;
     font-family: 'Inconsolata', monospace;
 }
-
-
-.loginregister{
-    width:100%;
-    height:480px;
-    text-align: center;
-    padding: 30px 80px 30px 80px;
-}
-.login{
-    width:48%;
+.searchbar{
+    position: absolute;
+    width:0px;
     height:100%;
-    background-color: #ffffff;
-    display: inline-block;
-        vertical-align: top;
-    border-width: 0px 1px 0px 0px;
+text-align: left;
+  transition: width 0.8s, height 4s;
+}
+
+.inputsearch{
+    width:93%;
+    font-size:34px;
+    padding: 5px 0px 5px 20px;
+}
+.searchclose{
+    display:inline-block;
+    position:relative;
+    
+    
+    width: 5%;
+    height:74%;
+}
+input.inputsearch{
+    
+    color: #3f4045;
+    background-color: #ccc5b9;
+    border-width: 1px;
     border-style: solid;
-    border-color: #ccc5b9;
-    transition:0.5s;
+    border-color: #3f4045;
 }
-.register{
-    width:30%;
-    height:100%;
-    background-color:#ffffff;
-    display: inline-block;
-        vertical-align: top;
-    transition: 0.4s;
-}
-input{
-    width: 59%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-    border: none;
-  border-bottom: 1px solid #ccc5b9;
-    transition: 0.2s;
-}
-.logininput{
-    margin-top: 98px;
-    opacity: 1;
-    transition: 0.6s;
-
-}
-.registerinput{
-    opacity: 0;
-    display:none;
-    transition:0.6s;
-
-}
-button{
-    cursor: pointer;
+.footer{
+    width:100%;
+    height:100px;
     background-color: #3f4045;
-  border: none;
-  color: white;
-  padding: 12px 19px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 15px;
 }
-.registerbutton{
-      padding: 12px 44px;
-    transition: 0.4s;
+.searchnotification{
+    width:100%;
+    background-color: #ccc5b9;
+    text-align: center;
+    padding:30px;
+    margin-top: 26px;
+    word-wrap: break-word;
+}
 
-}
-.buttondiv{
-    margin-top: 150px;
-    transition: 0.5s;
-}
-input.inputregister{
-   width: 34%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-    border: none;
-  border-bottom: 1px solid #ccc5b9; 
-        transition: 0.2s;
 
-}
-.registerbutton2{
-    margin-top: 40px;
-}
-input:focus{
-    border-bottom: 1px solid #3f4045;        
-        
-}
+
+
+
+
