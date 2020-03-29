@@ -10,6 +10,7 @@
   position: fixed; /* Set the navbar to fixed position */
   top: 0; 
     z-index: 2;
+    width:100%;
 }
 #wrapper{
     height: 140px;
@@ -17,10 +18,9 @@
 }
 #categorySpace{
     width:100%;
-    height:51px;
     background-color: crimson;
   position: fixed;
-  top: 91px; 
+  top: 83px; 
     z-index: 1;
     background-color: #ffffff;
     width:100%;
@@ -44,7 +44,7 @@
 }
 .logoImg{
         object-fit: cover;
-    height:98%;
+    height:44px;
     transition: 0.4s;
     
 }
@@ -167,7 +167,7 @@ text-align: left;
 input.inputsearch{
     
     color: #3f4045;
-    background-color: #ccc5b9;
+    background-color: #ffffff;
     border-width: 1px;
     border-style: solid;
     border-color: #3f4045;
@@ -241,9 +241,6 @@ ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-}
-
-li {
 }
 
 li a {
@@ -378,6 +375,7 @@ li a {
     border-bottom-style: solid;
     margin-bottom: 0px;
     padding: 0px 8px 8px 8px;
+    text-align: center;
 }
 
 
@@ -402,7 +400,7 @@ li a {
   position: absolute;
     top: 30px;
     right:4px;
-    width:300px;
+    width:199px;
     height:calc(18vh+8vh);
   background-color: #ffffff;
     border-width: 1px;
@@ -435,17 +433,82 @@ li a {
 .profilebtn{
     cursor: pointer;
     width:100%;
-    background-color: #3f4045;
-    border-width: 0px;
-    color: #ffffff;
+    background-color: #ffffff;
+    border-width: 0px 0px 0px 0px;
+    border-color: #3f4045;
+    border-style: solid;
+    color: #3f4045;
     height:40px;
     margin-top:8px;
+    transition:0.3s;
+}
+.profilebtn:hover{
+    cursor: pointer;
+    width:100%;
+    background-color: #3f404599;
+    color: #ffffff;
+}
+*{
+    
+}
+.sub{
+    margin: 8px 4px;
+    font-size: 14px;
+    color: #000000cc;
+    cursor: pointer;
+}
+.sub:hover{
+    color: #000000;
+}
+ul .title{
+    padding-top:30px;
+    font-size: 18px;
+    padding-bottom: 9px;
+        cursor: pointer;
+
+}
+.dropdown-content-subcategory{
+    overflow: auto;
+}
+.category{
+    margin: 4px 31px;
+}
+a{
+        cursor: pointer;
+}
+.dropdown-subcategory a{
+    padding: 0px 14px;
+}
+.searchbar{
+    position: absolute;
+    width:0px;
+    height:100%;
+text-align: left;
+  transition: width 0.8s, height 4s;
+    z-index: 2;
 }
 
-
-
-
-
+.inputsearch{
+    width:93%;
+    font-size:34px;
+    padding: 5px 0px 5px 20px;
+}
+.searchclose{
+    display:inline-block;
+    position:relative;
+    
+    
+    width: 5%;
+    height:74%;
+}
+input.inputsearch{
+    
+    color: #3f4045;
+    background-color: #ffffff;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #3f4045;
+}
 
 
 

@@ -1,3 +1,7 @@
+var query;
+var found=[];
+
+
 $("#includedContent").load("/projectfolder/html/header.html", () =>{
     
 
@@ -5,9 +9,7 @@ $.getScript("/projectfolder/js/header.js", function() {
    console.log('loaded');
     start();
 
-});   
-
-
+});
 
 
 
@@ -15,6 +17,14 @@ var items=read_cookie('items');
 
     
 
+query=decodeURIComponent(window.location.search);
+query=query.replace('?','').toLowerCase();
+
+
+
+$(document).ready(function(){
+  $(".query").text('"'+query+'"');
+});
 
 
 
@@ -22,8 +32,12 @@ var items=read_cookie('items');
 
 var jsonInfo;
 var jsonFile;
-var maxItemsDisplay=3;
+var maxItemsDisplay=0;
 var startValue=0;
+    
+    
+    $('.categorytitle').text(query);
+    
 
 (function () {
 
@@ -37,6 +51,21 @@ fetch('/projectfolder/db/items1.json')
     
     
             jsonInfo=myJson;
+    
+    
+    
+    for(var i=0; i<jsonInfo.length; i++){
+        for (var name in jsonInfo[i]) {
+            console.log(query+' '+jsonInfo[i][name])
+            if(jsonInfo[i][name].includes(query)){
+                console.log('da fuck');
+                found.push(jsonInfo[i]);
+                break;
+            }
+        }
+    }
+    
+
 
 
 var x=$(document).width();
@@ -90,7 +119,7 @@ var h = screen.height * ratio;
  
     });
 
-for(var ii=startValue; ii<jsonInfo.length-maxItemsDisplay; ii++){
+for(var ii=startValue; ii<found.length-maxItemsDisplay; ii++){
  startValue++;   
 var x=$("#main").width();
     var xx=window.innerWidth;
@@ -99,7 +128,7 @@ var y=screen.height;
 var w = screen.width * ratio;
 var h = screen.height * ratio;
 var cardDiv = document.createElement("div");      
-    var containerName=jsonInfo[ii].productid;
+    var containerName=found[ii].productid;
 
     if(w>740){    
         cardDiv.setAttribute("class", "productcontainer");
@@ -124,7 +153,7 @@ var cardDiv = document.createElement("div");
     
     var cardImg = document.createElement("img");                 
         cardImg.setAttribute("class", "productimg");
-        cardImg.setAttribute("src", "img/"+jsonInfo[ii].url[0]);
+        cardImg.setAttribute("src", "/projectfolder/img/"+found[ii].url[0]);
         //cardImg.setAttribute("src", "img/loading.gif");
         document.getElementById(containerName).appendChild(cardImg);
         var ratio=cardImg.naturalWidth/cardImg.naturalHeight;
@@ -139,13 +168,13 @@ var cardDiv = document.createElement("div");
     var x=$(document).width();
     
     var cardTag= document.createElement("strong");
-        cardTag.innerHTML=jsonInfo[ii].subcategory;
+        cardTag.innerHTML=found[ii].subcategory;
         document.getElementById("productdescription"+containerName).appendChild(cardTag);
     var x=$(document).width();
     
     var cardTitle= document.createElement("p");
         cardTitle.setAttribute("class", "producttitle");
-        cardTitle.innerHTML=jsonInfo[ii].name;;
+        cardTitle.innerHTML=found[ii].name;;
      document.getElementById("productdescription"+containerName).appendChild(cardTitle);
     var x=$("#main").width();
 
@@ -162,7 +191,7 @@ var h = screen.height * ratio;
      var priceDiv = document.createElement("div");
         priceDiv.setAttribute("class", "price");
         priceDiv.setAttribute("id", "price"+ii);
-        priceDiv.innerHTML=jsonInfo[ii].price;
+        priceDiv.innerHTML=found[ii].price;
         document.getElementById(containerName).appendChild(priceDiv);
 
         
@@ -206,19 +235,14 @@ var h = screen.height * ratio;
             
         }
         }
-
-
-
-
-
     
     
     
     
 });
 })();
-    
-    
+
+
 
 
 function read_cookie(key){
@@ -315,36 +339,12 @@ var h = screen.height * ratio;
         priceDiv.innerHTML=jsonInfo[ii].price;
         document.getElementById(containerName).appendChild(priceDiv);
 
-        
-
-        
-    
-    
-    
-    cardDiv.addEventListener("mouseover", function(){
-        console.log(this);
-        //var image=this.childNodes[1].setAttribute("style", "width:60%; height:120%;");
-    })
     }
     
     
 }
     
     });
-
-
-
-function createPage(title){
-    var page='<!doctype html><html lang="en"><head><!-- Required meta tags --><meta charset="utf-8"><!-- jQuery library --><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script><link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet"><link rel="stylesheet" href="/projectfolder/css/mainpage.css"><link rel="stylesheet" href="css/header.css"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></head><body id="main"><div id="includedContent"></div><div id="wrapper"></div><div class="selectedCategory"><p>displaying itmes that match: </p><h1>'+title+'</h1></div><div id="itemrow"></div><div class="loadMore"> <div class="svg-wrapper"><svg height="60" width="320" xmlns="http://www.w3.org/2000/svg" class="parentshape"><rect class="shape" height="60" width="320" /></svg><div class="buttontext">load more</div></div></div><div class="footer"><h2 style="color:#ffffff;">Footer</h2><a>Link1</a><a>Link2</a></div><script src="/projectfolder/js/menuselection.js"></script></body></html>'
-    
-    
-    return page;
-    
-}
-
-
-
-
     
 
 
