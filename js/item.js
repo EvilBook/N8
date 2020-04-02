@@ -11,8 +11,6 @@ $.getScript("/projectfolder/js/header.js", function() {
 
 var searches=document.cookie;
 
-console.log(read_cookie('id'));
-
 var id=read_cookie('id');
     console.log(window.location.search);
 console.log(decodeURIComponent(window.location.search)); 
@@ -22,20 +20,27 @@ query=query.replace('?','');
 
 
 var jsonInfo;
-var jsonFile;
+    var itemId;
 
 
-var items=read_cookie('items');
+var stringArray=read_cookie('items');
+var objectArray=[];
 
-if(items!=null){
-        items=items.split(",");
-        for(var iii=0; iii<items.length; iii++){
-            var smallArray=items[iii].split(':');
-            items[iii]=smallArray;
+if(stringArray!=null){
+        stringArray=stringArray.split(",");
+    console.log(stringArray);
+        for(var iii=0; iii<stringArray.length; iii++){
+            var smallArray=stringArray[iii].split(':');
+                console.log(smallArray);
+
+            objectArray.push(smallArray);
+                            console.log(objectArray);
+
         }
+}else{
+    stringArray=[];
 }
 
-(function () {
 
 fetch('/projectfolder/db/items1.json') 
     .then((response) => {
@@ -48,6 +53,7 @@ fetch('/projectfolder/db/items1.json')
     
             if(id===myJson[i].productid){
             jsonInfo=myJson[i];
+                itemId=myJson[i].productid;
             }
     }
     
@@ -123,9 +129,31 @@ rightarrow.addEventListener("click", () => {
     $(".productcategory").text(jsonInfo.section+"/"+jsonInfo.category+"/"+jsonInfo.subcategory);
     $(".productdescription").text(jsonInfo.description);
     $(".productprice").text("Price: "+jsonInfo.price);
-    $(".productextrainfo").text("EAN: "+jsonInfo.ean+" Height: "+jsonInfo.height);
+        
     
-    console.log(jsonInfo.height);
+    for(var name in jsonInfo){
+        console.log(name)
+        
+        if(jsonInfo[name]!=='' || jsonInfo[name]!==null){
+        if(name!=='id' && name!=='description' && name!=='price' && name!=='subcategory' && name!=='category' && name!=='section' && name!=='url' && name!=='quantity' && name!=='new_price' && name!=='name'){
+$('<p class="info-'+i+'">'+name+': '+jsonInfo[name]+'</p>').css({
+  }).appendTo('.actualinfo');
+        }
+        }
+    }
+        $(".displaymore").click(function(){
+            if(this.id==='open'){
+            $('.actualinfo').attr('class','actualinfoactive');
+            $('.displaymore').html('Dislay Less');
+            $('.displaymore').attr('id','close');
+                }else if(this.id==='close'){
+            $('.actualinfoactive').attr('class','actualinfo');
+            $('.displaymore').html('Dislay More');
+            $('.displaymore').attr('id','open');
+                }
+        })
+
+    
     $(".prev").click(function(){plusSlides(-1)});
     $(".next").click(function(){plusSlides(1)});    
     
@@ -136,7 +164,6 @@ rightarrow.addEventListener("click", () => {
     
     
 });
-})();
 
 
 
@@ -164,40 +191,38 @@ function createSlides(images){
 }
 
 $(".buttontext").click(()=>{
-    var quantity=$('#quantitynumber').text();
-    console.log(quantity);
-    var found=false;
-    for(var o=0; o<items.length; o++){
-        if(items[o][0]===jsonInfo.productid){
-            found=true;
-            items[o][1]=+items[o][1]+ +quantity;
-            }
-        }
+    
 
-    if(found===false){
-    var newArray=items;
-    
-    newArray.push([jsonInfo.productid,quantity]);
-    
-    addToBasket([jsonInfo.productid,quantity]);
-    }
-    
-    fixArray();
-    
-    
-     var now = new Date();
-               now.setFullYear( now.getFullYear() + 2 );
-            document.cookie="items="+items+"; expires=" + now.toUTCString() + "; " + "path=/";
-        
-    
-});
+        var quantity=$('#quantitynumber').text();
+    quantity=parseInt(quantity);
+
+    addToBasket([itemId,quantity]);
+
+    });   
 
 
 
 function addToBasket(item){
+var found=false;
+    var founItem;
+    for(var o=0; o<objectArray.length; o++){
+        if(objectArray[o][0]===item[0]){
+
+            objectArray[o][1]=parseInt(objectArray[o][1])+item[1];
+            founItem=objectArray[o];
+found=true;
+            break;
+            }
+        }
+    
+
+
+console.log(found);
+        
     
     
-    
+    if(!found){
+            objectArray.push(item);
         var cardDiv = document.createElement("div");                 
         cardDiv.setAttribute("class", "basketitem");
         cardDiv.setAttribute("id", item[0]);
@@ -223,12 +248,20 @@ function addToBasket(item){
         document.getElementById("basketinfo"+item[0]).appendChild(cardDiv);
         
         cardDiv = document.createElement("p");  
+                cardDiv.setAttribute("id", "quantity"+item[0]);
             cardDiv.innerHTML="quantity: "+item[1];
         document.getElementById("basketinfo"+item[0]).appendChild(cardDiv);
         
         cardDiv = document.createElement("p");  
             cardDiv.innerHTML=jsonInfo.price;
         document.getElementById("basketinfo"+item[0]).appendChild(cardDiv);
+    }else{
+        $('#quantity'+founItem[0]).html(founItem[1]);
+    }
+    
+                fixArray();
+
+    
     
     
 }
@@ -240,13 +273,28 @@ function read_cookie(key){
 
 
 function fixArray(){
-    console.log(items);
-    for(var i=0; i<items.length; i++){
-        items[i]=items[i][0]+':'+items[i][1];
+    var newStringArray=[];
+        console.log('*------------------------------------------------------*');
+    console.log(stringArray);
+    console.log(objectArray);
+    console.log('*------------------------------------------------------*');
+    for(var i=0; i<objectArray.length; i++){
+        newStringArray.push(objectArray[i][0]+':'+objectArray[i][1]);
     }
+        console.log('*------------------------------------------------------*');
+    console.log(stringArray);
+    console.log('.............................................................');
+    
+    
+    
+    
+    
+    var now = new Date();
+               now.setFullYear( now.getFullYear() + 2 );
+            document.cookie="items="+newStringArray+"; expires=" + now.toUTCString() + "; " + "path=/";
 }
-});
 
+});
 
     
 

@@ -510,6 +510,18 @@ input.inputsearch{
     border-color: #3f4045;
 }
 
+button{
+    cursor: pointer;
+    background-color: #3f4045;
+  border: none;
+  color: white;
+  padding: 12px 19px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+}
+
 
 
 

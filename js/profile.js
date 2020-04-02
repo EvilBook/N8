@@ -420,41 +420,85 @@ function cards(){
 
 
 function address(){
-    console.log(container);
-        $('.content').empty();
+     var addresses;
+    fetch('/projectfolder/db/address.json') 
+    .then((response) => {
+            return response.json();
+        })
+        .then((myJson) => {
+    
+        addresses=myJson;
+    
+    $('.content').empty();
 
     var cardDiv = document.createElement("div");                 
         cardDiv.setAttribute("class", 'contentofcontent');
         cardDiv.setAttribute("id", 'contentofcontent');
         container.append(cardDiv);
+        cardDiv.innerHTML='<p class=newcardtitle>Addresses</p>'
+           
+    for(var i=0;i<addresses.length;i++){
+        console.log(addresses,i,addresses.length);
+        cardDiv = document.createElement("div");                 
+        cardDiv.setAttribute("class", 'addressdiv');
+        cardDiv.setAttribute("id", 'addressdiv'+addresses[i]['id']);
+        cardDiv.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="24px" height="24px" class="editicon"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'
+        document.getElementById('contentofcontent').appendChild(cardDiv);
+        
+        if(addresses[i]['isShipping']==='true'){
+            cardDiv = document.createElement("div");                 
+        cardDiv.setAttribute("class", 'shippingdiv');
+        cardDiv.setAttribute("id", 'shippingdiv');
+            cardDiv.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24" fill="black" width="18px" height="18px" class="shippingicon"><g><rect fill="none" height="24" width="24"/></g><g><path d="M19,9.3V4h-3v2.6L12,3L2,12h3v8h5v-6h4v6h5v-8h3L19,9.3z M10,10c0-1.1,0.9-2,2-2s2,0.9,2,2H10z"/></g></svg><p class=isshipping>Shipping Address</p>';
+        document.getElementById('addressdiv'+addresses[i]['id']).appendChild(cardDiv);
+        }
         
         cardDiv = document.createElement("p");                 
-        cardDiv.setAttribute('style', "padding-top: 20px;");
-    cardDiv.innerHTML='Account Information';
-        document.getElementById('contentofcontent').appendChild(cardDiv);
-           
-    for(var name in user){
-        console.log(name);
-        if(name!=='password' && name!=='id'){
-    cardDiv = document.createElement("div");                 
-        cardDiv.setAttribute("class", 'titlediv');
-        cardDiv.setAttribute("id", 'titlediv');
-        document.getElementById('contentofcontent').appendChild(cardDiv);
-    
-    cardDiv = document.createElement("p");
-    cardDiv.setAttribute('class', 'notatitle');
-    cardDiv.setAttribute('align', 'left');
-    cardDiv.innerHTML=name;
-        document.getElementById('titlediv').appendChild(cardDiv);
-    
-    cardDiv = document.createElement("p");
-    cardDiv.setAttribute('class', 'notacontent');
-                cardDiv.setAttribute('align', 'left');
-
-    cardDiv.innerHTML=user[name];
-        document.getElementById('titlediv').appendChild(cardDiv);
+        cardDiv.setAttribute("class", 'addresstitle');
+        cardDiv.innerHTML=addresses[i]['address1']
+        document.getElementById('addressdiv'+addresses[i]['id']).appendChild(cardDiv);
+        
+        cardDiv = document.createElement("p");                 
+        cardDiv.setAttribute("class", 'addresstitle');
+        cardDiv.innerHTML=addresses[i]['address2']
+        document.getElementById('addressdiv'+addresses[i]['id']).appendChild(cardDiv);
+        
+        cardDiv = document.createElement("p");                 
+        cardDiv.setAttribute("class", 'addresstitle');
+        cardDiv.innerHTML=addresses[i]['city']
+        document.getElementById('addressdiv'+addresses[i]['id']).appendChild(cardDiv);
+        
+        cardDiv = document.createElement("p");                 
+        cardDiv.setAttribute("class", 'addresstitle');
+        cardDiv.innerHTML=addresses[i]['postcode']
+        document.getElementById('addressdiv'+addresses[i]['id']).appendChild(cardDiv);
+        
+        cardDiv = document.createElement("p");                 
+        cardDiv.setAttribute("class", 'addresstitle');
+        cardDiv.innerHTML=addresses[i]['phone']
+        document.getElementById('addressdiv'+addresses[i]['id']).appendChild(cardDiv);
+        
+        
+        if(addresses[i]['isShipping']!=='true'){
+            cardDiv = document.createElement("button");                 
+        cardDiv.setAttribute("class", 'shippingbutton');
+            cardDiv.innerHTML='Make shipping address';
+            cardDiv.addEventListener('click', function(){
+                console.log(event.target.parentNode)
+                //CHANGE DATABASE STUFF
+                address();
+            })
+        document.getElementById('addressdiv'+addresses[i]['id']).appendChild(cardDiv);
         }
+        
+        
     }
+    })        
+        
+        
+        
+        
+     
     
 }
 

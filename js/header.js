@@ -16,6 +16,23 @@ function start(){
     var items=read_cookie('items');
 var loggedin=read_cookie('loggedin');
 var user;
+    var stringArray=read_cookie('items');
+var objectArray=[];
+
+if(stringArray!=null){
+        stringArray=stringArray.split(",");
+    console.log(stringArray);
+        for(var iii=0; iii<stringArray.length; iii++){
+            var smallArray=stringArray[iii].split(':');
+                console.log(smallArray);
+
+            objectArray.push(smallArray);
+                            console.log(objectArray);
+
+        }
+}else{
+    stringArray=[];
+}
     if(loggedin==='1'){
         user=read_cookie('user');
 
@@ -211,6 +228,8 @@ function loadBasket(){
     
     
     if(items!=null){
+        console.log(items);
+        console.log('****************************************')
         items=items.split(",");
         for(var iii=0; iii<items.length; iii++){
             var smallArray=items[iii].split(':');
@@ -219,7 +238,8 @@ function loadBasket(){
     
     
     for(var i=0; i<items.length; i++){
-        console.log(items[i]+" "+i+" "+items.length);        
+                console.log('****************************************')
+
         
         var jsonItem;
         
@@ -244,7 +264,9 @@ function loadBasket(){
         cardDiv.setAttribute("class", "image");
         cardDiv.setAttribute("src","/projectfolder/img/"+jsonItem.url[0]);
         document.getElementById("basketimage"+items[i][0]).appendChild(cardDiv);
-            
+           
+        
+        
         cardDiv = document.createElement("div");                 
         cardDiv.setAttribute("class", "basketinfo");
         cardDiv.setAttribute("id", "basketinfo"+items[i][0]);
@@ -337,16 +359,6 @@ for(var o=0; o<titles.length; o++){
     for(var m=0; m<titles[o].length; m++){
     
     titles[o][m].addEventListener('click',() =>{
-        
- /*       console.log('fuck off');
-var page=createPage(event.target.innerHTML);
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function(){
-     }
-    var content = '<p>What</p>';
-    xmlhttp.open("GET","/projectfolder/php/makePage.php?content=" + page+'&name='+event.target.innerHTML,true);
-        console.log("/projectfolder/php/makePage.php?content=" + content+'&name='+event.target.innerHTML);
-    xmlhttp.send();*/
         
     document.location.href = '/projectfolder/path/category.html?'+event.target.innerHTML.toLowerCase();
 
