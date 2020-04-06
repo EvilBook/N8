@@ -17,7 +17,7 @@ a{
 
 }
 .items{
-        width:68%;
+        width:60%;
     height:100%;
       display: inline-block;
         vertical-align: top;
@@ -34,7 +34,7 @@ a{
       display: inline-block;
         vertical-align: top;
 
- 
+
 
 }
 .item{
@@ -110,7 +110,7 @@ vertical-align: middle;
 line-height: 8px;
     transition:0.3s;
 
-    
+
 
 }
 .info{
@@ -126,7 +126,7 @@ line-height: 8px;
     border-bottom: 1px solid #3f4045;
     transition: 0.1s;
     width:40%;
-    -webkit-user-select: none; /* Safari */        
+    -webkit-user-select: none; /* Safari */
 -moz-user-select: none; /* Firefox */
 -ms-user-select: none; /* IE10+/Edge */
 user-select: none;
@@ -139,7 +139,3 @@ user-select: none;
         border-bottom: 1px solid #ffffff;
 
 }
-
-
-
-

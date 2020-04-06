@@ -45,7 +45,7 @@ input{
 p.title{
     font-size:12px;
     color: #ccc5b9;
-    
+
 }
 .titlediv{
 height:98px;
@@ -107,7 +107,7 @@ color:#000000;
     background-color: #ffffff;
     transition: 0.3s;
     position:relative;
-    vertical-align: top; 
+    vertical-align: top;
             border-bottom: 1px solid #3f4045;
 
 }
@@ -135,14 +135,14 @@ color:#000000;
 
 }
 .notaninput{
-    
+
 }
 .emailpassword{
     border-bottom: 1px solid #3f4045;
     transition: 0.1s;
     width:40%;
     padding-top:14px;
-    -webkit-user-select: none; /* Safari */        
+    -webkit-user-select: none; /* Safari */
 -moz-user-select: none; /* Firefox */
 -ms-user-select: none; /* IE10+/Edge */
 user-select: none;
@@ -157,7 +157,7 @@ user-select: none;
 }
 .popup{
     position: absolute;
-    
+
     width:60%;
     height:40%;
     background-color:#ffffff;
@@ -195,19 +195,19 @@ svg.cute{
     position:absolute;
     left:18px;
     top:38%;
-    
+
 }
 .cardholder{
     position:absolute;
     left:18px;
     top:70%;
-    
+
 }
 .cardexpdate{
     position:absolute;
     left:70%;
     top:70%;
-    
+
 }
 .cardcontentnumber{
         font-size:20px;

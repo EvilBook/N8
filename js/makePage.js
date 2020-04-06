@@ -6,6 +6,6 @@ function makePage(){
         alert("webpage " + xmlhttp.responseText + " was successfully created!");
     }
     var content = "<html><head><meta charset=\"utf-8\" /> </head><body>new website<script>alert(\"test\")</script></body></html>";
-    xmlhttp.open("GET","/projectfolder/php/makePage.php?content=" + content,true);
+    xmlhttp.open("GET","/public/php/makePage.php?content=" + content,true);
     xmlhttp.send();
 }

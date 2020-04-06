@@ -5,23 +5,23 @@ var modal = document.getElementById("myModal");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks the button, open the modal 
- function open() {
-     var cities;
+// When the user clicks the button, open the modal
+function open() {
+  var cities;
   modal.style.display = "block";
-     fetch('/projectfolder/db/bg.json') 
+  fetch('/projectfolder/db/bg.json')
     .then((response) => {
-            return response.json();
-        })
-        .then((myJson) => {
-    cities=myJson;
-    
-    
-     var dropdown=$('#cities');
-     for(var i=0; i<cities.length; i++){
-         $('<option value='+cities[i]['city'].toLowerCase()+'>'+cities[i]['city']+'</option>').appendTo(dropdown);
-     }
-          });
+      return response.json();
+    })
+    .then((myJson) => {
+      cities = myJson;
+
+
+      var dropdown = $('#cities');
+      for (var i = 0; i < cities.length; i++) {
+        $('<option value=' + cities[i]['city'].toLowerCase() + '>' + cities[i]['city'] + '</option>').appendTo(dropdown);
+      }
+    });
 }
 
 // When the user clicks on <span> (x), close the modal

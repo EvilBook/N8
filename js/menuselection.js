@@ -1,5 +1,5 @@
 
-$("#includedContent").load("/projectfolder/html/header.html", () =>{
+$("#includedContent").load("/public/html/header.html", () =>{
     
 
 
@@ -116,7 +116,7 @@ var cardDiv = document.createElement("div");
         var now = new Date();
                now.setFullYear( now.getFullYear() + 2 );
             document.cookie="id="+$(this).attr('id')+"; expires=" + now.toUTCString() + "; " + "path=path/search.html";
-        document.location.href="/projectfolder/path/item.html";
+        document.location.href="/public/path/item.html";
     });
     
     
@@ -230,13 +230,13 @@ $(document).ready(function(){
                now.setFullYear( now.getFullYear() + 2 );
             document.cookie="items="+items+"; expires=" + now.toUTCString() + "; " + "path=/";
             console.log(now);*/
-                    document.location.href = '/projectfolder/path/cart.html'
+                    document.location.href = '/public/path/cart.html'
 
         
 
   });
     $(".dropbtn-profile, .profilebtn").click(function(){
-            document.location.href = '/projectfolder/path/login.html'
+            document.location.href = '/public/path/login.html'
             console.log(now);
         
 
@@ -297,7 +297,7 @@ function createBasket(){
         
         cardDiv = document.createElement("img");                 
         cardDiv.setAttribute("class", "image");
-        cardDiv.setAttribute("src","/projectfolder/img/"+jsonItem.url[0]);
+        cardDiv.setAttribute("src","/public/img/"+jsonItem.url[0]);
         document.getElementById("basketimage"+items[i][0]).appendChild(cardDiv);
             
         cardDiv = document.createElement("div");                 
@@ -368,7 +368,7 @@ var cardDiv = document.createElement("div");
         var now = new Date();
                now.setFullYear( now.getFullYear() + 2 );
             document.cookie="id="+$(this).attr('id')+"; expires=" + now.toUTCString() + "; " + "path=path/search.html";
-        document.location.href="/projectfolder/path/item.html";
+        document.location.href="/public/path/item.html";
     });
     
     
@@ -469,7 +469,7 @@ opened.document.write("<html><head><title>MyTitle</title></head><body>test</body
 
 
 function createPage(){
-    var page='<!doctype html><html lang="en"><head><!-- Required meta tags --><meta charset="utf-8"><!-- jQuery library --><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script><link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/mainpage.css"><link rel="stylesheet" href="css/header.css"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></head><body id="main"><div id="includedContent"></div><div id="wrapper"></div><div id="itemrow"></div><div class="loadMore"> <div class="svg-wrapper"><svg height="60" width="320" xmlns="http://www.w3.org/2000/svg" class="parentshape"><rect class="shape" height="60" width="320" /></svg><div class="buttontext">load more</div></div></div><div class="footer"><h2 style="color:#ffffff;">Footer</h2><a>Link1</a><a>Link2</a></div><script src="/projectfolder/js/menuselection.js"></script></body></html>'
+    var page='<!doctype html><html lang="en"><head><!-- Required meta tags --><meta charset="utf-8"><!-- jQuery library --><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script><link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/mainpage.css"><link rel="stylesheet" href="css/header.css"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></head><body id="main"><div id="includedContent"></div><div id="wrapper"></div><div id="itemrow"></div><div class="loadMore"> <div class="svg-wrapper"><svg height="60" width="320" xmlns="http://www.w3.org/2000/svg" class="parentshape"><rect class="shape" height="60" width="320" /></svg><div class="buttontext">load more</div></div></div><div class="footer"><h2 style="color:#ffffff;">Footer</h2><a>Link1</a><a>Link2</a></div><script src="/public/js/menuselection.js"></script></body></html>'
     
     
     return page;
