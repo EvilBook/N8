@@ -139,7 +139,6 @@ a{
     padding: 14px;
 }
 *{
-    line-height: 18px;
     font-family: 'Inconsolata', monospace;
 }
 .searchbar{
@@ -198,7 +197,7 @@ input.inputsearch{
 .dropdown-subcategory {
   display: inline-block;
       z-index: 1;
-    text-align: left;
+    text-align: center;
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -208,7 +207,7 @@ input.inputsearch{
     left:0px;
     top:18px;
     width:100%;
-    height:440px;
+    height:300px;
   background-color: #ffffff;
     border-top-width: 0px;
     border-top-style: solid;
@@ -513,6 +512,33 @@ input.inputsearch{
 path{
     pointer-events: none;
 }
+
+
+.pagetitle{
+    position:relative;
+}
+.actualtitle{
+    font-size:30px;
+    position:absolute;
+    top:30px;
+    left:1px;
+    color:#00000033;
+}
+
+
+.bigtitle{
+    font-size:80vh;
+    color:#00000011;
+    position:absolute;
+    left:-18px;
+    pointer-events: none;
+    z-index: -1;
+    padding:0;
+    margin:0;
+}
+
+
+
 
 
 

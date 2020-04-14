@@ -7,6 +7,15 @@ $("#includedContent").load("/public/html/header.html", () => {
     start();
 
   });
+    $("#includedFooter").load("/public/html/footer.html", () => {
+
+
+  $.getScript("/public/js/footer.js", function() {
+    console.log('loaded');
+    startFooter();
+
+  });
+    });
 
 
   var searches = document.cookie;
@@ -66,7 +75,6 @@ $("#includedContent").load("/public/html/header.html", () => {
 
 
   function fetchImages(ean) {
-    console.log(ean + " from images");
     const data = {
       ean: ean
     };
@@ -88,7 +96,7 @@ $("#includedContent").load("/public/html/header.html", () => {
         console.log(data);
         var images = [];
         data.forEach((element, index, array) => {
-          images.push("/public/images/" + element.name);
+          images.push("http://192.168.0.105:3000s/public/product_images/" + element.name);
         });
         basket_image = images[0];
         fetchProduct(images);

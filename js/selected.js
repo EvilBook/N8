@@ -7,6 +7,8 @@ var loaded_products=[];
     var ratio = window.devicePixelRatio || 1;
     var w = screen.width * ratio;
     var h = screen.height * ratio;
+        var numberDivs;
+
 
 var divided;
 
@@ -22,6 +24,8 @@ $("#includedContent").load("/public/html/header.html", () => {
   query = query.replace('?', '').toLowerCase();
   query = query.split("&");
 setTitle(query[1]);
+  });
+
 
   });
     
@@ -47,7 +51,7 @@ setTitle(query[1]);
     $(".query").text('"' + query + '"');
   });
 
-  console.log(query + " --------------------------------------");
+  console.log(query , " --------------------------------------");
 
   var product_list;
   var jsonFile;
@@ -85,6 +89,8 @@ setTitle(query[1]);
       for (var i = 0; i < product_list.length; i++) {
         fetchImages(product_list[i].ean, i);
       }
+      getClassifications();
+
     }).catch(error => console.error(error));
 
 
@@ -114,18 +120,22 @@ setTitle(query[1]);
             path=path.replace('.','');
           images.push(path + element.name);
         });
-        fetchClassification(images, index);
+        //fetchClassification(images, index);
         if(window.matchMedia("(max-width: 767px)").matches){
             for(var i=0; i<loaded_products.length;i++){
             var height=$('#itemrow').innerHeight();
             var width=$('#itemrow').innerWidth();
-      loaded_products[i].setAttribute("style", "width: " + (Math.floor(width / (1+1))) + "px; height: " + Math.floor(y * 0.8) + "px;");
+      loaded_products[i].setAttribute("style", "width: " + (Math.floor(width / (1+1))) + "px; height: " + Math.floor(y * 0.4) + "px;");
             }
         }else{
         for(var i=0; i<loaded_products.length;i++){
             var height=$('#itemrow').innerHeight();
             var width=$('#itemrow').innerWidth();
-      loaded_products[i].setAttribute("style", "width: " + (Math.floor(width / 4)) + "px; height: " + Math.floor(y * 0.8) + "px;");
+            if(i!==loaded_products.length-1){
+      loaded_products[i].setAttribute("style", "width: " + (Math.floor(width / (1+1))) + "px; height: " + Math.floor(y * 0.4) + "px;");
+            }else{
+                loaded_products[i].setAttribute("style", "width: " + (Math.floor(width / (1))) + "px; height: " + Math.floor(y * 0.4) + "px;");
+            }
             }
             }
       }).catch(error => console.error(error));
@@ -136,7 +146,6 @@ setTitle(query[1]);
 
   function fetchClassification(images, index) {
 
-console.log(divided);
    
 
     var navbar = document.getElementById("navbar");
@@ -157,13 +166,33 @@ console.log(divided);
 
 
 
+    $(window).resize(function() {
+
+
+      var rows = document.getElementById("itemrow");
+
+      var elements = rows.childNodes;
+
+      
+      for (var i = 0; i < elements.length; i++) {
+
+        var item = document.getElementById(elements[i].getAttribute("id"));
+
+        if (w > 740) {
+
+
+          item.setAttribute("style", "width: " + Math.floor(x / 4) + "px; height: " + Math.floor(y * 0.8) + "px;");
+        } else {
+          item.setAttribute("style", "width: " + Math.floor(x / 2) + "px; height: " + Math.floor(h * 1.1) + "px; padding:4px;");
+
+        }
+      }
+
+
+    });
+
+
     
-    var x = $("#main").width();
-    var xx = window.innerWidth;
-    var y = screen.height;
-    var ratio = window.devicePixelRatio || 1;
-    var w = screen.width * ratio;
-    var h = screen.height * ratio;
     var cardDiv = document.createElement("div");
     var containerName = product_list[index].id;
 
@@ -256,5 +285,144 @@ if(images[0]!==undefined){
 
 
   }
+    function displayCategories(images, finalFinal){
+        var categories;
+        for(var o=0;o<finalFinal.length;o++){
+            
+            if(finalFinal[o].name===query[1]){
+                numberDivs=finalFinal[o].uniqueCategories.length;
+                categories=finalFinal[o].uniqueCategories;
+            }
+        }
+        
+        for(var q=0; q<numberDivs; q++){
+        var cardDiv = document.createElement("div");
+    var containerName = categories[q].name+q;
+                loaded_products.push(cardDiv);
 
-});
+      cardDiv.setAttribute("class", "categorycontainer");
+      cardDiv.setAttribute("id", containerName);
+      document.getElementById("itemrow").appendChild(cardDiv);
+    
+      
+      //loaded_products.push(cardDiv);
+      
+
+
+    var cardImg = document.createElement("img");
+    cardImg.setAttribute("class", "categoryimg");
+if(images[0]!==undefined){
+    cardImg.setAttribute("src", 'http://192.168.0.105:3000'+images[0]);
+    console.log('http://192.168.0.105:3000'+images[0]);
+        }else{
+                cardImg.setAttribute("src", undefined);
+
+        }
+
+    document.getElementById(containerName).appendChild(cardImg);
+    $(".categoryimg").on("error", function(){
+        console.log('shit');
+        $(this).attr('src', 'http://192.168.0.105:3000/public/product_images/default.png');
+    });    //cardImg.setAttribute("src", "img/loading.gif");
+    document.getElementById(containerName).appendChild(cardImg);
+
+    var cardTitle = document.createElement("p");
+    cardTitle.setAttribute("class", "categorytitle");
+    cardTitle.innerHTML = categories[q].name.toUpperCase();
+    document.getElementById(containerName).appendChild(cardTitle);
+    }
+    }
+    var finalFinal=[];
+var shit=[];
+var uniqueSections=[];
+function getClassifications(){
+    fetch('http://192.168.0.105:3000/products/')
+    .then(response => response.json())
+    .then(data => {
+      sort(data);
+    }).catch(error => console.error(error));
+}
+var classification={section:'',category:'',subcategory:''};
+function sort(products){
+   for(var i=0; i<products.length;i++){
+       var newClassification=Object.create(classification);
+       if(!uniqueSections.includes(products[i].section)){
+           uniqueSections.push(products[i].section);
+       }
+       newClassification.section=products[i].section;
+       
+              newClassification.category=products[i].category;
+              newClassification.subcategory=products[i].subcategory;
+
+       shit.push(newClassification);
+   }
+    console.log(shit);
+    shit=shit.sort(function(a, b){
+    if(a.section < b.section) { return -1; }
+    if(a.section > b.section) { return 1; }
+    return 0;
+})
+
+    sortAgain();
+}
+
+function sortAgain(){
+    for(var i=0; i<uniqueSections.length;i++){
+                                            var uniqueCategories=[];
+
+        for(var o=0; o<shit.length;o++){
+
+            if(shit[o].section===uniqueSections[i]){
+                if(!uniqueCategories.includes(shit[o].category)){
+                uniqueCategories.push({name:shit[o].category,uniqueSubcategory:[]});
+                }
+
+            }
+        }
+        finalFinal.push({name:uniqueSections[i],uniqueCategories})
+        
+
+        
+    }
+    sortAgainAndAgain();
+    
+}
+function sortAgainAndAgain(){
+    for(var i=0; i<finalFinal.length;i++){
+
+        console.log(finalFinal[i]);
+        for(var q=0; q<finalFinal[i].uniqueCategories.length;q++){
+                    console.log(finalFinal[i].uniqueCategories[q]);
+            console.log('')
+            console.log('')
+            console.log('')
+
+            
+            for(var o=0; o<shit.length;o++){
+                                                                    var uniqueSubcategories=[];
+
+
+                if(shit[o].section===finalFinal[i].name){
+                    if(shit[o].category===finalFinal[i].uniqueCategories[q].name){
+                       if(!finalFinal[i].uniqueCategories[q].uniqueSubcategory.includes(shit[o].subcategory)){
+                           finalFinal[i].uniqueCategories[q].uniqueSubcategory.push(shit[o].subcategory);
+                        } 
+                    }
+                }
+
+                    
+            
+
+            
+                }
+            }
+            
+               
+
+
+        
+    }
+        
+
+displayCategories([],finalFinal)
+    }

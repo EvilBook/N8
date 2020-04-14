@@ -3,11 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>View Products</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="icon" href="../images/site/n8.ico">
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="icon" href="/public/images/site/n8.ico">
+      <link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet">
   </head>
 
   <body>
+      <p class='bigtitle' id='bigtitle'>VIEW PRODUCTS</p>
     <nav>
       <a href="home.html">Home</a> |
       <a href="create_product.html">Create Product</a> |
@@ -19,6 +21,7 @@
       <a href="view_customers.html">View Customers</a> |
       <a href="logout.html">Logout</a>
     </nav>
+<div class='content'>
 
     <p></p>
 
@@ -52,9 +55,23 @@
         <tbody id="product_table"></tbody>
       </table>
     </div>
+      </div>
+      <script>  var btnContainer = document.getElementById("letter_container");
+
+// Get all buttons with class="btn" inside the container
+var btns = btnContainer.getElementsByClassName("productlinks");
+
+// Loop through the buttons and add the active class to the current/clicked button
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}</script>
 
 
-    <script src="../js/view_products.js"></script>
+    <script src="/public/js/view_products.js"></script>
   </body>
 
 </html>

@@ -8,6 +8,15 @@ $("#includedContent").load("/public/html/header.html", () => {
     start();
 
   });
+    $("#includedFooter").load("/public/html/footer.html", () => {
+
+
+  $.getScript("/public/js/footer.js", function() {
+    console.log('loaded');
+    startFooter();
+
+  });
+    });
 
 
   var searches = document.cookie;
@@ -54,6 +63,18 @@ $("#includedContent").load("/public/html/header.html", () => {
     body: raw,
     redirect: 'follow'
   };
+    var cartShit=$('.checkoutmenu');
+    var cover=$('.cover');
+    window.onclick = function(event) {
+  if (cartShit.css('width') =='80px') {
+    cartShit.css('width','1200');
+      cover.css('opacity','0');
+  }else{
+    cartShit.css('width','80px');
+            cover.css('opacity','1');
+
+  }
+}
 
   fetch("http://192.168.0.105:3000/products/products-images", requestOptions)
     .then(response => response.json())
@@ -76,59 +97,6 @@ $("#includedContent").load("/public/html/header.html", () => {
     }).catch(error => console.log('error', error));
 
 
-
-
-function createBasket() {
-
-
-  for (var i = 0; i < objectArray.length; i++) {
-
-
-
-    for (var ii = 0; ii < jsonFile.length; ii++) {
-
-      if (objectArray[i][0] === jsonFile[ii].productid) {
-        jsonItem = jsonFile[ii];
-        break;
-      }
-    }
-
-
-    var cardDiv = document.createElement("div");
-    cardDiv.setAttribute("class", "basketitem");
-    cardDiv.setAttribute("id", objectArray[i][0]);
-    document.getElementById("itemsdropdown").appendChild(cardDiv);
-
-    cardDiv = document.createElement("div");
-    cardDiv.setAttribute("class", "basketimage");
-    cardDiv.setAttribute("id", "basketimage" + objectArray[i][0]);
-    document.getElementById(objectArray[i][0]).appendChild(cardDiv);
-
-    cardDiv = document.createElement("img");
-    cardDiv.setAttribute("class", "image");
-    cardDiv.setAttribute("src", "/projectfolder/img/" + jsonItem.url[0]);
-    document.getElementById("basketimage" + objectArray[i][0]).appendChild(cardDiv);
-
-    cardDiv = document.createElement("div");
-    cardDiv.setAttribute("class", "basketinfo");
-    cardDiv.setAttribute("id", "basketinfo" + objectArray[i][0]);
-    document.getElementById(objectArray[i][0]).appendChild(cardDiv);
-
-    cardDiv = document.createElement("p");
-    cardDiv.innerHTML = jsonItem.name;
-    document.getElementById("basketinfo" + objectArray[i][0]).appendChild(cardDiv);
-
-    cardDiv = document.createElement("p");
-    cardDiv.innerHTML = "quantity: " + objectArray[i][1];
-    document.getElementById("basketinfo" + objectArray[i][0]).appendChild(cardDiv);
-
-    cardDiv = document.createElement("p");
-    cardDiv.innerHTML = jsonItem.price;
-    document.getElementById("basketinfo" + objectArray[i][0]).appendChild(cardDiv);
-  }
-}
-
-
 function createCart(products) {
 
     var cardDiv;
@@ -149,7 +117,18 @@ function createCart(products) {
 
       cardDiv = document.createElement("img");
       cardDiv.setAttribute("class", "productimage");
-      cardDiv.setAttribute("src", "/public/images/" + products[i].image_name);
+      if(products[i].image_name!==null){
+    cardDiv.setAttribute("src", 'http://192.168.0.105:3000/'+products[i].image_name);
+           
+        }else{
+            console.log('-------------------------------------------------------------------------------------------------------',products[i].image_name,products[i],'-------------------------------------------------------------------------------------------------------------------------------------------------')
+                cardDiv.setAttribute("src", undefined);
+
+        }
+
+    $(cardDiv).on("error", function(){
+        $(this).attr('src', 'http://192.168.0.105:3000/public/product_images/default.png');
+    });
       document.getElementById("left" + product_id).appendChild(cardDiv);
 
       cardDiv = document.createElement("div");

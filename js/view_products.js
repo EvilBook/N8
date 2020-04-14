@@ -1,20 +1,23 @@
 "use strict"
 
 var button = document.getElementById('test');
-var letters = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z";
+var letters = "/a,*,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,З";
 letters = letters.split(",");
 var container;
+var bittitle= document.getElementById('bigtitle');
 
 for (var i = 0; i < letters.length; i++) {
   container = document.createElement("a");
   container.setAttribute("id", letters[i]);
+  container.setAttribute("class", 'productlinks');
   container.setAttribute("href", "");
-  container.setAttribute("style", "padding: 0px 3px")
   container.setAttribute("onclick", "return false;");
   container.innerHTML = letters[i];
   container.addEventListener("click", () => {
     var letter = event.target.innerHTML;
+      bigtitle.innerHTML=letter;
     getProducts(letter);
+      
   });
   document.getElementById("letter_container").appendChild(container);
 }
@@ -74,9 +77,14 @@ function getProducts(letter) {
                   var key = event.target.parentNode.childNodes[3].innerHTML;
                   document.location.href = "update_product.html?" + key;
                   console.log(key);
+                    
                 });
               }
 
         }
+      
+      
+     
+      
       }).catch(error => console.error(error));
 }

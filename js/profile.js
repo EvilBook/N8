@@ -37,6 +37,16 @@ $("#includedContent").load("/public/html/header.html", () => {
       $.getScript("/public/js/popupaddressnew.js", function() {});
     })
   });
+    
+    $("#includedFooter").load("/public/html/footer.html", () => {
+
+
+  $.getScript("/public/js/footer.js", function() {
+    console.log('loaded');
+    startFooter();
+
+  });
+    });
 
   $.getScript("/public/js/header.js", function() {
     start();
