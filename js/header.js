@@ -306,7 +306,6 @@ function start() {
         if (objectArray[o][0] == product_id) {
           cardDiv = document.createElement("p");
           cardDiv.innerHTML = "quantity: " + objectArray[o][1];
-          cardDiv.setAttribute('id', 'quantity' + product_id);
           document.getElementById("basketinfo" + product_id).appendChild(cardDiv);
         }
       }
@@ -404,8 +403,6 @@ function start() {
 
       }
     }*/
-      console.log(final)
-      console.log('öööööööööööööööööööööööööööööööööööööö');
       for (var i = 0; i < final.length; i++) {
 
 
