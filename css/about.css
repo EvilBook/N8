@@ -25,5 +25,8 @@
     text-align:center;
 }
 .description{
-    text-align: left;
+text-align: center;}
+
+td{
+    padding: 20px 79px;
 }

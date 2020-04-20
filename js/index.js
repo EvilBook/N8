@@ -58,8 +58,9 @@ $("#includedContent").load("/public/html/header.html", () => {
       body: raw,
       redirect: 'follow'
     };
+      
 
-    fetch('http://192.168.0.105:3000/products/ean-img', requestOptions)
+    fetch('http://192.168.0.105:3000/products/product-images-id', requestOptions)
       .then(response => response.json())
       .then(data => {
         var images = [];

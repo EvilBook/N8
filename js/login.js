@@ -127,7 +127,7 @@ function loginUser(login_email, login_password) {
       var role = result[0].role;
       console.log(role);
       if (role === "admin") {
-        location.href = "/public/admin/home.html";
+          createCookieAdmin(-1);
       } else {
         createCookie(result[0].id);
         location.href = "/public";
@@ -234,3 +234,11 @@ function createCookie(id) {
   document.cookie = "customer=" + id + "; expires=" + now.toUTCString() + "; " + "path=/";
   document.location.href = '/public/path/profile.html';
 }
+
+
+function createCookieAdmin(id) {
+  Cookies.set('admin', '-1', { expires: 1, path: '/public/admin' });
+  Cookies.set('sessionId', 'ask75934jri', {expires: 1, path: '/public/admin' });
+  document.location.href = '/public/admin/home.html';
+}
+
