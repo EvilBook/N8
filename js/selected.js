@@ -13,20 +13,53 @@ var loaded_products=[];
 var divided;
 
 
+  query = decodeURIComponent(window.location.search);
+  query = query.replace('?', '').toLowerCase();
+  query = query.split("&");
+  var typeclassification = query[0];
+  var sectionclassification = query[1];
+  var categoryclassification = query[2].replace('null','');
+  var subcategoryclassification = query[3].replace('null','');
+
+
+
 $("#includedContent").load("/public/html/header.html", () => {
 
 
   $.getScript("/public/js/header.js", function() {
-    console.log('loaded');
-    start();
-      var query = decodeURIComponent(window.location.search);
-  query = decodeURIComponent(window.location.search);
-  query = query.replace('?', '').toLowerCase();
-  query = query.split("&");
-setTitle(query[1]);
+      
+      var dfd = $.Deferred();
+      
+dfd.done(function(){
+      
+setTitle(typeclassification);
+complextitle=sectionclassification+" "+categoryclassification+" "+subcategoryclassification;
+typeclassificationheader=typeclassification;
+sectionclassificationheader=sectionclassification;
+categoryclassificationheader=categoryclassification;
+subcategoryclassificationheader=subcategoryclassification;
+
+
+    
+    $('.navbar').attr('class','navbarnew');
+    $('.categorySpace').attr('class','categorySpacenew');
+    $('.navbar2').attr('class','navbar2new');
+        $('.logoImg').attr('class','logoImgnew');
+
+    
+var bigimage=$('.bigimage');
+    $('.gradient').width(bigimage.width());
+    $('.gradient').height(bigimage.height());
+    
+console.log('shitshti')
+    });
+      
+      
+    dfd.resolve(  start() );
+       
+
+
   });
-
-
   });
     
     
@@ -39,19 +72,13 @@ setTitle(query[1]);
 
   });
     });
-    
 
-  query = decodeURIComponent(window.location.search);
-  query = query.replace('?', '').toLowerCase();
-  query = query.split("&");
-  var table = query[0];
-  var name = query[1];
+
 
   $(document).ready(function() {
     $(".query").text('"' + query + '"');
   });
 
-  console.log(query , " --------------------------------------");
 
   var product_list;
   var jsonFile;
@@ -81,7 +108,7 @@ setTitle(query[1]);
   };
 
 
-  fetch('http://192.168.0.105:3000/products/' + table, requestOptions)
+  /*fetch('http://192.168.0.105:3000/products/' + table, requestOptions)
     .then(response => response.json())
     .then(data => {
       product_list = data
@@ -93,7 +120,7 @@ setTitle(query[1]);
 
     }).catch(error => console.error(error));
 
-
+*/
 
   function fetchImages(ean, index) {
     const data = {
@@ -148,48 +175,9 @@ setTitle(query[1]);
 
    
 
-    var navbar = document.getElementById("navbar");
-    navbar.setAttribute("style", "width:100%; height:" + 32 + "px;");
+  
 
-    var height = navbar.offsetHeight;
-
-
-
-    $(window).resize(function() {
-      x = $(window).width();
-      y = screen.height;
-      navbar.setAttribute("style", "width:100%; height:" + 32 + "px;");
-      var height = navbar.offsetHeight;
-      var wrapper = document.getElementById("categorySpace");
-      //wrapper.setAttribute("style", "margin-top:"+height+"px;");
-    });
-
-
-
-    $(window).resize(function() {
-
-
-      var rows = document.getElementById("itemrow");
-
-      var elements = rows.childNodes;
-
-      
-      for (var i = 0; i < elements.length; i++) {
-
-        var item = document.getElementById(elements[i].getAttribute("id"));
-
-        if (w > 740) {
-
-
-          item.setAttribute("style", "width: " + Math.floor(x / 4) + "px; height: " + Math.floor(y * 0.8) + "px;");
-        } else {
-          item.setAttribute("style", "width: " + Math.floor(x / 2) + "px; height: " + Math.floor(h * 1.1) + "px; padding:4px;");
-
-        }
-      }
-
-
-    });
+ 
 
 
     
@@ -332,97 +320,174 @@ if(images[0]!==undefined){
     document.getElementById(containerName).appendChild(cardTitle);
     }
     }
-    var finalFinal=[];
-var shit=[];
-var uniqueSections=[];
-function getClassifications(){
-    fetch('http://192.168.0.105:3000/products/')
+
+
+window.addEventListener('load',function(){
+ 
+    })
+
+
+
+showInsides();
+
+function  showInsides(){
+    
+if(typeclassification==='section'){
+    
+    
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const data = {
+    'name': sectionclassification
+  }
+  //  const data = {
+  //  'category': nameclassification
+  //  'section': nameclassification
+  //subcategory-category
+  //category-section
+ // }
+
+  var raw = JSON.stringify(data);
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+
+
+  fetch('http://192.168.0.105:3000/classifications/category-section', requestOptions)
     .then(response => response.json())
     .then(data => {
-      sort(data);
+createTable(data);
     }).catch(error => console.error(error));
-}
-var classification={section:'',category:'',subcategory:''};
-function sort(products){
-   for(var i=0; i<products.length;i++){
-       var newClassification=Object.create(classification);
-       if(!uniqueSections.includes(products[i].section)){
-           uniqueSections.push(products[i].section);
-       }
-       newClassification.section=products[i].section;
-       
-              newClassification.category=products[i].category;
-              newClassification.subcategory=products[i].subcategory;
+    
+    }else if(typeclassification==='category'){
+    
+    
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const data = {
+    'category': categoryclassification,
+    'section': sectionclassification
+  }
+  //  const data = {
+  //  'category': nameclassification
+  //  'section': nameclassification
+  //subcategory-category
+  //category-section
+ // }
 
-       shit.push(newClassification);
-   }
-    console.log(shit);
-    shit=shit.sort(function(a, b){
-    if(a.section < b.section) { return -1; }
-    if(a.section > b.section) { return 1; }
-    return 0;
-})
+  var raw = JSON.stringify(data);
 
-    sortAgain();
-}
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
 
-function sortAgain(){
-    for(var i=0; i<uniqueSections.length;i++){
-                                            var uniqueCategories=[];
 
-        for(var o=0; o<shit.length;o++){
-
-            if(shit[o].section===uniqueSections[i]){
-                if(!uniqueCategories.includes(shit[o].category)){
-                uniqueCategories.push({name:shit[o].category,uniqueSubcategory:[]});
-                }
-
-            }
-        }
-        finalFinal.push({name:uniqueSections[i],uniqueCategories})
+  fetch('http://192.168.0.105:3000/classifications/subcategory-category', requestOptions)
+    .then(response => response.json())
+    .then(data => {
+createTable(data);
+    }).catch(error => console.error(error));
         
-
-        
+    }else if(typeclassification==='subcategory'){
+            
+ $.getScript("/public/js/loadProducts.js", function() {
+        loadProducts('subcategory',subcategoryclassification)
+  });
+    
+    
     }
-    sortAgainAndAgain();
+    
+    }
+    
+    function createTable(data){
+        var table=document.getElementById('imagetablebody');
+                var rowone=table.insertRow(0);
+
+        
+        for(var i=0; i<data.length; i++){
+             var row = table.rows[table.rows.length-1];
+            var cellsLength=row.cells.length;
+             if(cellsLength >= 3){
+                      row=table.insertRow(table.rows.length) 
+    var cellsLength=row.cells.length;
+        var cell = row.insertCell(row.cells.length-1);
+        cell.setAttribute('colspan','1');
+        cell.setAttribute('rowspan','1');
+        cell.innerHTML="<div class='classificationdisplay1' data-type='"+typeclassification+"' data-name='"+data[i]['name']+"' data-section-name='"+sectionclassification+"' data-category-name='"+categoryclassification+"'> <img class='fuckingimage' src='http://192.168.0.105:3000"+data[i]['image']+"'> <p>"+data[i]['name']+"</p></div>";
+        
+  }else{
+            var cellsLength=row.cells.length;
+
+    var cell = row.insertCell(row.cells.length-1);
+      cell.setAttribute('colspan','1');
+        cell.setAttribute('rowspan','1');
+        cell.innerHTML="<div class='classificationdisplay1' data-type='"+typeclassification+"' data-name='"+data[i]['name']+"' data-section-name='"+sectionclassification+"' data-category-name='"+categoryclassification+"'> <img class='fuckingimage' src='http://192.168.0.105:3000"+data[i]['image']+"'> <p>"+data[i]['name']+"</p></div>";
+        }
+        
+        
+ 
+    }
+        
+        
+          var images=$('.classificationdisplay1');
+
+for(var i=0; i<images.length;i++){
+        $(images[i]).css('height', $(images[i]).parent().css('height'));
+        $(images[i]).css('width', $(images[i]).parent().css('width'));
+
+}
+ 
+        
+        var addListeners=document.getElementsByClassName('classificationdisplay1');
+        for(var i=0; i<addListeners.length;i++){
+            addListeners[i].addEventListener('click', function(){
+                var type=event.target.dataset.type;
+                if(type==='section'){
+                 document.location.href = '/public/path/selected.html?category&' + event.target.dataset.sectionName + '&'+event.target.dataset.name+'&null'
+                }else   if(type==='category'){
+                 document.location.href = '/public/path/selected.html?subcategory&' + event.target.dataset.sectionName + '&'+ event.target.dataset.categoryName+'&'+ event.target.dataset.name
+                }
+            })
+        }
+        
+        
+    
     
 }
-function sortAgainAndAgain(){
-    for(var i=0; i<finalFinal.length;i++){
-
-        console.log(finalFinal[i]);
-        for(var q=0; q<finalFinal[i].uniqueCategories.length;q++){
-                    console.log(finalFinal[i].uniqueCategories[q]);
-            console.log('')
-            console.log('')
-            console.log('')
-
+    
+    
+     
+     /*   <tr>
+        <td rowspan='2'><div class='classificationdisplay1'> <img class='fuckingimage' src='/public/img/img23.jpg'> <p>Lifestyle</p></div></td>
             
-            for(var o=0; o<shit.length;o++){
-                                                                    var uniqueSubcategories=[];
-
-
-                if(shit[o].section===finalFinal[i].name){
-                    if(shit[o].category===finalFinal[i].uniqueCategories[q].name){
-                       if(!finalFinal[i].uniqueCategories[q].uniqueSubcategory.includes(shit[o].subcategory)){
-                           finalFinal[i].uniqueCategories[q].uniqueSubcategory.push(shit[o].subcategory);
-                        } 
-                    }
-                }
-
-                    
+          
             
-
+            <td colspan='2'><div class='classificationdisplay1'> <img class='fuckingimage' src='/public/img/img23.jpg'> <p>Lifestyle</p></div></td>
+            <td colspan='1'><div class='classificationdisplay1'> <img class='fuckingimage' src='/public/img/img23.jpg'> <p>Lifestyle</p></div></td>
             
-                }
-            }
+        </tr>
+         <tr>
+        <td><div class='classificationdisplay1'></div></td>
+             <td><div class='classificationdisplay1'> <img class='fuckingimage' src='/public/img/img23.jpg'> <p>Lifestyle</p></div></td>
+             <td  rowspan='2'><div class='classificationdisplay1'> <img class='fuckingimage' src='/public/img/img23.jpg'> <p>Lifestyle</p></div></td>
             
-               
-
-
-        
-    }
-        
-
-displayCategories([],finalFinal)
-    }
+        </tr>
+          <tr>
+        <td colspan='2'><div class='classificationdisplay1'> <img  class='fuckingimage' src='/public/img/img23.jpg'> <p>Lifestyle</p></div></td>
+    
+            
+        </tr>
+           <tr>
+        <td><div class='classificationdisplay1'></div></td>
+             <td><div class='classificationdisplay1'> </div></td> 
+            <td><div class='classificationdisplay1'> <img  class='fuckingimage' src='/public/img/img23.jpg'> <p>Lifestyle</p></div></td>
+             
+        </tr>
+    */

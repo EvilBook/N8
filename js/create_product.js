@@ -46,7 +46,7 @@ function populateSelectors(table, array, selector) {
 
 
 create_product_button.addEventListener("click", function() {
-
+while(false){
   var product_name_txt = document.getElementById('product_name');
   var product_price_txt = document.getElementById('product_price');
   var product_new_price_txt = document.getElementById('product_new_price');
@@ -175,26 +175,7 @@ create_product_button.addEventListener("click", function() {
 
 
 
-      product_name_txt.value = "";
-      product_price_txt.value = "";
-      product_new_price_txt.value = "";
-      product_ean_txt.value = "";
-      product_quantity_txt.value = "";
-      product_brand_txt.value = "";
-      product_design_txt.value = "";
-      product_description_txt.value = "";
-      product_material_txt.value = "";
-      product_colour_txt.value = "";
-      product_length_txt.value = "";
-      product_width_txt.value = "";
-      product_height_txt.value = "";
-      product_volume_txt.value = "";
-      product_weight_txt.value = "";
-      product_size_txt.value = "";
-      product_subcategory_slc.textContent = "";
-      product_category_slc.textContent = "";
-      product_section_slc.textContent = "";
 
   }
-
+}
 });

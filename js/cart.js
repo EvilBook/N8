@@ -10,6 +10,7 @@ var isHorizontal = false;
 var rotateFn = 'rotateX';
 var radius, theta;
 var checkoutSequenceCounter=0;
+var product_ids=[{Test1:'price_HLhvSREgp7XgDV'}, {Test2:'price_HM3NQJlxKNoMd4'}, {Test3:'price_HLhx2nQ0l8r0do'}, {Test4:'price_HM3OgGZyLcHtYS'}, {Test5:'price_HM3PiRwwN6OnU8'}];
 function rotateCarousel() {
   var angle = theta * selectedIndex * -1;
   carousel.style.transform = 'translateZ(' + -radius + 'px) ' + 
@@ -177,7 +178,6 @@ $("#includedContent").load("/public/html/header.html", () => {
       console.log(result);
       for (var i = 0; i < product_ids.length; i++) {
         for (var j = 0; j < result.length; j++) {
-          console.log(typeof(result[j].id), typeof(product_ids[i]));
 
           if(result[j].id === product_ids[i]) {
             unique_products.push(result[j]);
@@ -217,7 +217,7 @@ function createCart(products) {
       cardDiv = document.createElement("img");
       cardDiv.setAttribute("class", "productimage");
       if(products[i].image_name!==null){
-    cardDiv.setAttribute("src", 'http://192.168.0.105:3000/'+products[i].image_name);
+    cardDiv.setAttribute("src", 'http://192.168.0.105:3000'+products[i].image_url);
            
         }else{
 
@@ -785,9 +785,8 @@ for(var i=0;i<required.length; i++){
 
 
 function  populateList(){
-    var table=document.getElementById('simple_body');
+  /*  var table=document.getElementById('simple_body');
     var itemsList=$('.cart_item');
-    console.log(itemsList)
     for(var i=0;i<itemsList.length;i++){
         
         var row=table.insertRow(0);
@@ -809,7 +808,7 @@ function  populateList(){
     cell=row.insertCell(3);
     cell=row.insertCell(4);
     cell.innerHTML='<p>'+$('.total').text()+'</p>';
-    
+    */
     
     var table=$('.shipping_address_checkout');
     var relevant=table.children('.auto')
@@ -840,18 +839,18 @@ var isBilling=document.getElementById('billing');
 
     }
     
-    
+ /*   
     var table=$('.card_checkout');
     var relevant=table.children('.auto')
     var old=$('.card_details');
     for(var i=0; i<relevant.length;i++){
         relevant[i].innerHTML=old[i].value;
-    }
+    }*/
     
     
     
 }
-var month_slc = document.getElementById('expiration_month');
+/*var month_slc = document.getElementById('expiration_month');
 var year_slc = document.getElementById('expiration_year');
 
 
@@ -871,7 +870,7 @@ var year_slc = document.getElementById('expiration_year');
     el.textContent = opt;
     el.value = opt;
     year_slc.appendChild(el);
-  }
+  }*/
 
 
 var cities_slc = document.querySelectorAll('#bulgarian_cities');
@@ -900,13 +899,52 @@ var array=[];
 
 
 $('.finalize').click(()=>{
-    
+     var PUBLISHABLE_KEY = "pk_test_eJRfzu3ioOMkmqV5aue6PcGF00NIIx3yZ2";
+      // Replace with the domain you want your users to be redirected back to after payment
+      var DOMAIN = window.location.origin;
+
+        var stripe = Stripe(PUBLISHABLE_KEY);
+        var handleResult = function(result) {
+        if (result.error) {
+          var displayError = document.getElementById("error-message");
+          displayError.textContent = result.error.message;
+        }
+      };
+
+
     var email=$('.email_checkout')
     
     if(email.val()===''){
         email.addClass('error');
     }else{
-sendShit();    }
+          var itemsList=$('.cart_item');
+        var objectsList=[];
+        
+    for(var i=0;i<itemsList.length;i++){
+        var iname=itemsList[i].dataset.itemName;
+        var iquantity=itemsList[i].dataset.itemQuantity;
+        for(var q=0; q<product_ids.length; q++){
+            if(iname in product_ids[q]){
+                objectsList.push({price:product_ids[q][iname], quantity:parseInt(iquantity)})
+            }
+        }
+      
+    }
+
+        // Make the call to Stripe.js to redirect to the checkout page
+        // with the current quantity
+        stripe
+          .redirectToCheckout({
+            mode: 'payment',
+            lineItems: objectsList,
+            successUrl:
+              DOMAIN + "/success.html?session_id={CHECKOUT_SESSION_ID}",
+            cancelUrl: DOMAIN + "/canceled.html"
+          })
+          .then(handleResult);
+    
+    
+    }
     
     
 })
@@ -1017,7 +1055,7 @@ for(var j = 1;j<50;j++) {
 
 function setPage(result){
     
-    
+    console.log(result);
     var shit=window.open('about:blank', '','_blank');
     
     shit.document.write(result);
