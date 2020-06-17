@@ -58,7 +58,7 @@ console.log('shitshti')
 
 
 
-  fetch('http://192.168.0.105:3000/products/')
+  fetch('http://192.168.0.107:3000/products/')
     .then(response => response.json())
     .then(data => {
       product_list = data
@@ -86,7 +86,7 @@ console.log('shitshti')
     };
       
 
-    fetch('http://192.168.0.105:3000/products/product-images-id', requestOptions)
+    fetch('http://192.168.0.107:3000/products/product-images-id', requestOptions)
       .then(response => response.json())
       .then(data => {
         console.log(data,'null');
@@ -100,13 +100,13 @@ console.log('shitshti')
             for(var i=0; i<loaded_products.length;i++){
             var height=$('#itemrow').innerHeight();
             var width=$('#itemrow').innerWidth();
-      loaded_products[i].setAttribute("style", "width: " + (Math.floor(width / (1+1))) + "px; height: " + Math.floor(y * 0.8) + "px;");
+      loaded_products[i].setAttribute("style", "width: calc(" + (Math.floor(width / (1+1))) + "px - 8px); height: " + Math.floor(y * 0.8) + "px;");
             }
         }else{
         for(var i=0; i<loaded_products.length;i++){
             var height=$('#itemrow').innerHeight();
             var width=$('#itemrow').innerWidth();
-      loaded_products[i].setAttribute("style", "width: " + (Math.floor(width / 4)) + "px; height: " + Math.floor(y * 0.8) + "px;");
+      loaded_products[i].setAttribute("style", "width: calc(" + (Math.floor(width / 4)) + "px - 16px); height: " + Math.floor(y * 0.8) + "px;");
             }
             }
      
@@ -142,8 +142,8 @@ function displayProducts(images, index) {
     var cardImg = document.createElement("img");
     cardImg.setAttribute("class", "productimg");
     if(images[0]!==undefined){
-    cardImg.setAttribute("src", 'http://192.168.0.105:3000'+images[0]);
-    console.log('http://192.168.0.105:3000'+images[0]);
+    cardImg.setAttribute("src", 'http://192.168.0.107:3000'+images[0]);
+    console.log('http://192.168.0.107:3000'+images[0]);
         }else{
                 cardImg.setAttribute("src", undefined);
 
@@ -155,7 +155,7 @@ function displayProducts(images, index) {
     var x = $(document).width();
     $(".productimg").on("error", function(){
         console.log('shit');
-        $(this).attr('src', 'http://192.168.0.105:3000/public/product_images/default.png');
+        $(this).attr('src', 'http://192.168.0.107:3000/public/product_images/default.png');
     });
 
 

@@ -24,7 +24,7 @@ function createClass() {
             body: raw,
             redirect: 'follow'
           };
-          fetch("http://192.168.0.105:3000/classifications/section", requestOptions)
+          fetch("http://192.168.0.107:3000/classifications/section", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
@@ -43,7 +43,7 @@ function createClass() {
             body: raw,
             redirect: 'follow'
           };
-          fetch("http://192.168.0.105:3000/classifications/category", requestOptions)
+          fetch("http://192.168.0.107:3000/classifications/category", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
@@ -62,7 +62,7 @@ function createClass() {
             body: raw,
             redirect: 'follow'
           };
-          fetch("http://192.168.0.105:3000/classifications/subcategory", requestOptions)
+          fetch("http://192.168.0.107:3000/classifications/subcategory", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));

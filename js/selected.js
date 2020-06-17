@@ -51,7 +51,6 @@ var bigimage=$('.bigimage');
     $('.gradient').width(bigimage.width());
     $('.gradient').height(bigimage.height());
     
-console.log('shitshti')
     });
       
       
@@ -67,7 +66,6 @@ console.log('shitshti')
 
 
   $.getScript("/public/js/footer.js", function() {
-    console.log('loaded');
     startFooter();
 
   });
@@ -108,7 +106,7 @@ console.log('shitshti')
   };
 
 
-  /*fetch('http://192.168.0.105:3000/products/' + table, requestOptions)
+  /*fetch('http://192.168.0.107:3000/products/' + table, requestOptions)
     .then(response => response.json())
     .then(data => {
       product_list = data
@@ -138,7 +136,7 @@ console.log('shitshti')
       redirect: 'follow'
     };
 
-    fetch('http://192.168.0.105:3000/products/ean-img', requestOptions)
+    fetch('http://192.168.0.107:3000/products/ean-img', requestOptions)
       .then(response => response.json())
       .then(data => {
         var images = [];
@@ -147,7 +145,7 @@ console.log('shitshti')
             path=path.replace('.','');
           images.push(path + element.name);
         });
-        //fetchClassification(images, index);
+        fetchClassification(images, index);
         if(window.matchMedia("(max-width: 767px)").matches){
             for(var i=0; i<loaded_products.length;i++){
             var height=$('#itemrow').innerHeight();
@@ -211,8 +209,7 @@ console.log('shitshti')
     var cardImg = document.createElement("img");
     cardImg.setAttribute("class", "productimg");
 if(images[0]!==undefined){
-    cardImg.setAttribute("src", 'http://192.168.0.105:3000'+images[0]);
-    console.log('http://192.168.0.105:3000'+images[0]);
+    cardImg.setAttribute("src", 'http://192.168.0.107:3000'+images[0]);
         }else{
                 cardImg.setAttribute("src", undefined);
 
@@ -223,8 +220,7 @@ if(images[0]!==undefined){
     var ratio = cardImg.naturalWidth / cardImg.naturalHeight;
     var x = $(document).width();
     $(".productimg").on("error", function(){
-        console.log('shit');
-        $(this).attr('src', 'http://192.168.0.105:3000/public/product_images/default.png');
+        $(this).attr('src', 'http://192.168.0.107:3000/public/product_images/default.png');
     });    //cardImg.setAttribute("src", "img/loading.gif");
     document.getElementById(containerName).appendChild(cardImg);
     var ratio = cardImg.naturalWidth / cardImg.naturalHeight;
@@ -300,8 +296,7 @@ if(images[0]!==undefined){
     var cardImg = document.createElement("img");
     cardImg.setAttribute("class", "categoryimg");
 if(images[0]!==undefined){
-    cardImg.setAttribute("src", 'http://192.168.0.105:3000'+images[0]);
-    console.log('http://192.168.0.105:3000'+images[0]);
+    cardImg.setAttribute("src", 'http://192.168.0.107:3000'+images[0]);
         }else{
                 cardImg.setAttribute("src", undefined);
 
@@ -309,8 +304,7 @@ if(images[0]!==undefined){
 
     document.getElementById(containerName).appendChild(cardImg);
     $(".categoryimg").on("error", function(){
-        console.log('shit');
-        $(this).attr('src', 'http://192.168.0.105:3000/public/product_images/default.png');
+        $(this).attr('src', 'http://192.168.0.107:3000/public/product_images/default.png');
     });    //cardImg.setAttribute("src", "img/loading.gif");
     document.getElementById(containerName).appendChild(cardImg);
 
@@ -331,7 +325,6 @@ window.addEventListener('load',function(){
 showInsides();
 
 function  showInsides(){
-    
 if(typeclassification==='section'){
     
     
@@ -357,7 +350,7 @@ if(typeclassification==='section'){
   };
 
 
-  fetch('http://192.168.0.105:3000/classifications/category-section', requestOptions)
+  fetch('http://192.168.0.107:3000/classifications/category-section', requestOptions)
     .then(response => response.json())
     .then(data => {
 createTable(data);
@@ -389,16 +382,16 @@ createTable(data);
   };
 
 
-  fetch('http://192.168.0.105:3000/classifications/subcategory-category', requestOptions)
+  fetch('http://192.168.0.107:3000/classifications/subcategory-category', requestOptions)
     .then(response => response.json())
     .then(data => {
 createTable(data);
     }).catch(error => console.error(error));
         
     }else if(typeclassification==='subcategory'){
-            
+            console.log(subcategoryclassification, categoryclassification, sectionclassification, 'more')
  $.getScript("/public/js/loadProducts.js", function() {
-        loadProducts('subcategory',subcategoryclassification)
+        loadProducts('subcategory',subcategoryclassification, categoryclassification, sectionclassification)
   });
     
     
@@ -420,7 +413,7 @@ createTable(data);
         var cell = row.insertCell(row.cells.length-1);
         cell.setAttribute('colspan','1');
         cell.setAttribute('rowspan','1');
-        cell.innerHTML="<div class='classificationdisplay1' data-type='"+typeclassification+"' data-name='"+data[i]['name']+"' data-section-name='"+sectionclassification+"' data-category-name='"+categoryclassification+"'> <img class='fuckingimage' src='http://192.168.0.105:3000"+data[i]['image']+"'> <p>"+data[i]['name']+"</p></div>";
+        cell.innerHTML="<div class='classificationdisplay1' data-type='"+typeclassification+"' data-name='"+data[i]['name']+"' data-section-name='"+sectionclassification+"' data-category-name='"+categoryclassification+"'> <img class='fuckingimage' src='http://192.168.0.107:3000"+data[i]['image']+"'> <p>"+data[i]['name']+"</p></div>";
         
   }else{
             var cellsLength=row.cells.length;
@@ -428,7 +421,7 @@ createTable(data);
     var cell = row.insertCell(row.cells.length-1);
       cell.setAttribute('colspan','1');
         cell.setAttribute('rowspan','1');
-        cell.innerHTML="<div class='classificationdisplay1' data-type='"+typeclassification+"' data-name='"+data[i]['name']+"' data-section-name='"+sectionclassification+"' data-category-name='"+categoryclassification+"'> <img class='fuckingimage' src='http://192.168.0.105:3000"+data[i]['image']+"'> <p>"+data[i]['name']+"</p></div>";
+        cell.innerHTML="<div class='classificationdisplay1' data-type='"+typeclassification+"' data-name='"+data[i]['name']+"' data-section-name='"+sectionclassification+"' data-category-name='"+categoryclassification+"'> <img class='fuckingimage' src='http://192.168.0.107:3000"+data[i]['image']+"'> <p>"+data[i]['name']+"</p></div>";
         }
         
         

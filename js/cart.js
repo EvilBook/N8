@@ -171,7 +171,7 @@ $("#includedContent").load("/public/html/header.html", () => {
     
 
 
-  fetch("http://192.168.0.105:3000/products/products-images", requestOptions)
+  fetch("http://192.168.0.107:3000/products/products-images", requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(product_ids);
@@ -217,14 +217,14 @@ function createCart(products) {
       cardDiv = document.createElement("img");
       cardDiv.setAttribute("class", "productimage");
       if(products[i].image_name!==null){
-    cardDiv.setAttribute("src", 'http://192.168.0.105:3000'+products[i].image_url);
+    cardDiv.setAttribute("src", 'http://192.168.0.107:3000'+products[i].image_url);
            
         }else{
 
         }
 
     $(cardDiv).on("error", function(){
-        $(this).attr('src', 'http://192.168.0.105:3000/public/product_images/default.png');
+        $(this).attr('src', 'http://192.168.0.107:3000/public/product_images/default.png');
     });
       document.getElementById("left" + product_id).appendChild(cardDiv);
 
@@ -1043,7 +1043,7 @@ for(var j = 1;j<50;j++) {
     redirect: 'follow'
   }
 
-  fetch("http://192.168.0.105:3000/transactions/create-unregistered", requestOptions)
+  fetch("http://192.168.0.107:3000/transactions/create-unregistered", requestOptions)
     .then(response => response.text())
     .then(result => setPage(result))
     .catch(error => console.log('error', error));

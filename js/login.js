@@ -1,5 +1,10 @@
-//"use strict"
-
+var errors=$('.error');
+for(var i=0; i<errors.length; i++){
+  //  errors[i].setAttribute('hidden', 'hidden');
+    errors[i].style.opacity=0;
+    
+}
+$('#register_button').hide();
 import * as check from './login_register_handler.js';
 
 var included_content_div = $("#includedContent");
@@ -28,7 +33,7 @@ var transit_register_button_div = $(".transit_register_button_div");
 var text_fields = [];
 
 
-included_content_div.load("/public/html/header.html", function() {
+$('#includedcontent').load("/public/html/header.html", function() {
   $.getScript("/public/js/header.js", function() {
     console.log('loaded');
     start();
@@ -42,22 +47,24 @@ $(document).ready(function() {
   transit_login_button.css("display", "none");
 
   transit_register_button.click(function() {
-    console.log("SLUT");
     login_div.css("width", "8%");
     register_div.css("width", "60%");
     login_input_div.css("opacity", "0");
-    register_input_div.css("display", "block");
+    register_input_div.css("display", "inline-block");
     register_input_div.css("opacity", "1");
     transit_register_button_div.css("opacity", "0");
     transit_register_button_div.css("display", "none");
     login_button.css("opacity", "0");
     login_button.css("display", "none");
     transit_login_button.css("opacity", "1");
-    transit_login_button.css("display", "block");
+    transit_login_button.css("display", "inline-block");
+      $('#register_button').show();
+                  $('#transit_register_button').hide();
+
+
   });
 
   transit_login_button.click(function() {
-    console.log("SLUT");
     login_div.css("width", "48%");
     register_div.css("width", "30%");
     login_input_div.css("opacity", "1");
@@ -66,9 +73,12 @@ $(document).ready(function() {
     transit_register_button_div.css("opacity", "1");
     transit_register_button_div.css("display", "");
     login_button.css("opacity", "1");
-    login_button.css("display", "block");
+    login_button.css("display", "inline-block");
     transit_login_button.css("opacity", "0");
     transit_login_button.css("display", "none");
+            $('#register_button').hide();
+            $('#transit_register_button').show();
+
   });
 
   login_button.click(function() {
@@ -122,7 +132,10 @@ function loginUser(login_email, login_password) {
   checkAccount(login_email, login_password)
   .then((result) => {
     if (result == 0) {
-      console.log("account doesn't exist!!");
+document.getElementById('error_login').style.opacity=1;
+document.getElementById('error_login').innerHTML='You dont exist';
+document.getElementById('login_email').style.backgroundColor='#ff5964cc';
+document.getElementById('login_password').style.backgroundColor='#ff5964cc';
     } else {
       var role = result[0].role;
       console.log(role);
@@ -166,7 +179,7 @@ function registerUser(first_name, last_name, email, password) {
         redirect: 'follow'
       };
 
-      fetch("http://192.168.0.105:3000/users/register-customer", requestOptions)
+      fetch("http://192.168.0.107:3000/users/register-customer", requestOptions)
         .then(response => response.text())
         .then(result => {
           console.log(result);
@@ -197,7 +210,7 @@ async function checkEmail(email) {
     redirect: 'follow'
   };
 
-  let response = await fetch("http://192.168.0.105:3000/users/check-email", requestOptions);
+  let response = await fetch("http://192.168.0.107:3000/users/check-email", requestOptions);
   let message = await response.json();
   return message;
 }
@@ -220,7 +233,7 @@ async function checkAccount(email, password) {
     redirect: 'follow'
   };
 
-  let response = await fetch("http://192.168.0.105:3000/users/login-user", requestOptions);
+  let response = await fetch("http://192.168.0.107:3000/users/login-user", requestOptions);
   let message = await response.json();
   console.log(message);
 

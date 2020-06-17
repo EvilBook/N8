@@ -26,7 +26,7 @@ function populateSelectors(table, array, selector) {
     method: 'GET',
     redirect: 'follow'
   };
-  fetch('http://192.168.0.105:3000/classifications/' + table, requestOptions)
+  fetch('http://192.168.0.107:3000/classifications/' + table, requestOptions)
     .then(response => response.json())
     .then(data => {
       for(var i=0; i<data.length; i++) {
@@ -159,14 +159,14 @@ while(false){
         body: formdata
       }
 
-      fetch("http://192.168.0.105:3000/products/create-product", createProductRequest)
+      fetch("http://192.168.0.107:3000/products/create-product", createProductRequest)
       .then(response => response.text())
       .then(result =>  console.log(result))
       .catch(error => console.log('error', error));
 
 
       if(images_number !== 0) {
-        fetch("http://192.168.0.105:3000/products/upload-images-test", uploadImagesRequest)
+        fetch("http://192.168.0.107:3000/products/upload-images-test", uploadImagesRequest)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));

@@ -53,7 +53,7 @@ function populateSelectors(table, array, selector) {
     method: 'GET',
     redirect: 'follow'
   };
-  fetch('http://192.168.0.105:3000/classifications/' + table, requestOptions)
+  fetch('http://192.168.0.107:3000/classifications/' + table, requestOptions)
     .then(response => response.json())
     .then(data => {
       for(var i=0; i<data.length; i++) {
@@ -92,7 +92,7 @@ window.addEventListener("load", () => {
     redirect: 'follow'
   };
 
-  fetch('http://192.168.0.105:3000/products/ean-text', requestOptions)
+  fetch('http://192.168.0.107:3000/products/ean-text', requestOptions)
     .then(response => response.json())
     .then(data => {
       product_name_txt.value = data[0].name;
@@ -118,7 +118,7 @@ window.addEventListener("load", () => {
 
     }).catch(error => console.error(error));
 
-  fetch('http://192.168.0.105:3000/products/ean-img', requestOptions)
+  fetch('http://192.168.0.107:3000/products/ean-img', requestOptions)
     .then(response => response.json())
     .then(data => {
        data.forEach((element, index, array) => {
@@ -171,7 +171,7 @@ function deleteImages(name, path, target) {
     redirect: 'follow'
   };
 
-  fetch('http://192.168.0.105:3000/products/delete-images', requestOptions)
+  fetch('http://192.168.0.107:3000/products/delete-images', requestOptions)
     .then(response => response.text())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
@@ -276,14 +276,14 @@ update_product_button.addEventListener("click", () => {
         body: formdata
       }
 
-      fetch("http://192.168.0.105:3000/products/update-product", updateProductRequest)
+      fetch("http://192.168.0.107:3000/products/update-product", updateProductRequest)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
 
       //runs only if there are images
       if(images_number !== 0) {
-        fetch("http://192.168.0.105:3000/products/upload-images-test", uploadImagesRequest)
+        fetch("http://192.168.0.107:3000/products/upload-images-test", uploadImagesRequest)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -334,7 +334,7 @@ delete_product_button.addEventListener("click", (event) => {
      redirect: 'follow'
    };
 
-   fetch("http://192.168.0.105:3000/products/delete-product", requestOptions)
+   fetch("http://192.168.0.107:3000/products/delete-product", requestOptions)
      .then(response => response.text())
      .then(result => console.log(result))
      .catch(error => console.log('error', error));

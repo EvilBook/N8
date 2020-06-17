@@ -8,7 +8,7 @@ var delete_user_by_id_button = document.getElementById('delete_name_by_id');
 
 
 get_customers_button.addEventListener("click", function(){
-  fetch('http://192.168.0.105:3000/api/customers')
+  fetch('http://192.168.0.107:3000/api/customers')
     .then(response => response.json())
     .then(data => {
       myData = data;
@@ -39,7 +39,7 @@ get_name_by_id_button.addEventListener("click", function(){
   if(id_value == "") {
     console.log("Empty field!!");
   } else {
-      fetch('http://192.168.0.105:3000/api/customers/' + id_value)
+      fetch('http://192.168.0.107:3000/api/customers/' + id_value)
         .then(response => response.json())
         .then(data => {
           console.log("my id= " + id_value);
@@ -82,7 +82,7 @@ create_new_user_button.addEventListener("click", function(){
   };
 
 
-  fetch('http://192.168.0.105:3000/api/customers/', options)
+  fetch('http://192.168.0.107:3000/api/customers/', options)
     .then(response => response.json())
     .then(data => {
 
@@ -119,7 +119,7 @@ change_name_by_id_button.addEventListener("click", function(){
     body: JSON.stringify(data)
   };
 
-  fetch('http://192.168.0.105:3000/api/customers/', options);
+  fetch('http://192.168.0.107:3000/api/customers/', options);
   id_text.value = "";
   name_text.value = "";
 
@@ -147,7 +147,7 @@ delete_user_by_id_button.addEventListener("click", function(){
       body: JSON.stringify(data)
     };
 
-    fetch('http://192.168.0.105:3000/api/customers/', options)
+    fetch('http://192.168.0.107:3000/api/customers/', options)
       .then(response => response.json())
       .then(data => {
 

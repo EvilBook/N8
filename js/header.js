@@ -9,7 +9,15 @@ var sectionclassificationheader='';
 var categoryclassificationheader='';
 var subcaegoryclassificationheader='';
 var complextitle='';
+  var stringArray;
+  var objectArray = [];
+  var product_ids = [];
+  var unique_products = [];
 
+  function read_cookie(key) {
+    var result;
+    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
+  }
 
 
 
@@ -20,27 +28,10 @@ function start() {
   var items = read_cookie('items');
   var loggedin = read_cookie('loggedin');
   var customer;
-  var stringArray = read_cookie('items');
-  var objectArray = [];
-  var product_ids = [];
-  var unique_products = [];
+
 SectionsStuff();
+    PrepBasket();
 
-  if (stringArray != null) {
-    stringArray = stringArray.split(",");
-   
-    for (var iii = 0; iii < stringArray.length; iii++) {
-      var smallArray = stringArray[iii].split(':');
-     
-
-      objectArray.push(smallArray);
-    
-
-    }
-
-  } else {
-    stringArray = [];
-  }
 
   if (loggedin === '1') {
     customer = read_cookie('customer');
@@ -54,47 +45,6 @@ SectionsStuff();
 
   }
 
-  if (objectArray.length > 0) {
-    for (var i = 0; i < objectArray.length; i++) {
-      product_ids.push(parseInt(objectArray[i][0]));
-    }
-  }
-
-
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  const data = {
-    'ids': product_ids
-  };
-
-  var raw = JSON.stringify(data);
-
-  var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
-  };
-
-  fetch("http://192.168.0.105:3000/products/products-images", requestOptions)
-    .then(response => response.json())
-    .then(result => {
-      
-      for (var i = 0; i < product_ids.length; i++) {
-        for (var j = 0; j < result.length; j++) {
-          
-
-
-          if (result[j].id === product_ids[i]) {
-            unique_products.push(result[j]);
-            break;
-          }
-        }
-      }
-
-      loadBasket(unique_products);
-
-    }).catch(error => console.log('error', error));
 
 
     myHeaders = new Headers();
@@ -113,7 +63,7 @@ SectionsStuff();
       redirect: 'follow'
     };
 
-    fetch("http://192.168.0.105:3000/users/get-customer-by-id", requestOptions)
+    fetch("http://192.168.0.107:3000/users/get-customer-by-id", requestOptions)
       .then(response => response.json())
       .then((result) => {
         loadProfile(result[0]);
@@ -123,7 +73,14 @@ SectionsStuff();
 
 
   addSearch();
-
+$("#inputsearch").keyup(function(e){ 
+    var code = e.key; // recommended to use e.key, it's normalized across devices and languages
+    if(code==="Enter") e.preventDefault();
+    if(code===" " || code==="Enter" || code===","|| code===";"){
+           document.location.href = '/public/path/search.html?'+$(this).val();
+        
+    } // missing closing if brace
+});
   function loadProfile(customer) {
     if (loggedin === '0') {
       var cardDiv = document.createElement("div");
@@ -216,11 +173,11 @@ SectionsStuff();
 
         cardDiv = document.createElement("button");
         cardDiv.setAttribute("class", "profilebtn");
-        cardDiv.setAttribute("id", "wallet");
-        cardDiv.innerHTML = 'Wallet';
+        cardDiv.setAttribute("id", "addresses");
+        cardDiv.innerHTML = 'Addresses';
         document.getElementById('signin').appendChild(cardDiv);
-        $('#wallet').click(function() {
-          document.location.href = '/public/path/profile.html?wallet';
+        $('#addresses').click(function() {
+          document.location.href = '/public/path/profile.html?address';
 
         });
 
@@ -239,65 +196,7 @@ SectionsStuff();
 
   }
 
-  function loadBasket(products) {
-    var cardDiv;
-    var product_id;
-
-    for (var i = 0; i < products.length; i++) {
-      product_id = products[i].id;
-
-      cardDiv = document.createElement("div");
-      cardDiv.setAttribute("class", "basketitem");
-      cardDiv.setAttribute("id", "basketitem" + product_id);
-      document.getElementById("itemsdropdown").appendChild(cardDiv);
-
-      cardDiv = document.createElement("div");
-      cardDiv.setAttribute("class", "basketimage");
-      cardDiv.setAttribute("id", "basketimage" + product_id);
-      document.getElementById("basketitem" + product_id).appendChild(cardDiv);
-
-      cardDiv = document.createElement("img");
-      cardDiv.setAttribute("class", "image");
-       if(products[i].image_url!==null){
-    cardDiv.setAttribute("src", 'http://192.168.0.105:3000'+products[i].image_url);
-           
-           
-        }else{
-            
-                cardDiv.setAttribute("src", undefined);
-
-        }
-
-    $(cardDiv).on("error", function(){
-        $(this).attr('src', 'http://192.168.0.105:3000/public/product_images/default.png');
-    });
-      document.getElementById("basketimage" + product_id).appendChild(cardDiv);
-
-
-
-      cardDiv = document.createElement("div");
-      cardDiv.setAttribute("class", "basketinfo");
-      cardDiv.setAttribute("id", "basketinfo" + product_id);
-      document.getElementById("basketitem" + product_id).appendChild(cardDiv);
-
-      cardDiv = document.createElement("p");
-      cardDiv.innerHTML = products[i].name;
-      document.getElementById("basketinfo" + product_id).appendChild(cardDiv);
-
-      for (var o = 0; o < objectArray.length; o++) {
-        if (objectArray[o][0] == product_id) {
-          cardDiv = document.createElement("p");
-          cardDiv.innerHTML = "quantity: " + objectArray[o][1];
-          document.getElementById("basketinfo" + product_id).appendChild(cardDiv);
-        }
-      }
-        
-
-      cardDiv = document.createElement("p");
-      cardDiv.innerHTML = products[i].price;
-      document.getElementById("basketinfo" + product_id).appendChild(cardDiv);
-    }
-  }
+  
 
 
 
@@ -360,6 +259,29 @@ SectionsStuff();
         }
 
       }
+          if($(window).scrollTop()>=12){
+            $('#navbar').attr('class','navbar');
+    $('#categorySpace').attr('class','categorySpace');
+    $('.logoImgnew').attr('class','logoImg');
+$('.dropbtn-subcategory').attr('class','dropbtn-subcategorynew');
+var icon=$('.dropbtn-profile.noscroll');
+icon.removeClass('noscroll');
+icon.addClass('scrolled');
+        icon=$('.dropbtn-cart.noscroll');
+icon.removeClass('noscroll');
+icon.addClass('scrolled');}else{
+                   $('#navbar').attr('class','navbarnew');
+    $('#categorySpace').attr('class','categorySpacenew');
+        $('.logoImg').attr('class','logoImgnew');
+                    $('.dropbtn-subcategorynew').attr('class','dropbtn-subcategory');
+        var icon=$('.dropbtn-profile.scrolled');
+icon.removeClass('scrolled');
+icon.addClass('noscroll');
+        icon=$('.dropbtn-cart.scrolled');
+icon.removeClass('scrolled');
+icon.addClass('noscroll');
+
+}
 
 
 }
@@ -392,10 +314,6 @@ for(var i=0; i<subcategorytitles.length; i++){
       
   
 
-  function read_cookie(key) {
-    var result;
-    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
-  }
 
 
   function signOut() {
@@ -457,7 +375,7 @@ function SectionsStuff(){
       redirect: 'follow'
     };
 
-    fetch("http://192.168.0.105:3000/classifications/class-groups", requestOptions)
+    fetch("http://192.168.0.107:3000/classifications/class-groups", requestOptions)
       .then(response => response.json())
       .then((result) => {
 Order(result)      })
@@ -465,7 +383,6 @@ Order(result)      })
 }
 
 function Order(data){
-    
     var unique_sections=[...new Set(data.map(x=>x.section))];
     var uniqueBoss={};
   
@@ -526,17 +443,17 @@ function setTitle2(a){
 }
 function setCover1(a){
  if(a in bigboss){
-    $('.bigimageimage').attr('src','http://192.168.0.105:3000'+bigboss[a]['sec_img']);
+    $('.bigimageimage').attr('src','http://192.168.0.107:3000'+bigboss[a]['sec_img']);
         }
 }
 function setCover2(a, b){
  if(a in bigboss){
-    $('.bigimageimage').attr('src','http://192.168.0.105:3000'+bigboss[a][b]['cat_img']);
+    $('.bigimageimage').attr('src','http://192.168.0.107:3000'+bigboss[a][b]['cat_img']);
         }
 }
 function setCover3(a, b, c){
  if(a in bigboss){
-    $('.bigimageimage').attr('src','http://192.168.0.105:3000'+bigboss[a][b][c]['sub_img']);
+    $('.bigimageimage').attr('src','http://192.168.0.107:3000'+bigboss[a][b][c]['sub_img']);
         }
 }
 
@@ -583,3 +500,152 @@ function setHeaderStyle(){
     $('#navbar').attr('class', 'navbaritem');
     $('#navbar').attr('id', 'navbaritem');
 }
+
+
+function Reload(){
+          $('#itemsdropdown').load(document.URL+' #itemsdropdown', function(){
+              PrepBasket();
+       
+              
+              
+          })
+
+}
+
+
+function PrepBasket(){
+    stringArray= read_cookie('items');
+    objectArray=[];
+    product_ids = [];
+    unique_products = [];
+    
+                   if (stringArray != null) {
+    stringArray = stringArray.split(",");
+   
+    for (var iii = 0; iii < stringArray.length; iii++) {
+      var smallArray = stringArray[iii].split(':');
+     
+
+      objectArray.push(smallArray);
+    
+
+    }
+
+  } else {
+      
+    stringArray = [];
+  }
+       
+    
+    
+    if (objectArray.length > 0) {
+    for (var i = 0; i < objectArray.length; i++) {
+      product_ids.push(parseInt(objectArray[i][0]));
+    }
+  }
+
+
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const data = {
+    'ids': product_ids
+  };
+
+  var raw = JSON.stringify(data);
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+
+  fetch("http://192.168.0.107:3000/products/products-images", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      for (var i = 0; i < product_ids.length; i++) {
+        for (var j = 0; j < result.length; j++) {
+          
+
+
+          if (result[j].id === product_ids[i]) {
+            unique_products.push(result[j]);
+            break;
+          }
+        }
+      }
+console.log(unique_products, product_ids, result);
+      loadBasket(unique_products);
+
+    }).catch(error => console.log('error', error));
+}
+
+
+function loadBasket(products) {
+    var cardDiv;
+    var product_id;
+
+    for (var i = 0; i < products.length; i++) {
+      product_id = products[i].id;
+
+      cardDiv = document.createElement("div");
+      cardDiv.setAttribute("class", "basketitem");
+      cardDiv.setAttribute("id", "basketitem" + product_id);
+      document.getElementById("itemsdropdown").appendChild(cardDiv);
+
+      cardDiv = document.createElement("div");
+      cardDiv.setAttribute("class", "basketimage");
+      cardDiv.setAttribute("id", "basketimage" + product_id);
+      document.getElementById("basketitem" + product_id).appendChild(cardDiv);
+
+      cardDiv = document.createElement("img");
+      cardDiv.setAttribute("class", "image");
+       if(products[i].image_url!==null){
+    cardDiv.setAttribute("src", 'http://192.168.0.107:3000'+products[i].image_url);
+           
+           
+        }else{
+            
+                cardDiv.setAttribute("src", undefined);
+
+        }
+
+    $(cardDiv).on("error", function(){
+        $(this).attr('src', 'http://192.168.0.107:3000/public/product_images/default.png');
+    });
+      document.getElementById("basketimage" + product_id).appendChild(cardDiv);
+
+
+
+      cardDiv = document.createElement("div");
+      cardDiv.setAttribute("class", "basketinfo");
+      cardDiv.setAttribute("id", "basketinfo" + product_id);
+      document.getElementById("basketitem" + product_id).appendChild(cardDiv);
+
+      cardDiv = document.createElement("p");
+      cardDiv.innerHTML = products[i].name;
+      document.getElementById("basketinfo" + product_id).appendChild(cardDiv);
+
+      for (var o = 0; o < objectArray.length; o++) {
+        if (objectArray[o][0] == product_id) {
+          cardDiv = document.createElement("p");
+          cardDiv.innerHTML = "quantity: " + objectArray[o][1];
+          document.getElementById("basketinfo" + product_id).appendChild(cardDiv);
+            
+              cardDiv = document.createElement("p");
+          cardDiv.innerHTML = "col/mat: " + objectArray[o][2];
+          document.getElementById("basketinfo" + product_id).appendChild(cardDiv);
+            
+            
+                 cardDiv = document.createElement("p");
+      cardDiv.innerHTML = 'Price: '+products[i].price+'$';
+      document.getElementById("basketinfo" + product_id).appendChild(cardDiv);
+        $('.actualbasketprice').html(+($('.actualbasketprice').html())+((+products[i].price)*(+objectArray[o][1])))
+            
+        }
+      }
+        
+
+ 
+    }
+  }

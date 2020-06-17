@@ -1,6 +1,10 @@
 var jsonInfo;
 var jsonFile;
 var selection;
+
+
+
+
 var customers = read_cookie('customer');
 var elements;
 var customer;
@@ -46,10 +50,20 @@ $("#includedContent").load("/public/html/header.html", () => {
     startFooter();
 
   });
-    });
+     });
 
   $.getScript("/public/js/header.js", function() {
-    start();
+      start();
+          $('.navbar').attr('class','navbarnew');
+    $('.categorySpace').attr('class','categorySpacenew');
+    $('.navbar2').attr('class','navbar2new');
+        $('.logoImg').attr('class','logoImgnew');
+
+    
+var bigimage=$('.bigimage');
+      bigimage.css('height','280px')
+    $('.gradient').width(bigimage.width());
+    $('.gradient').height(bigimage.height());
 
   });
 
@@ -69,7 +83,7 @@ $("#includedContent").load("/public/html/header.html", () => {
     redirect: 'follow'
   };
 
-  fetch("http://192.168.0.105:3000/users/get-customer-by-id", requestOptions)
+  fetch("http://192.168.0.107:3000/users/get-customer-by-id", requestOptions)
     .then(response => response.json())
     .then((result) => {
       customer = result[0];
@@ -99,14 +113,14 @@ function createMenu(customer) {
         edit();
       } else if (optionString === 'orders') {
         orders();
-      } else if (optionString === 'cards') {
+      }/* else if (optionString === 'cards') {
         cards();
-      } else if (optionString === 'address') {
+      }*/ else if (optionString === 'address') {
         address();
       }
     });
   }
-
+console.log(options)
   if (query === '') {
 
     elements = (options[0]);
@@ -126,18 +140,18 @@ function createMenu(customer) {
 
     options[2].setAttribute('class', 'selected');
     orders();
-  } else if (query === 'wallet') {
+  } /*else if (query === 'wallet') {
     elements = (options[3]);
 
 
     options[3].setAttribute('class', 'selected');
     cards();
-  } else if (query === 'address') {
-    elements = (options[4]);
+  }*/ else if (query === 'address') {
+    elements = (options[3]);
 
 
-    options[4].setAttribute('class', 'selected');
-    cards();
+    options[3].setAttribute('class', 'selected');
+    address();
   }
 }
 
@@ -335,6 +349,8 @@ function orders() {
 
 
 function cards() {
+     $('.content').empty();
+    /*
   var cards;
   fetch('/public/db/cards.json')
     .then((response) => {
@@ -344,7 +360,7 @@ function cards() {
 
       cards = myJson;
 
-      $('.content').empty();
+     
 
       var cardDiv = document.createElement("div");
       cardDiv.setAttribute("class", 'contentofcontent');
@@ -436,7 +452,7 @@ function cards() {
 
     })
 
-
+*/
 
 
 

@@ -38,7 +38,7 @@ function getProducts(letter) {
     redirect: 'follow'
   };
 
-  fetch('http://192.168.0.105:3000/products/name', requestOptions)
+  fetch('http://192.168.0.107:3000/products/name', requestOptions)
     .then(response => response.json())
     .then(data => {
 
