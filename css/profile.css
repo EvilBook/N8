@@ -307,4 +307,255 @@ position:absolute;
   /* Equal to height of footer */
   /* But also accounting for potential margin-bottom of last child */
   margin-bottom: 440px;
+    
+    
+    
+    
+}
+
+
+
+
+
+.profileinfo{
+    width:800px;
+    height:700px;
+    text-align: center;
+        padding: 30px 0px 30px 0px;
+    position:absolute;
+    left:18%;
+
+}
+
+h5{
+    color: #ffffff;
+    font-size: 8px;
+}
+input{
+    width: 59%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+    border: none;
+  border-bottom: 1px solid #3f4045;
+    transition: 0.2s;
+}
+p.title{
+    font-size:12px;
+    color: #ccc5b9;
+
+}
+.titlediv{
+height:98px;
+    padding-top: 30px;
+}
+button{
+    cursor: pointer;
+    background-color: #3f4045;
+  border: none;
+  color: white;
+  padding: 12px 19px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+}
+.buttons{
+    margin-top: 32px;
+    margin-bottom: 20px;
+    width:50%;
+}
+.savechanges{
+    width:50%;
+text-align: left;
+}
+
+
+
+.notatitle{
+    font-size:11px;
+    color:#00000088;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    line-height: 0;
+    margin-left: 30px;
+}
+.notacontent{
+    padding-bottom:18px;
+        margin-left: 30px;
+    font-size:19px;
+
+}
+.notaninput{
+
+}
+.emailpassword{
+    border-bottom: 1px solid #3f4045;
+    transition: 0.1s;
+    width:40%;
+    padding-top:14px;
+    -webkit-user-select: none; /* Safari */
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* IE10+/Edge */
+user-select: none;
+}
+.emailpassword:hover{
+    background-color: #3f404544;
+}
+.emailpassword:active{
+    color:#ffffff;
+        border-bottom: 1px solid #ffffff;
+
+}
+.popup{
+    position: absolute;
+
+    width:60%;
+    height:40%;
+    background-color:#ffffff;
+}
+.content{
+    overflow: auto;
+}
+.orderdiv{
+    border:1px solid #00000088;
+    margin:14px;
+    position:relative;
+}
+.carddiv{
+    border: 2px solid #00000088;
+    border-radius: 18px;
+    width:340px;
+    height:200px;
+    margin: 18px;
+    position:relative;
+    transition:0.3s;
+}
+.carddiv:hover{
+    background-color:#e4dfda44;
+    border-color:#000000aa;
+}
+svg.cute{
+    fill:#00000088;
+}
+.cardtitle{
+    font-size:12px;
+    color:#00000088;
+    line-height: 0;
+}
+.cardnumber{
+    position:absolute;
+    left:18px;
+    top:38%;
+
+}
+.cardholder{
+    position:absolute;
+    left:18px;
+    top:70%;
+
+}
+.cardexpdate{
+    position:absolute;
+    left:70%;
+    top:70%;
+
+}
+.cardcontentnumber{
+        font-size:20px;
+
+}
+svg.closecard{
+        fill:#00000088;
+        cursor: pointer;
+
+}
+svg.closecard:hover{
+        fill:#dd403a88;
+}
+svg#create_button{
+        fill:#00000088;
+        cursor: pointer;
+
+}
+svg#create_button:hover{
+        fill:#8ddbe088;
+}
+.carddelete{
+    position:absolute;
+    left: 89%;
+    top:1%;
+}
+
+
+
+
+
+[class|="confetti"] {
+  position: absolute;
+}
+
+.red {
+  background-color: #E94A3F;
+}
+
+.yellow {
+  background-color: #FAA040;
+}
+
+.blue {
+  background-color: #5FC9F5;
+}
+.qrcodediv{
+position:absolute;
+    right:0;
+}
+.newcardtitle{
+    margin-bottom:0px;
+    padding-bottom:0px;
+    font-size: 20px;
+}
+.addressdiv{
+    border: 1px solid #00000088;
+    margin-top:14px;
+    position:relative;
+}
+
+.delete_address_div {
+    position:absolute;
+    right: 0.4%;
+    bottom: 0;
+}
+
+.delete_address_div svg {
+    fill:#dd403a88;
+}
+
+.shippingdiv{
+    background-color: #f49d37;
+    position:relative;
+}
+.isshipping{
+    width:auto;
+    font-size:12px;
+    color:#ffffff;
+    display:inline-block;
+}
+.shippingicon{
+    position:absolute;
+    left:4px;
+    top:30%;
+}
+.shippingbutton{
+    background-color: #ffffff;
+    border-bottom: 2px solid #000000;
+    color:#000000;
+}
+.editicon{
+    position:absolute;
+    left:3px;
+    top:20%;
+    background-color:#00000088;
+    border-radius: 50%;
+    padding:2px;
 }

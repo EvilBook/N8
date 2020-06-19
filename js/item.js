@@ -34,13 +34,11 @@ $("#includedContent").load("/public/html/header.html", () => {
   var basket_image;
 
   var stringArray = read_cookie('items');
-        console.log(stringArray, 'bullshit');
 
   var objectArray = [];
 
   if (stringArray != null) {
     stringArray = stringArray.split(",");
-          console.log(stringArray, 'bullshit');
 
     for (var iii = 0; iii < stringArray.length; iii++) {
       var smallArray = stringArray[iii].split(':');
@@ -100,7 +98,6 @@ $("#includedContent").load("/public/html/header.html", () => {
     fetch('http://192.168.0.107:3000/products/product-images-id', requestOptions)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         var images = [];
         received=data;
         itemcolors=[...new Set(data.map(x=>x.colour))];
@@ -276,7 +273,6 @@ function addToBasket() {
     var found = false;
     var found1 = false;
     for(var i=0; i<cookieItems.length; i++){
-        console.log(cookieItems[i].id, itemFetched.id)
         if(cookieItems[i].id==itemFetched.id){
             found=true;
             if(cookieItems[i].color==itemFetched.color){
@@ -286,7 +282,7 @@ function addToBasket() {
         }
     }
     
-    if(!found && !found1){
+    if(!found || !found1){
         
         
         
@@ -321,7 +317,7 @@ function addToBasket() {
 
     var now = new Date();
     now.setFullYear(now.getFullYear() + 2);
-    document.cookie = "items=" + newStringArray + "; expires=" + now.toUTCString() + "; " + "path=/";
+    document.cookie = "items=" + newStringArray + "; expires=" + now.toUTCString() + "; SameSite=None; Secure; " + "path=/";
       
       
       Reload();

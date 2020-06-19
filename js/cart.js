@@ -11,6 +11,13 @@ var rotateFn = 'rotateX';
 var radius, theta;
 var checkoutSequenceCounter=0;
 var product_ids=[{Test1:'price_HLhvSREgp7XgDV'}, {Test2:'price_HM3NQJlxKNoMd4'}, {Test3:'price_HLhx2nQ0l8r0do'}, {Test4:'price_HM3OgGZyLcHtYS'}, {Test5:'price_HM3PiRwwN6OnU8'}];
+
+ var searches = document.cookie;
+  var id = read_cookie('id');
+  var loggedin = read_cookie('loggedin');
+  var customerid = read_cookie('customer');
+var tempCookieArray=[];
+
 function rotateCarousel() {
   var angle = theta * selectedIndex * -1;
   carousel.style.transform = 'translateZ(' + -radius + 'px) ' + 
@@ -106,265 +113,39 @@ $("#includedContent").load("/public/html/header.html", () => {
 
 
   $.getScript("/public/js/header.js", function() {
-    console.log('loaded');
     start();
       setTitle('YOUR CART');
+      console.log(unique_products);
+      
 
   });
     $("#includedFooter").load("/public/html/footer.html", () => {
 
 
   $.getScript("/public/js/footer.js", function() {
-    console.log('loaded');
     startFooter();
 
   });
     });
 
 
-  var searches = document.cookie;
-  var id = read_cookie('id');
-  stringArray = read_cookie('items');
-  var objectArray = [];
-  var product_ids = [];
-  var unique_products = [];
+ 
     
     
 
 
-  if (stringArray != null) {
-    stringArray = stringArray.split(",");
-    //console.log(stringArray);
-    for (var iii = 0; iii < stringArray.length; iii++) {
-      var smallArray = stringArray[iii].split(':');
-      //console.log(smallArray);
 
-      objectArray.push(smallArray);
-      //console.log(objectArray);
 
-    }
-  } else {
-    stringArray = [];
-  }
 
-  if (objectArray.length > 0) {
-    for (var i = 0; i < objectArray.length; i++) {
-      product_ids.push(parseInt(objectArray[i][0]));
-    }
-  }
 
 
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  const data = {
-    'ids': product_ids
-  };
 
-  var raw = JSON.stringify(data);
 
-  var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
-  };
-    
 
 
-  fetch("http://192.168.0.107:3000/products/products-images", requestOptions)
-    .then(response => response.json())
-    .then(result => {
-      console.log(product_ids);
-      console.log(result);
-      for (var i = 0; i < product_ids.length; i++) {
-        for (var j = 0; j < result.length; j++) {
 
-          if(result[j].id === product_ids[i]) {
-            unique_products.push(result[j]);
-            break;
-          }
-        }
-      }
-      console.log(unique_products);
-      createCart(unique_products);
-      initializeCheckoutSequence();
 
-    }).catch(error => console.log('error', error));
 
-
-function createCart(products) {
-
-    var cardDiv;
-    var product_id;
-
-    for (var i = 0; i < products.length; i++) {
-      product_id = products[i].id;
-
-      cardDiv = document.createElement("div");
-      cardDiv.setAttribute("class", "item");
-        cardDiv.classList.add('cart_item');
-        cardDiv.setAttribute('data-item-name',products[i].name);
-        cardDiv.setAttribute('data-item-quantity',objectArray[i][1]);
-        cardDiv.setAttribute('data-item-price',products[i].price);
-      cardDiv.setAttribute("id", "item" + product_id);
-      document.getElementById("items").appendChild(cardDiv);
-
-      cardDiv = document.createElement("div");
-      cardDiv.setAttribute("class", "left");
-      cardDiv.setAttribute("id", "left" + product_id);
-      document.getElementById("item" + product_id).appendChild(cardDiv);
-
-      cardDiv = document.createElement("img");
-      cardDiv.setAttribute("class", "productimage");
-      if(products[i].image_name!==null){
-    cardDiv.setAttribute("src", 'http://192.168.0.107:3000'+products[i].image_url);
-           
-        }else{
-
-        }
-
-    $(cardDiv).on("error", function(){
-        $(this).attr('src', 'http://192.168.0.107:3000/public/product_images/default.png');
-    });
-      document.getElementById("left" + product_id).appendChild(cardDiv);
-
-      cardDiv = document.createElement("div");
-      cardDiv.setAttribute("class", "right");
-      cardDiv.setAttribute("id", "right" + product_id);
-      document.getElementById("item" + product_id).appendChild(cardDiv);
-
-      cardDiv = document.createElement("div");
-      cardDiv.setAttribute("class", "right");
-      cardDiv.setAttribute("id", "right" + product_id);
-      document.getElementById("item" + product_id).appendChild(cardDiv);
-
-      cardDiv = document.createElement("div");
-      cardDiv.setAttribute("class", "leftinfo");
-      cardDiv.setAttribute("id", "leftinfo" + product_id);
-      document.getElementById("right" + product_id).appendChild(cardDiv);
-
-      cardDiv = document.createElement("div");
-      cardDiv.setAttribute("class", "rightinfo");
-      cardDiv.setAttribute("id", "rightinfo" + product_id);
-      document.getElementById("right" + product_id).appendChild(cardDiv);
-
-      cardDiv = document.createElement("p");
-      cardDiv.setAttribute("class", "title");
-      cardDiv.innerHTML = products[i].name;
-      document.getElementById("leftinfo" + product_id).appendChild(cardDiv);
-
-      cardDiv = document.createElement("p");
-      cardDiv.innerHTML = products[i].description;
-      document.getElementById("leftinfo" + product_id).appendChild(cardDiv);
-
-      cardDiv = document.createElement("p");
-      cardDiv.setAttribute('class', 'removeItem');
-      cardDiv.innerHTML = 'remove item';
-      cardDiv.setAttribute('data-item-id', product_id);
-      $(cardDiv).click(() => {
-        removeItem(event.target.dataset.itemId);
-      });
-      document.getElementById("leftinfo" + product_id).appendChild(cardDiv);
-
-      cardDiv = document.createElement("select");
-      cardDiv.setAttribute("class", "quantity");
-      cardDiv.setAttribute("id", "quantity" + product_id);
-      cardDiv.addEventListener('input', () => {
-        update(event.target.getAttribute('id'), event.target.value);
-      });
-      document.getElementById("rightinfo" + product_id).appendChild(cardDiv);
-
-      cardDiv = document.createElement("p");
-      cardDiv.setAttribute('id', 'price' + product_id);
-      cardDiv.innerHTML = products[i].price;
-      document.getElementById("rightinfo" + product_id).appendChild(cardDiv);
-    }
-
-    price_manipulator();
-
-}
-
-
-function read_cookie(key) {
-  var result;
-  return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
-}
-
-
-function calculatePrice() {
-
-  var vat = 20;
-  var shipping = Math.floor(Math.random() * (20 - 4) + 4);
-  var sum = 0;
-  var temmpsum;
-  var quantity;
-  var price;
-
-  console.log(objectArray);
-
-
-  for (var i = 0; i < objectArray.length; i++) {
-
-    quantity = document.getElementById('quantity' + objectArray[i][0]).value;
-      console.log(document.getElementById('quantity' + objectArray[i][0]))
-
-    price = $('#price' + objectArray[i][0]).html();
-
-    price = parseFloat(price);
-
-
-    temmpsum = quantity * price;
-    sum += temmpsum;
-
-  }
-
-
-  $('.subtotal').text('Subtotal: ' + sum + '$');
-  $('.shipping').text('Shipping: ' + 8 + '$');
-  $('.vat').text('VAT: ' + 20 + '%');
-  $('.total').text('Total: ' + (sum + (sum * 0.2) + shipping) + '$');
-
-
-}
-
-
-function removeItem(id) {
-
-
-
-  for (var i = 0; i < objectArray.length; i++) {
-
-
-    if (objectArray[i][0] === id) {
-      objectArray.splice(i, 1);
-    }
-  }
-
-  $("#item" + id).fadeOut("slow", function() {
-    $(this).parentNode.removeChild(removeTarget);
-  });
-  calculatePrice();
-  fixArray();
-
-
-
-
-}
-
-
-function fixArray() {
-  var newStringArray = [];
-
-  for (var i = 0; i < objectArray.length; i++) {
-    newStringArray.push(objectArray[i][0] + ':' + objectArray[i][1]);
-  }
-
-
-
-  var now = new Date();
-  now.setFullYear(now.getFullYear() + 2);
-  document.cookie = "items=" + newStringArray + "; expires=" + now.toUTCString() + "; " + "path=/";
-}
 
 
 function update(a, b) {
@@ -1066,4 +847,278 @@ function setPage(result){
 
 
 
+function read_cookie(key) {
+  var result;
+  return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
+}
 
+
+
+function createCart(products) {
+    $('#items').html('');
+
+    var cardDiv;
+    var product_id;
+
+    for (var i = 0; i < products.length; i++) {
+      product_id = products[i].id + products[i].color;
+        tempCookieArray.push({id:products[i].id, quantity:products[i].quantity, color:products[i].color})
+
+      cardDiv = document.createElement("div");
+      cardDiv.setAttribute("class", "item");
+        cardDiv.classList.add('cart_item');
+        cardDiv.setAttribute('data-item-name',products[i].name);
+        cardDiv.setAttribute('data-item-quantity',objectArray[i][1]);
+        cardDiv.setAttribute('data-item-price',products[i].price);
+      cardDiv.setAttribute("id", "item" + product_id);
+      document.getElementById("items").appendChild(cardDiv);
+
+      cardDiv = document.createElement("div");
+      cardDiv.setAttribute("class", "left");
+      cardDiv.setAttribute("id", "left" + product_id);
+      document.getElementById("item" + product_id).appendChild(cardDiv);
+
+      cardDiv = document.createElement("img");
+      cardDiv.setAttribute("class", "productimage");
+      cardDiv.setAttribute("data-redirect", products[i].id);
+      if(products[i].image_name!==null){
+    cardDiv.setAttribute("src", 'http://192.168.0.107:3000'+products[i].image_url);
+        }else{
+
+        }
+
+    $(cardDiv).on("error", function(){
+        $(this).attr('src', 'http://192.168.0.107:3000/public/product_images/default.png');
+    });
+        cardDiv.addEventListener('click',function(e){window.location.replace('/public/path/item.html?'+e.target.dataset.redirect)})
+      document.getElementById("left" + product_id).appendChild(cardDiv);
+
+      cardDiv = document.createElement("div");
+      cardDiv.setAttribute("class", "right");
+      cardDiv.setAttribute("id", "right" + product_id);
+      document.getElementById("item" + product_id).appendChild(cardDiv);
+
+      cardDiv = document.createElement("div");
+      cardDiv.setAttribute("class", "right");
+      cardDiv.setAttribute("id", "right" + product_id);
+      document.getElementById("item" + product_id).appendChild(cardDiv);
+
+      cardDiv = document.createElement("div");
+      cardDiv.setAttribute("class", "leftinfo");
+      cardDiv.setAttribute("id", "leftinfo" + product_id);
+      document.getElementById("right" + product_id).appendChild(cardDiv);
+
+      cardDiv = document.createElement("div");
+      cardDiv.setAttribute("class", "rightinfo");
+      cardDiv.setAttribute("id", "rightinfo" + product_id);
+      document.getElementById("right" + product_id).appendChild(cardDiv);
+
+      cardDiv = document.createElement("p");
+      cardDiv.setAttribute("class", "title");
+      cardDiv.innerHTML = products[i].name;
+      document.getElementById("leftinfo" + product_id).appendChild(cardDiv);
+
+      cardDiv = document.createElement("p");
+      cardDiv.innerHTML = 'Color/Material: ' + products[i].color;
+      document.getElementById("leftinfo" + product_id).appendChild(cardDiv);
+
+      cardDiv = document.createElement("p");
+      cardDiv.setAttribute('class', 'removeItem');
+      cardDiv.innerHTML = 'remove item';
+      cardDiv.setAttribute('data-item-id', products[i].id);
+      cardDiv.setAttribute('data-item-color', products[i].color);
+      cardDiv.setAttribute('data-item-quantity', products[i].quantity);
+      $(cardDiv).click(() => {
+        removeItem(event.target.dataset.itemId, event.target.dataset.itemQuantity, event.target.dataset.itemColor);
+      });
+      document.getElementById("leftinfo" + product_id).appendChild(cardDiv);
+        
+        cardDiv = document.createElement("p");
+      cardDiv.setAttribute('id', 'price' + product_id);
+      cardDiv.innerHTML ='Price: <span id="price' + product_id+'span" >'+products[i].price+'</span>$';
+      document.getElementById("rightinfo" + product_id).appendChild(cardDiv);
+        
+
+      cardDiv = document.createElement("select");
+      cardDiv.setAttribute("class", "quantity");
+      cardDiv.setAttribute("id", "quantity" + product_id);
+      cardDiv.setAttribute("data-product",product_id);
+         cardDiv.setAttribute('data-item-id', products[i].id);
+      cardDiv.setAttribute('data-item-color', products[i].color);
+      cardDiv.addEventListener('input', () => {
+        //update(event.target.getAttribute('id'), event.target.value);
+      });
+      document.getElementById("rightinfo" + product_id).appendChild(cardDiv);
+var $dropdown = $('#quantity' + product_id);
+for(var q=1; q<30; q++) {
+    $dropdown.append($("<option />").val(q).text('QTY: '+q));
+}
+        $dropdown.val(products[i].quantity);
+        $dropdown.change(function(e){
+        
+            $("#total" + e.target.dataset.product).html('Total: <span class="totalspan">'+((+$("#price" + e.currentTarget.dataset.product+'span').html())*(+e.currentTarget.value))+'</span>$');
+            for(var iii=0; iii<tempCookieArray.length; iii++){
+                
+                if(tempCookieArray[iii].id==e.currentTarget.dataset.itemId && tempCookieArray[iii].color=== e.currentTarget.dataset.itemColor){
+                
+                tempCookieArray[iii].quantity=e.currentTarget.value;
+                
+            }
+                
+                
+                }
+fixArray();            
+            
+        })
+        
+        
+             cardDiv = document.createElement("p");
+      cardDiv.setAttribute('id', 'total' + product_id);
+      cardDiv.setAttribute('style', 'border-top: 1px solid #00000044; font-size: 18px; padding-top: 4px;');
+      cardDiv.innerHTML ='Total: <span class="totalspan">'+((+products[i].price)*(+products[i].quantity))+'</span>$';
+      document.getElementById("rightinfo" + product_id).appendChild(cardDiv);
+        
+        
+      
+    }
+    
+    
+    calculatePrice();
+    
+    
+
+
+}
+
+
+
+function removeItem(id, quantity, color) {
+
+
+        console.log(tempCookieArray, 'waht')
+
+  for (var i = 0; i < tempCookieArray.length; i++) {
+
+
+    if (tempCookieArray[i].id == id && tempCookieArray[i].color === color) {
+        console.log(tempCookieArray)
+      tempCookieArray.splice(i, 1);
+                console.log(tempCookieArray)
+
+    }
+  }
+
+  $("#item" + id + color).fadeOut("slow", function() {
+    $(this).parentNode.removeChild(removeTarget);
+  });
+  fixArray();
+
+
+
+
+}
+
+
+function fixArray() {
+  var newStringArray = [];
+
+  for (var i = 0; i < tempCookieArray.length; i++) {
+    newStringArray.push(tempCookieArray[i].id + ':' + tempCookieArray[i].quantity + ':' + tempCookieArray[i].color);
+  }
+
+
+
+  var now = new Date();
+    now.setFullYear(now.getFullYear() + 2);
+    document.cookie = "items=" + newStringArray + "; expires=" + now.toUTCString() + "; SameSite=None; Secure; " + "path=/";
+    
+    
+    Reload();
+    calculatePrice();
+    
+}
+
+
+function calculatePrice() {
+
+  var vat = 20;
+  var shipping = Math.floor(Math.random() * (20 - 4) + 4);
+  var sum = 0;
+  var temmpsum;
+  var quantity;
+  var price;
+    var totals=$('.totalspan');
+    console.log(totals);
+    
+    for(var i=0; i<totals.length; i++){
+        
+        sum+=(+totals[i].innerHTML);
+        
+    }
+
+
+
+
+
+  $('.subtotal').text('Subtotal: ' + sum + '$');
+  $('.shipping').text('Shipping: ' + 8 + '$');
+  $('.vat').text('VAT: ' + 20 + '%');
+  $('.total').text('Total: ' + (sum + (sum * 0.2) + shipping) + '$');
+
+}
+
+fetchCustomer();
+
+function fetchCustomer(){
+    
+    var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const data = {
+    'id': customerid
+  };
+
+  var raw = JSON.stringify(data);
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+
+  fetch("http://192.168.0.107:3000/users/get-customer-by-id", requestOptions)
+    .then(response => response.json())
+    .then((result) => {
+      fetchAddress();
+    })
+    .catch(error => console.log('error', error));
+    
+    
+}
+
+
+function fetchAddress(){
+          var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const data = {
+    'id': customerid
+  };
+
+  var raw = JSON.stringify(data);
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+
+  fetch("http://192.168.0.107:3000/addresses/customer-address-id", requestOptions)
+    .then(response => response.json())
+    .then((result) => {
+      console.log(result, 'hoe')
+    })
+    .catch(error => console.log('error', error));
+}

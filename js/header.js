@@ -13,6 +13,7 @@ var complextitle='';
   var objectArray = [];
   var product_ids = [];
   var unique_products = [];
+$('.dropbtn-cart').click(function(){window.location.replace('/public/path/cart.html');})
 
   function read_cookie(key) {
     var result;
@@ -517,14 +518,13 @@ function PrepBasket(){
     stringArray= read_cookie('items');
     objectArray=[];
     product_ids = [];
-    unique_products = [];
+    unique_products = [{id:-1, color:'none', quantity:-1}];
     
                    if (stringArray != null) {
     stringArray = stringArray.split(",");
    
     for (var iii = 0; iii < stringArray.length; iii++) {
       var smallArray = stringArray[iii].split(':');
-     
 
       objectArray.push(smallArray);
     
@@ -535,7 +535,7 @@ function PrepBasket(){
       
     stringArray = [];
   }
-       
+
     
     
     if (objectArray.length > 0) {
@@ -563,20 +563,51 @@ function PrepBasket(){
   fetch("http://192.168.0.107:3000/products/products-images", requestOptions)
     .then(response => response.json())
     .then(result => {
-      for (var i = 0; i < product_ids.length; i++) {
-        for (var j = 0; j < result.length; j++) {
-          
+      var tempArray=[];
+      var lastColor='none';
+     for(var i=0; i<objectArray.length; i++){
+         lastColor='none'
+         for(var q=0; q<result.length; q++){
+             if(objectArray[i][0]===result[q]['id'].toString() && objectArray[i][2]===result[q]['image_colour']){
 
+                    
 
-          if (result[j].id === product_ids[i]) {
-            unique_products.push(result[j]);
-            break;
+                 if(lastColor!==result[q]['image_colour']){
+                                             
+
+                lastColor=result[q]['image_colour'];
+                 tempArray.push({id:result[q]['id'], quantity:objectArray[i][1], color:result[q]['image_colour'], image_url:result[q]['image_url'], name:result[q]['name'], price:result[q]['price']})
+                     }
+                   
+                 
+             }
+             
+         }
+         
+     }
+     /* var found2=false;
+      for(var i=0; i<tempArray.length; i++){
+       found2=false;
+          for(var q=0; q<unique_products.length; q++){
+              if(tempArray[i].color===unique_products[q].color){
+                  found2=true;
+              }
           }
-        }
-      }
-console.log(unique_products, product_ids, result);
-      loadBasket(unique_products);
+          if(!found2){
+          unique_products.push(tempArray[i]);
 
+          }
+          
+      }
+      unique_products.shift();*/
+      unique_products=tempArray;
+      if(typeof(createCart)!='undefined'){
+          createCart(tempArray)
+}     
+
+      loadBasket(tempArray);
+
+      
     }).catch(error => console.log('error', error));
 }
 
@@ -586,7 +617,7 @@ function loadBasket(products) {
     var product_id;
 
     for (var i = 0; i < products.length; i++) {
-      product_id = products[i].id;
+      product_id = products[i].id + products[i].color;
 
       cardDiv = document.createElement("div");
       cardDiv.setAttribute("class", "basketitem");
@@ -626,26 +657,56 @@ function loadBasket(products) {
       cardDiv.innerHTML = products[i].name;
       document.getElementById("basketinfo" + product_id).appendChild(cardDiv);
 
-      for (var o = 0; o < objectArray.length; o++) {
-        if (objectArray[o][0] == product_id) {
+   
           cardDiv = document.createElement("p");
-          cardDiv.innerHTML = "quantity: " + objectArray[o][1];
+          cardDiv.innerHTML = "quantity: " + products[i].quantity;
           document.getElementById("basketinfo" + product_id).appendChild(cardDiv);
             
               cardDiv = document.createElement("p");
-          cardDiv.innerHTML = "col/mat: " + objectArray[o][2];
+          cardDiv.innerHTML = "col/mat: " + products[i].color;
           document.getElementById("basketinfo" + product_id).appendChild(cardDiv);
             
             
                  cardDiv = document.createElement("p");
       cardDiv.innerHTML = 'Price: '+products[i].price+'$';
       document.getElementById("basketinfo" + product_id).appendChild(cardDiv);
-        $('.actualbasketprice').html(+($('.actualbasketprice').html())+((+products[i].price)*(+objectArray[o][1])))
+        $('.actualbasketprice').html(+($('.actualbasketprice').html())+((+products[i].price)*(+products[i].quantity)))
             
-        }
-      }
+        
+      
         
 
  
     }
   }
+
+function newFetch(id, color){
+    
+     var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const data = {
+    'id': id,
+      'colour': color
+  };
+
+  var raw = JSON.stringify(data);
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+
+  fetch("http://192.168.0.107:3000/products/single-images-basket", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+ console.log(result)
+ 
+  });
+          
+          }
+          
+    
+
+          
