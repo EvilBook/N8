@@ -1,4 +1,6 @@
 var stringArray = [];
+var addressArray=[];
+var selectedAddress;
 
 var carousel = document.querySelector('.carousel');
 var cells = carousel.querySelectorAll('.carousel__cell');
@@ -32,7 +34,6 @@ prevButton.addEventListener( 'click', function() {
 
 var nextButton = document.querySelector('.next-button');
 nextButton.addEventListener( 'click', function() {
-    console.log(checkoutSequenceCounter);
     
     if(checkoutSequenceCounter===0){
         if(cartCheck()){
@@ -44,7 +45,6 @@ nextButton.addEventListener( 'click', function() {
                 nextMenu();
         }
      }else if(checkoutSequenceCounter===2){
-         console.log(cardCheck())
     if(cardCheck()){
     nextMenu();
             populateList();
@@ -115,7 +115,6 @@ $("#includedContent").load("/public/html/header.html", () => {
   $.getScript("/public/js/header.js", function() {
     start();
       setTitle('YOUR CART');
-      console.log(unique_products);
       
 
   });
@@ -148,25 +147,7 @@ $("#includedContent").load("/public/html/header.html", () => {
 
 
 
-function update(a, b) {
-  var quantity = b;
-  var id = a.replace('quantity', '');
-  //console.log(quantity + '' + id);
-  var found = false;
-  for (var o = 0; o < stringArray.length; o++) {
-    //console.log(stringArray[o][0] + ' ' + a + ' ' + stringArray[o][1]);
-    if (stringArray[o][0] === id) {
-      found = true;
-      stringArray[o][1] = +b;
-      //console.log('fucking what?');
-    }
-  }
 
-  calculatePrice();
-
-  fixArray();
-
-}
 
 function price_manipulator() {
     
@@ -409,6 +390,13 @@ function cartCheck(){
 }
 function addressCheck(){
     var error=false;
+    if(loggedin==1){
+        if(selectedAddress!==undefined){
+            return true;
+        }else{
+            return false;
+        }
+    }else{
     for(var i=0; i<requiredFields.length;i++){
         if(requiredFields[i].value===''){
             error=true;
@@ -437,6 +425,7 @@ function addressCheck(){
 
     return false; 
     }
+    }
     
 }
 function cardCheck(){
@@ -448,21 +437,18 @@ function cardCheck(){
 
     if(c){
              requiredFieldsBilling=$('.auto.billing_address');
-        console.log(requiredFieldsBilling);
         }else{
                          requiredFieldsBilling=$('.required.billing_address');
 
         }
     for(var i=0; i<requiredFieldsBilling.length;i++){
         if(requiredFieldsBilling[i].value===''){
-            console.log(requiredFieldsBilling[i]);
             error=true;
             requiredFieldsBilling[i].classList.add('error');
         }
     }
     for(var i=0; i<card_details.length;i++){
         if(card_details[i].value===''){
-                        console.log(card_details[i]);
 
             error=true;
                         card_details[i].classList.add('error');
@@ -500,10 +486,8 @@ function nextMenu(){
          selectedIndex++;
   rotateCarousel();
         prevButton.removeAttribute('hidden');
-      console.log(checkoutSequenceCounter);
 
             checkoutSequenceCounter=(checkoutSequenceCounter+1)%4;
-               console.log(checkoutSequenceCounter);
 
 
         moveSequence();
@@ -534,7 +518,6 @@ function populateOld(){
         $('.billingaddressold').removeAttr('hidden');
         $('.billingaddressdefault').attr('hidden','hidden');
          var requiredFieldsBilling=$('.auto.billing_address');
-        console.log(requiredFieldsBilling)
 for(var i=0; i<requiredFieldsBilling.length; i++){
     requiredFieldsBilling[i].innerHTML=requiredFields[i].value;
     
@@ -655,7 +638,6 @@ var year_slc = document.getElementById('expiration_year');
 
 
 var cities_slc = document.querySelectorAll('#bulgarian_cities');
-console.log(cities_slc)
 
 var array=[];
   fetch('/public/db/bg.json')
@@ -729,9 +711,9 @@ $('.finalize').click(()=>{
     
     
 })
-/*setInterval(function(){ sendShit()
-                      console.log('works');
-                      }, 80);*/
+
+
+
 function sendShit(){
     
     var table=$('.shipping_address_checkout');
@@ -836,7 +818,6 @@ for(var j = 1;j<50;j++) {
 
 function setPage(result){
     
-    console.log(result);
     var shit=window.open('about:blank', '','_blank');
     
     shit.document.write(result);
@@ -957,11 +938,13 @@ for(var q=1; q<30; q++) {
         $dropdown.change(function(e){
         
             $("#total" + e.target.dataset.product).html('Total: <span class="totalspan">'+((+$("#price" + e.currentTarget.dataset.product+'span').html())*(+e.currentTarget.value))+'</span>$');
+                            console.log(tempCookieArray)
+
             for(var iii=0; iii<tempCookieArray.length; iii++){
-                
-                if(tempCookieArray[iii].id==e.currentTarget.dataset.itemId && tempCookieArray[iii].color=== e.currentTarget.dataset.itemColor){
+                if(tempCookieArray[iii].id==e.currentTarget.dataset.itemId && tempCookieArray[iii].color===e.currentTarget.dataset.itemColor){
                 
                 tempCookieArray[iii].quantity=e.currentTarget.value;
+                    console.log(tempCookieArray[iii])
                 
             }
                 
@@ -995,15 +978,12 @@ fixArray();
 function removeItem(id, quantity, color) {
 
 
-        console.log(tempCookieArray, 'waht')
 
   for (var i = 0; i < tempCookieArray.length; i++) {
 
 
     if (tempCookieArray[i].id == id && tempCookieArray[i].color === color) {
-        console.log(tempCookieArray)
       tempCookieArray.splice(i, 1);
-                console.log(tempCookieArray)
 
     }
   }
@@ -1030,9 +1010,9 @@ function fixArray() {
 
   var now = new Date();
     now.setFullYear(now.getFullYear() + 2);
-    document.cookie = "items=" + newStringArray + "; expires=" + now.toUTCString() + "; SameSite=None; Secure; " + "path=/";
+    document.cookie = "items=" + newStringArray + "; expires=" + now.toUTCString() + "; " + "path=/";
     
-    
+    tempCookieArray=[];
     Reload();
     calculatePrice();
     
@@ -1048,7 +1028,6 @@ function calculatePrice() {
   var quantity;
   var price;
     var totals=$('.totalspan');
-    console.log(totals);
     
     for(var i=0; i<totals.length; i++){
         
@@ -1063,12 +1042,12 @@ function calculatePrice() {
   $('.subtotal').text('Subtotal: ' + sum + '$');
   $('.shipping').text('Shipping: ' + 8 + '$');
   $('.vat').text('VAT: ' + 20 + '%');
-  $('.total').text('Total: ' + (sum + (sum * 0.2) + shipping) + '$');
+  $('.total').html('Total: <span class="totaltotal">' + (sum + (sum * 0.2) + shipping) + '</span>$');
 
 }
-
+if(loggedin==='1'){
 fetchCustomer();
-
+}
 function fetchCustomer(){
     
     var myHeaders = new Headers();
@@ -1090,7 +1069,7 @@ function fetchCustomer(){
   fetch("http://192.168.0.107:3000/users/get-customer-by-id", requestOptions)
     .then(response => response.json())
     .then((result) => {
-      fetchAddress();
+      fetchAddress(result);
     })
     .catch(error => console.log('error', error));
     
@@ -1098,7 +1077,7 @@ function fetchCustomer(){
 }
 
 
-function fetchAddress(){
+function fetchAddress(customer){
           var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
@@ -1118,7 +1097,52 @@ function fetchAddress(){
   fetch("http://192.168.0.107:3000/addresses/customer-address-id", requestOptions)
     .then(response => response.json())
     .then((result) => {
-      console.log(result, 'hoe')
+      console.log(result, customer);
+      addAddresses(result, customer);
     })
     .catch(error => console.log('error', error));
+}
+
+
+function addAddresses(addresses, customer){
+    
+    var $shippingAddress=$('.shippingaddress');
+    $shippingAddress.html('<h4>Select shipping address below</h4>');
+    
+    for(var i=0; i<addresses.length; i++){
+        
+        $shippingAddress.html($shippingAddress.html()+'<div class="oldaddress"><div class="selection"><p>click to select</p></div><p class="newcardtitle">Address line 1</p> <input readonly id="address1" class="required shipping_address1 oldinput" value="'+addresses[i].name+'"><p class="newcardtitle">Address line 2</p><input readonly id="address2" class="required shipping_address2 oldinput" value="'+addresses[i].second_name+'"><div class="citycode"><div class="citycity"><p class="newcardtitle">City</p> <p id="bulgarian_cities" class="required shipping_address city" style="width: 90px;">'+addresses[i].city+'</p></div><div class="citycity"><p class="newcardtitle">Post code</p> <input readonly id="shipping-postcode" class="required shipping_address_post_code oldinput" value="'+addresses[i].postcode+'"></div></div><div class="citycode"><div class="citycity"><p class="newcardtitle">First name</p> <input readonly id="first_name_old" class="required shipping_address oldinput" value="'+customer[0].first_name+'"></div><div class="citycity"><p class="newcardtitle">Last Name</p> <input readonly id="last_name_old" class="required shipping_address oldinput" value="'+customer[0].last_name+'"></div></div><p class="newcardtitle">Phone Number</p> <input readonly id="phone_number" class="required phonenumber oldinput" value="'+addresses[i].phone_number+'"></div>');
+        
+        
+    }
+      
+    
+
+    
+    $shippingAddress.html($shippingAddress.html()+'<h3>Or add new address</h3><div class="shippingaddress"><p>This is also my billing address <input type="checkbox" id="billing"></p> <br><p class="newcardtitle">First name</p> <input id="phone_number" type="text" placeholder="First name" data-field-name="shippingphone" class="required shipping_address phone"><p class="newcardtitle">Last Name</p> <input id="phone_number" type="text" placeholder="First name" data-field-name="shippingphone" class="required shipping_address phone"><p class="newcardtitle">City</p> <select id="bulgarian_cities" class="required shipping_address city" style="width: 90px;" name="card_expirationYear" data-field-name="shippingcity"><option id="default_city"></option><option value="Sofia">Sofia</option><option value="Plovdiv">Plovdiv</option><option value="Varna">Varna</option><option value="Burgas">Burgas</option><option value="Ruse">Ruse</option><option value="Stara Zagora">Stara Zagora</option><option value="Pleven">Pleven</option><option value="Sliven">Sliven</option><option value="Dobrich">Dobrich</option><option value="Shumen">Shumen</option><option value="Pernik">Pernik</option><option value="Haskovo">Haskovo</option><option value="Vratsa">Vratsa</option><option value="Kyustendil">Kyustendil</option><option value="Montana">Montana</option><option value="Lovech">Lovech</option><option value="Razgrad">Razgrad</option><option value="Borino">Borino</option><option value="Madan">Madan</option><option value="Zlatograd">Zlatograd</option><option value="Pazardzhik">Pazardzhik</option><option value="Smolyan">Smolyan</option><option value="Blagoevgrad">Blagoevgrad</option><option value="Nedelino">Nedelino</option><option value="Rudozem">Rudozem</option><option value="Devin">Devin</option><option value="Veliko Tarnovo">Veliko Tarnovo</option><option value="Vidin">Vidin</option><option value="Kirkovo">Kirkovo</option><option value="Krumovgrad">Krumovgrad</option><option value="Dzhebel">Dzhebel</option><option value="Silistra">Silistra</option><option value="Sarnitsa">Sarnitsa</option><option value="Shiroka Laka">Shiroka Laka</option><option value="Yambol">Yambol</option><option value="Dospat">Dospat</option><option value="Kardzhali">Kardzhali</option><option value="Gabrovo">Gabrovo</option><option value="Targovishte">Targovishte</option></select><p class="newcardtitle">Phone Number</p> <input id="phone_number" type="text" placeholder="Phone Number" data-field-name="shippingphone" class="required shipping_address phone"><p class="newcardtitle">Address</p> <input id="address1" type="text" placeholder="Address Line 1" data-field-name="shippingaddress1" class="required shipping_address address1"><p class="newcardtitle">Address</p> <input id="address2" type="text" placeholder="Address Line 2" data-field-name="shippingaddress2" class="required shipping_address address2"><p class="newcardtitle">Post code</p> <input id="shippingpostcode" type="text" placeholder="Post Code" class="required shipping_address postcode"></div>');
+    
+    
+    
+          addressArray=$('.oldaddress');
+    for(var i=0; i<addressArray.length; i++){
+    addressArray[i].addEventListener('click', function(){event.target.classList.add('selected');
+    event.target.childNodes[0].childNodes[0].innerHTML='SELECTED';
+    if(selectedAddress!==undefined){
+        selectedAddress.childNodes[0].childNodes[0].innerHTML='Click to select';
+     selectedAddress.classList.remove('selected');
+   }
+    selectedAddress=event.target;
+                                                         
+                                                         
+                                                         
+                                                        });
+    }
+    
+    $('.billingaddressdefault').html('')
+    
+
+$shippingAddress.clone().appendTo('.billingaddressdefault');
+    
+    
+    
 }

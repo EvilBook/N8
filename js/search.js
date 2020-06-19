@@ -113,21 +113,6 @@ function loadItems(products) {
 
   for (var ii = 0; ii < products.length; ii++) {
 
-    var navbar = document.getElementById("navbar");
-    navbar.setAttribute("style", "width:100%; height:" + 32 + "px;");
-
-    var height = navbar.offsetHeight;
-
-
-
-    $(window).resize(function() {
-      x = $(window).width();
-      y = screen.height;
-      navbar.setAttribute("style", "width:100%; height:" + 32 + "px;");
-      var height = navbar.offsetHeight;
-      var wrapper = document.getElementById("categorySpace");
-      //wrapper.setAttribute("style", "margin-top:"+height+"px;");
-    });
 
 
 

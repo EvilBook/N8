@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>View Products</title>
-    <link rel="stylesheet" href="/public/css/style.css">
-    <link rel="icon" href="/public/images/site/n8.ico">
-      <link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet">
-      <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-            <script src="/public/js/adminCancel.js"></script>
 
-  </head>
+<head>
+  <meta charset="utf-8">
+  <title>View Products</title>
+  <link rel="stylesheet" href="/public/css/view_products.css">
+  <link rel="icon" href="/public/images/site/n8.ico">
+  <link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+<script src="/public/js/adminCancel.js"></script>
+</head>
 
-  <body>
-      <p class='bigtitle' id='bigtitle'>VIEW PRODUCTS</p>
-    <nav>
-      <a href="home.html">Home</a> |
-      <a href="create_product.html">Create Product</a> |
-      <a href="view_products.html">View Products</a> |
-      <a href="create_classification.html">Create Classification</a> |
-      <a href="view_classifications.html">View Classifications</a> |
-      <a href="create_admin.html">Create Admin</a> |
-      <a href="view_admins.html">View Admins</a> |
-      <a href="view_customers.html">View Customers</a> |
-      <a href='' id='logout' onclick="return false;">Logout</a>
-    </nav>
-<div class='content'>
+<body>
+  <p class='bigtitle' id='bigtitle'>VIEW PRODUCTS</p>
+  <nav>
+    <a href="home.html">Home</a> |
+    <a href="create_product.html">Create Product</a> |
+    <a href="view_products.html">View Products</a> |
+    <a href="create_classification.html">Create Classification</a> |
+    <a href="view_classifications.html">View Classifications</a> |
+    <a href="create_admin.html">Create Admin</a> |
+    <a href="view_admins.html">View Admins</a> |
+    <a href="view_customers.html">View Customers</a> |
+    <a href='' id='logout' onclick="return false;">Logout</a>
+  </nav>
+  <div class='content'>
 
     <p></p>
 
@@ -38,12 +38,13 @@
             <th>Price</th>
             <th>New Price</th>
             <th>EAN</th>
+            <th>Availability</th>
             <th>Quantity</th>
             <th>Brand</th>
             <th>Design</th>
             <th>Description</th>
             <th>Material</th>
-            <th>Colour</th>
+            <th>Diameter</th>
             <th>Length</th>
             <th>Width</th>
             <th>Height</th>
@@ -51,30 +52,19 @@
             <th>Weight</th>
             <th>Size</th>
             <th>Subcategory</th>
-            <th>category</th>
-            <th>section</th>
+            <th>Category</th>
+            <th>Section</th>
+            <th>Update Product</th>
+            <th>Delete Product</th>
           </tr>
         </thead>
         <tbody id="product_table"></tbody>
       </table>
     </div>
-      </div>
-      <script>  var btnContainer = document.getElementById("letter_container");
 
-// Get all buttons with class="btn" inside the container
-var btns = btnContainer.getElementsByClassName("productlinks");
+  </div>
 
-// Loop through the buttons and add the active class to the current/clicked button
-for (var i = 0; i < btns.length; i++) {
-  btns[i].addEventListener("click", function() {
-    var current = document.getElementsByClassName("active");
-    current[0].className = current[0].className.replace(" active", "");
-    this.className += " active";
-  });
-}</script>
-
-
-    <script src="/public/js/view_products.js"></script>
-  </body>
+  <script src="/public/js/view_products.js"></script>
+</body>
 
 </html>

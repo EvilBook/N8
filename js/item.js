@@ -33,23 +33,14 @@ $("#includedContent").load("/public/html/header.html", () => {
   var jsonFile;
   var basket_image;
 
-  var stringArray = read_cookie('items');
+  var stringArray;
 
-  var objectArray = [];
+  var objectArray;
+    
+    
+    readArray();
+    
 
-  if (stringArray != null) {
-    stringArray = stringArray.split(",");
-
-    for (var iii = 0; iii < stringArray.length; iii++) {
-      var smallArray = stringArray[iii].split(':');
-        cookieItems.push({id:smallArray[0],quantity:smallArray[1],color:smallArray[2]})
-
-      objectArray.push(smallArray);
-
-    }
-  } else {
-    stringArray = [];
-  }
 
 
 
@@ -196,7 +187,7 @@ $("#includedContent").load("/public/html/header.html", () => {
       
     for (var i = 0; i < images.length; i++) {
       var cardDiv = document.createElement("div");
-      cardDiv.setAttribute("class", "mySlides fade");
+      cardDiv.setAttribute("class", "mySlides fade aslide");
       cardDiv.setAttribute("id", "container" + i);
         currentslides.push(cardDiv);
       document.getElementById("slideshow-container").appendChild(cardDiv);
@@ -269,7 +260,9 @@ $("#includedContent").load("/public/html/header.html", () => {
 
 
 function addToBasket() {
-
+    cookieItems=[];
+readArray();
+    console.log(cookieItems)
     var found = false;
     var found1 = false;
     for(var i=0; i<cookieItems.length; i++){
@@ -301,10 +294,7 @@ function addToBasket() {
 
   }
 
-  function read_cookie(key) {
-    var result;
-    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
-  }
+ 
 
 
   function fixArray() {
@@ -317,7 +307,7 @@ function addToBasket() {
 
     var now = new Date();
     now.setFullYear(now.getFullYear() + 2);
-    document.cookie = "items=" + newStringArray + "; expires=" + now.toUTCString() + "; SameSite=None; Secure; " + "path=/";
+    document.cookie = "items=" + newStringArray + "; expires=" + now.toUTCString() + "; " + "path=/";
       
       
       Reload();
@@ -353,12 +343,9 @@ $("#itemcolor").append(new Option(itemcolors[i], itemcolors[i]));
         }
                 fetchProduct(colorsobjects[$('#itemcolor').val()]);
 $('#itemcolor').change(function(){
+    var aslide=$('.aslide').remove()
 
-    for(var i=0; i<currentslides.length; i++){
-        
-        currentslides[i].parentNode.removeChild(currentslides[i]);
-        
-    }
+    
     
                     createSlides(colorsobjects[$('#itemcolor').val()]);
     
@@ -371,3 +358,33 @@ $('#itemcolor').change(function(){
     }
     
 });
+
+
+function readArray(){
+      stringArray = read_cookie('items');
+
+objectArray = [];
+
+  if (stringArray != null) {
+    stringArray = stringArray.split(",");
+
+    for (var iii = 0; iii < stringArray.length; iii++) {
+      var smallArray = stringArray[iii].split(':');
+        cookieItems.push({id:smallArray[0],quantity:smallArray[1],color:smallArray[2]})
+
+      objectArray.push(smallArray);
+
+    }
+  } else {
+    stringArray = [];
+  }
+
+    
+    
+    
+}
+
+ function read_cookie(key) {
+    var result;
+    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
+  }
