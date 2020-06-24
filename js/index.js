@@ -29,7 +29,6 @@ var bigimage=$('.bigimage');
     $('.gradient').width(bigimage.width());
     $('.gradient').height(bigimage.height());
     
-console.log('shitshti')
     });
       
       

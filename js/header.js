@@ -576,7 +576,7 @@ function PrepBasket(){
                                              
 
                 lastColor=result[q]['image_colour'];
-                 tempArray.push({id:result[q]['id'], quantity:objectArray[i][1], color:result[q]['image_colour'], image_url:result[q]['image_url'], name:result[q]['name'], price:result[q]['price']})
+                 tempArray.push({id:result[q]['id'], quantity:objectArray[i][1], color:result[q]['image_colour'], image_url:result[q]['image_url'], name:result[q]['name'], price:result[q]['price'],stripe_price:result[q]['stripe_price']})
                      }
                    
                  
