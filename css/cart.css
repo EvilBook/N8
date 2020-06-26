@@ -634,7 +634,6 @@ min-width: 240px;
 }
 .sequence{
 width:100%;
-    padding-top:40px;
     text-align: center;
 }
 .sequencePointParent{
@@ -683,4 +682,13 @@ width:100%;
     padding:14px 40px;
   font-size:53px;
     width:100%;
+}
+.no{
+    
+    display:none;
+    color:#ffffff;
+        background-color:#ff5964cc;
+padding:4px;
+    font-size:12px;
+    
 }

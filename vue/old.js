@@ -777,13 +777,13 @@ function createCart(products) {
       cardDiv.setAttribute("class", "productimage");
       cardDiv.setAttribute("data-redirect", products[i].id);
       if(products[i].image_name!==null){
-    cardDiv.setAttribute("src", 'http://192.168.0.107:3000'+products[i].image_url);
+    cardDiv.setAttribute("src", 'http://192.168.0.108:3000'+products[i].image_url);
         }else{
 
         }
 
     $(cardDiv).on("error", function(){
-        $(this).attr('src', 'http://192.168.0.107:3000/public/product_images/default.png');
+        $(this).attr('src', 'http://192.168.0.108:3000/public/product_images/default.png');
     });
         cardDiv.addEventListener('click',function(e){window.location.replace('/public/path/item.html?'+e.target.dataset.redirect)})
       document.getElementById("left" + product_id).appendChild(cardDiv);
@@ -982,7 +982,7 @@ function fetchCustomer(){
     redirect: 'follow'
   };
 
-  fetch("http://192.168.0.107:3000/users/get-customer-by-id", requestOptions)
+  fetch("http://192.168.0.108:3000/users/get-customer-by-id", requestOptions)
     .then(response => response.json())
     .then((result) => {
       fetchAddress(result);
@@ -1010,7 +1010,7 @@ function fetchAddress(customer){
     redirect: 'follow'
   };
 
-  fetch("http://192.168.0.107:3000/addresses/customer-address-id", requestOptions)
+  fetch("http://192.168.0.108:3000/addresses/customer-address-id", requestOptions)
     .then(response => response.json())
     .then((result) => {
       console.log(result, customer);

@@ -1,15 +1,18 @@
-var errors=$('.error');
-for(var i=0; i<errors.length; i++){
-  //  errors[i].setAttribute('hidden', 'hidden');
-    errors[i].style.opacity=0;
-    
-}
-$('#register_button').hide();
+"use strict";
+
 import * as check from './login_register_handler.js';
+
+var errors = $('.error');
+for (var i = 0; i < errors.length; i++) {
+  errors[i].style.opacity = 0;
+}
+
+$('#register_button').hide();
+
 
 var included_content_div = $("#includedContent");
 //login field
-var login_div = $( ".login_div" );
+var login_div = $(".login_div");
 var login_input_div = $(".login_input_div");
 var login_email_txt = $("#login_email");
 var login_password_txt = $("#login_password");
@@ -33,20 +36,20 @@ var transit_register_button_div = $(".transit_register_button_div");
 var text_fields = [];
 
 
-$('#includedcontent').load("/public/html/header.html", function() {
-  $.getScript("/public/js/header.js", function() {
+$('#includedcontent').load("/public/html/header.html", function () {
+  $.getScript("/public/js/header.js", function () {
     console.log('loaded');
     start();
   });
 });
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 
   transit_login_button.css("opacity", "0");
   transit_login_button.css("display", "none");
 
-  transit_register_button.click(function() {
+  transit_register_button.click(function () {
     login_div.css("width", "8%");
     register_div.css("width", "60%");
     login_input_div.css("opacity", "0");
@@ -58,13 +61,11 @@ $(document).ready(function() {
     login_button.css("display", "none");
     transit_login_button.css("opacity", "1");
     transit_login_button.css("display", "inline-block");
-      $('#register_button').show();
-                  $('#transit_register_button').hide();
-
-
+    $('#register_button').show();
+    $('#transit_register_button').hide();
   });
 
-  transit_login_button.click(function() {
+  transit_login_button.click(function () {
     login_div.css("width", "48%");
     register_div.css("width", "30%");
     login_input_div.css("opacity", "1");
@@ -76,21 +77,18 @@ $(document).ready(function() {
     login_button.css("display", "inline-block");
     transit_login_button.css("opacity", "0");
     transit_login_button.css("display", "none");
-            $('#register_button').hide();
-            $('#transit_register_button').show();
-
+    $('#register_button').hide();
+    $('#transit_register_button').show();
   });
 
-  login_button.click(function() {
+  login_button.click(function () {
     var login_email = login_email_txt.val();
     var login_password = login_password_txt.val();
 
     text_fields.push(login_email_txt, login_password_txt);
     var checker = check.fields(text_fields);
 
-    if(checker == true) {
-      console.log(login_email);
-      console.log(login_password);
+    if (checker == true) {
       loginUser(login_email, login_password);
       login_email_txt.val("");
       login_password_txt.val("");
@@ -98,7 +96,7 @@ $(document).ready(function() {
 
   });
 
-  register_button.click(function() {
+  register_button.click(function () {
     var first_name = first_name_txt.val();
     var last_name = last_name_txt.val();
     var email = email_txt.val();
@@ -113,7 +111,7 @@ $(document).ready(function() {
     var checker = check.validator(first_name_txt, last_name_txt, email_txt,
       confirm_email_txt, password_txt, confirm_password_txt, text_fields);
 
-    if(checker == true) {
+    if (checker == true) {
       registerUser(first_name, last_name, email, password);
       first_name_txt.val("");
       last_name_txt.val("");
@@ -130,65 +128,65 @@ $(document).ready(function() {
 function loginUser(login_email, login_password) {
 
   checkAccount(login_email, login_password)
-  .then((result) => {
-    if (result == 0) {
-document.getElementById('error_login').style.opacity=1;
-document.getElementById('error_login').innerHTML='You dont exist';
-document.getElementById('login_email').style.backgroundColor='#ff5964cc';
-document.getElementById('login_password').style.backgroundColor='#ff5964cc';
-    } else {
-      var role = result[0].role;
-      console.log(role);
-      if (role === "admin") {
-          createCookieAdmin(-1);
+    .then((result) => {
+      if (result == 0) {
+        document.getElementById('error_login').style.opacity = 1;
+        document.getElementById('error_login').innerHTML = 'You dont exist';
+        document.getElementById('login_email').style.backgroundColor = '#ff5964cc';
+        document.getElementById('login_password').style.backgroundColor = '#ff5964cc';
       } else {
-        createCookie(result[0].id);
-        location.href = "/public";
-      }
+        var role = result[0].role;
+        console.log(role);
+        if (role === "admin") {
+          createCookieAdmin(-1);
+        } else {
+          createCookie(result[0].id);
+          location.href = "/public";
+        }
 
-    }
-  }).catch(error => console.error(error));
+      }
+    }).catch(error => console.error(error));
 
 }
 
 function registerUser(first_name, last_name, email, password) {
 
   checkEmail(email)
-  .then((result) => {
+    .then((result) => {
 
-    console.log(result);
-    if(result == true) {
       console.log(result);
-      console.log("email matches");
-    } else {
+      if (result == true) {
+        console.log(result);
+        console.log("email matches");
+      } else {
 
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      const data = {
-        'first_name': first_name,
-        'last_name': last_name,
-        'email': email,
-        'password': password
-      };
-      var raw = JSON.stringify(data);
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const data = {
+          'first_name': first_name,
+          'last_name': last_name,
+          'email': email,
+          'password': password
+        };
+        var raw = JSON.stringify(data);
 
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-      };
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
 
-      fetch("http://192.168.0.107:3000/users/register-customer", requestOptions)
-        .then(response => response.text())
-        .then(result => {
-          console.log(result);
-          location.href = "/public";
-        })
-        .catch(error => console.log('error', error));
+        fetch("http://192.168.0.108:3000/users/register-customer", requestOptions)
+          .then(response => response.text())
+          .then(result => {
+            console.log(result);
+            location.href = "/public";
+          })
+          .catch(error => console.log('error', error));
 
-    }
-  }).catch(error => console.error(error));
+      }
+    }).catch(error => console.error(error));
 
 
 }
@@ -210,7 +208,7 @@ async function checkEmail(email) {
     redirect: 'follow'
   };
 
-  let response = await fetch("http://192.168.0.107:3000/users/check-email", requestOptions);
+  let response = await fetch("http://192.168.0.108:3000/users/check-email", requestOptions);
   let message = await response.json();
   return message;
 }
@@ -233,10 +231,8 @@ async function checkAccount(email, password) {
     redirect: 'follow'
   };
 
-  let response = await fetch("http://192.168.0.107:3000/users/login-user", requestOptions);
+  let response = await fetch("http://192.168.0.108:3000/users/login-user", requestOptions);
   let message = await response.json();
-  console.log(message);
-
   return message;
 }
 
@@ -250,8 +246,13 @@ function createCookie(id) {
 
 
 function createCookieAdmin(id) {
-  Cookies.set('admin', '-1', { expires: 1, path: '/public/admin' });
-  Cookies.set('sessionId', 'ask75934jri', {expires: 1, path: '/public/admin' });
+  Cookies.set('admin', '-1', {
+    expires: 1,
+    path: '/public/admin'
+  });
+  Cookies.set('sessionId', 'ask75934jri', {
+    expires: 1,
+    path: '/public/admin'
+  });
   document.location.href = '/public/admin/home.html';
 }
-

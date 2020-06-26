@@ -9,13 +9,15 @@ var sectionclassificationheader='';
 var categoryclassificationheader='';
 var subcaegoryclassificationheader='';
 var complextitle='';
-  var stringArray;
-  var objectArray = [];
-  var product_ids = [];
-  var unique_products = [];
+  var stringArrayHeader;
+  var objectArrayHeader = [];
+  var product_ids_header = [];
+  var unique_products_header = [];
+var closesearch=$('.closesearch');
+var opensearch=$('.search');
 $('.dropbtn-cart').click(function(){window.location.replace('/public/path/cart.html');})
 
-  function read_cookie(key) {
+  function read_cookie_header(key) {
     var result;
     return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
   }
@@ -26,8 +28,8 @@ $('.dropbtn-cart').click(function(){window.location.replace('/public/path/cart.h
 function start() {
 
 
-  var items = read_cookie('items');
-  var loggedin = read_cookie('loggedin');
+  var items = read_cookie_header('items');
+  var loggedin = read_cookie_header('loggedin');
   var customer;
 
 SectionsStuff();
@@ -35,14 +37,14 @@ SectionsStuff();
 
 
   if (loggedin === '1') {
-    customer = read_cookie('customer');
+    customer = read_cookie_header('customer');
 
   }
   if (loggedin === null) {
     var now = new Date();
     now.setFullYear(now.getFullYear() + 2);
     document.cookie = "loggedin=0; expires=" + now.toUTCString() + "; " + "path=/";
-    loggedin = read_cookie('loggedin');
+    loggedin = read_cookie_header('loggedin');
 
   }
 
@@ -64,7 +66,7 @@ SectionsStuff();
       redirect: 'follow'
     };
 
-    fetch("http://192.168.0.107:3000/users/get-customer-by-id", requestOptions)
+    fetch("http://192.168.0.108:3000/users/get-customer-by-id", requestOptions)
       .then(response => response.json())
       .then((result) => {
         loadProfile(result[0]);
@@ -83,6 +85,12 @@ $("#inputsearch").keyup(function(e){
     } // missing closing if brace
 });
   function loadProfile(customer) {
+      $(".dropdown-profile").click(function(e){ 
+  
+           document.location.href = '/public/path/login.html';
+        
+     // missing closing if brace
+});
     if (loggedin === '0') {
       var cardDiv = document.createElement("div");
       cardDiv.setAttribute("class", "dropdown-content-profile");
@@ -309,6 +317,7 @@ for(var i=0; i<subcategorytitles.length; i++){
                 document.location.href = '/public/path/selected.html?subcategory&' + event.target.parentNode.dataset.section + '&'+event.target.parentNode.dataset.category+'&'+event.target.innerHTML.toLowerCase()
             })
         }
+      $('#wrapper').attr('margin-top', $('.navbaritem').outerHeight())
 
     }
 
@@ -322,6 +331,7 @@ for(var i=0; i<subcategorytitles.length; i++){
     now.setFullYear(now.getFullYear() + 2);
     document.cookie = "loggedin=0; expires=" + now.toUTCString() + "; " + "path=/";
     document.cookie = "customer=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    document.cookie = "items=''; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
     location.href = "/public/path/login.html";
   }
 
@@ -331,6 +341,9 @@ for(var i=0; i<subcategorytitles.length; i++){
 $('.searchbar').attr('class','searchbaractive');
 
 $('.inputsearch').attr('class','inputsearchactive');
+                opensearch.css('display', 'none');
+                closesearch.css('display', 'block');
+
 
     });
 
@@ -338,6 +351,9 @@ $('.inputsearch').attr('class','inputsearchactive');
         $('.searchbaractive').attr('class','searchbar');
 
 $('.inputsearchactive').attr('class','inputsearch');
+                closesearch.css('display', 'none');
+                opensearch.css('display', 'block');
+
 
     });
 
@@ -376,7 +392,7 @@ function SectionsStuff(){
       redirect: 'follow'
     };
 
-    fetch("http://192.168.0.107:3000/classifications/class-groups", requestOptions)
+    fetch("http://192.168.0.108:3000/classifications/class-groups", requestOptions)
       .then(response => response.json())
       .then((result) => {
 Order(result)      })
@@ -444,17 +460,17 @@ function setTitle2(a){
 }
 function setCover1(a){
  if(a in bigboss){
-    $('.bigimageimage').attr('src','http://192.168.0.107:3000'+bigboss[a]['sec_img']);
+    $('.bigimageimage').attr('src','http://192.168.0.108:3000'+bigboss[a]['sec_img']);
         }
 }
 function setCover2(a, b){
  if(a in bigboss){
-    $('.bigimageimage').attr('src','http://192.168.0.107:3000'+bigboss[a][b]['cat_img']);
+    $('.bigimageimage').attr('src','http://192.168.0.108:3000'+bigboss[a][b]['cat_img']);
         }
 }
 function setCover3(a, b, c){
  if(a in bigboss){
-    $('.bigimageimage').attr('src','http://192.168.0.107:3000'+bigboss[a][b][c]['sub_img']);
+    $('.bigimageimage').attr('src','http://192.168.0.108:3000'+bigboss[a][b][c]['sub_img']);
         }
 }
 
@@ -515,32 +531,32 @@ function Reload(){
 
 
 function PrepBasket(){
-    stringArray= read_cookie('items');
-    objectArray=[];
-    product_ids = [];
-    unique_products = [{id:-1, color:'none', quantity:-1}];
+    stringArrayHeader= read_cookie_header('items');
+    objectArrayHeader=[];
+    product_ids_header = [];
+    unique_products_header = [{id:-1, color:'none', quantity:-1}];
     
-                   if (stringArray != null) {
-    stringArray = stringArray.split(",");
+                   if (stringArrayHeader != null) {
+    stringArrayHeader = stringArrayHeader.split(",");
    
-    for (var iii = 0; iii < stringArray.length; iii++) {
-      var smallArray = stringArray[iii].split(':');
+    for (var iii = 0; iii < stringArrayHeader.length; iii++) {
+      var smallArray = stringArrayHeader[iii].split(':');
 
-      objectArray.push(smallArray);
+      objectArrayHeader.push(smallArray);
     
 
     }
 
   } else {
       
-    stringArray = [];
+    stringArrayHeader = [];
   }
 
     
     
-    if (objectArray.length > 0) {
-    for (var i = 0; i < objectArray.length; i++) {
-      product_ids.push(parseInt(objectArray[i][0]));
+    if (objectArrayHeader.length > 0) {
+    for (var i = 0; i < objectArrayHeader.length; i++) {
+      product_ids_header.push(parseInt(objectArrayHeader[i][0]));
     }
   }
 
@@ -548,7 +564,7 @@ function PrepBasket(){
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   const data = {
-    'ids': product_ids
+    'ids': product_ids_header
   };
 
   var raw = JSON.stringify(data);
@@ -560,15 +576,25 @@ function PrepBasket(){
     redirect: 'follow'
   };
 
-  fetch("http://192.168.0.107:3000/products/products-images", requestOptions)
+  fetch("http://192.168.0.108:3000/products/products-images", requestOptions)
     .then(response => response.json())
     .then(result => {
+       if(result.length>1){
+            for(var i=0; i<result.length; i++){
+                if(result[i].image_colour=='default'){
+                result.splice(i, 1);
+                }
+                
+            }
+            
+        }
+        
       var tempArray=[];
       var lastColor='none';
-     for(var i=0; i<objectArray.length; i++){
+     for(var i=0; i<objectArrayHeader.length; i++){
          lastColor='none'
          for(var q=0; q<result.length; q++){
-             if(objectArray[i][0]===result[q]['id'].toString() && objectArray[i][2]===result[q]['image_colour']){
+             if(objectArrayHeader[i][0]===result[q]['id'].toString() && objectArrayHeader[i][2]===result[q]['image_colour']){
 
                     
 
@@ -576,7 +602,7 @@ function PrepBasket(){
                                              
 
                 lastColor=result[q]['image_colour'];
-                 tempArray.push({id:result[q]['id'], quantity:objectArray[i][1], color:result[q]['image_colour'], image_url:result[q]['image_url'], name:result[q]['name'], price:result[q]['price'],stripe_price:result[q]['stripe_price']})
+                 tempArray.push({id:result[q]['id'], quantity:objectArrayHeader[i][1], color:result[q]['image_colour'], image_url:result[q]['image_url'], name:result[q]['name'], price:result[q]['price'],stripe_price:result[q]['stripe_price']})
                      }
                    
                  
@@ -588,19 +614,19 @@ function PrepBasket(){
      /* var found2=false;
       for(var i=0; i<tempArray.length; i++){
        found2=false;
-          for(var q=0; q<unique_products.length; q++){
-              if(tempArray[i].color===unique_products[q].color){
+          for(var q=0; q<unique_products_header.length; q++){
+              if(tempArray[i].color===unique_products_header[q].color){
                   found2=true;
               }
           }
           if(!found2){
-          unique_products.push(tempArray[i]);
+          unique_products_header.push(tempArray[i]);
 
           }
           
       }
-      unique_products.shift();*/
-      unique_products=tempArray;
+      unique_products_header.shift();*/
+      unique_products_header=tempArray;
       if(typeof(createCart)!='undefined'){
           createCart(tempArray)
 }     
@@ -632,7 +658,7 @@ function loadBasket(products) {
       cardDiv = document.createElement("img");
       cardDiv.setAttribute("class", "image");
        if(products[i].image_url!==null){
-    cardDiv.setAttribute("src", 'http://192.168.0.107:3000'+products[i].image_url);
+    cardDiv.setAttribute("src", 'http://192.168.0.108:3000'+products[i].image_url);
            
            
         }else{
@@ -642,7 +668,7 @@ function loadBasket(products) {
         }
 
     $(cardDiv).on("error", function(){
-        $(this).attr('src', 'http://192.168.0.107:3000/public/product_images/default.png');
+        $(this).attr('src', 'http://192.168.0.108:3000/public/product_images/default.png');
     });
       document.getElementById("basketimage" + product_id).appendChild(cardDiv);
 
@@ -668,7 +694,7 @@ function loadBasket(products) {
             
             
                  cardDiv = document.createElement("p");
-      cardDiv.innerHTML = 'Price: '+products[i].price+'$';
+      cardDiv.innerHTML = 'Price: '+products[i].price+' лв.';
       document.getElementById("basketinfo" + product_id).appendChild(cardDiv);
         $('.actualbasketprice').html(+($('.actualbasketprice').html())+((+products[i].price)*(+products[i].quantity)))
             
@@ -698,7 +724,7 @@ function newFetch(id, color){
     redirect: 'follow'
   };
 
-  fetch("http://192.168.0.107:3000/products/single-images-basket", requestOptions)
+  fetch("http://192.168.0.108:3000/products/single-images-basket", requestOptions)
     .then(response => response.json())
     .then(result => {
  console.log(result)
