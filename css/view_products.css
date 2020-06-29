@@ -73,5 +73,14 @@ nav {
     background-color:#FFB11A88;
 }
 .no{
-    background-color:#ff5964cc;
+    background-color:#ff596488;
 }
+.hcell{
+    padding:12px;
+    cursor:pointer;
+}
+.hcell:hover{
+    background-color:#00000044;
+    color:#ffffff;
+}
+
