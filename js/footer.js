@@ -2,6 +2,41 @@
 
 
 function startFooter() {
+    
+    $('.cookie_ok').click(function(){
+    $('.cookie_warning').removeClass('show');
+         var now = new Date();
+    now.setFullYear(now.getFullYear() + 2);
+    document.cookie = "viewed=1; expires=" + now.toUTCString() + "; " + "path=/";
+          cookie_status='1';
+
+    });
+    $('.read_policy').click(function (){
+    $('.cookie_warning').removeClass('show');
+                  document.location.href = '/public/path/privacy.html';
+
+ 
+
+    });
+    
+    
+
+  var cookie_status = read_cookie_header('viewed');
+    
+    
+      if (cookie_status == null) {
+ var now = new Date();
+    now.setFullYear(now.getFullYear() + 2);
+    document.cookie = "viewed=0; expires=" + now.toUTCString() + "; " + "path=/";
+          cookie_status='0';
+  }
+    
+    
+  if (cookie_status == '0') {
+    $('.cookie_warning').css('display', 'block');
+    $('.cookie_warning').addClass('show');
+
+  }
 
 }
 

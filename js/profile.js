@@ -22,9 +22,9 @@ $("#includedContent").load("/public/html/header.html", () => {
   })
 
  
-  $("#address").load("/public/html/address.html", () => {
+/*  $("#address").load("/public/html/address.html", () => {
     $.getScript("/public/js/address.js", () => {});
-  });
+  });*/
     
     $("#includedFooter").load("/public/html/footer.html", () => {
   $.getScript("/public/js/footer.js", function() {

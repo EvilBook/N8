@@ -89,7 +89,7 @@ function getProducts(letter) {
           });
         }
 
-      }
+      }else{$('.product_table_body').html('NO PRODUCTS FOUND MATCHING THIS CRITERIA.');}
 
     }).catch(error => console.error(error));
 }
@@ -153,3 +153,160 @@ function deleteProduct(product_id, images_to_delete, stripe_id) {
     }).catch(error => console.log('error', error));
 
 }
+
+
+$('.search_products').change(function(event) {
+            var query=$(".search_products").val();
+
+            load_search(query);
+ 
+          
+      
+    });
+
+function   load_search(query){
+    
+      var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const data = {
+    'criteria': query
+  };
+
+  var raw = JSON.stringify(data);
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+
+  fetch("http://192.168.0.108:3000/products/search-product", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+     if(result.length<1){
+         $('.product_table_body').html('NO PRODUCTS FOUND MATCHING THIS CRITERIA.');
+      }else{
+         $('.product_table_body').html('');
+        for (var i = 0; i < result.length; i++) {
+            
+   /*  var low='';
+     var no='';
+            if(result[i].quantity<4 && result[i].quantity>0){
+               low='low'
+               }else if(result[i].quantity<1){
+                   no='no'
+               }*/
+var table = $('.product_table_body')[0];
+var row = table.insertRow(0);
+  for (const [key, value] of Object.entries(result[i])) {
+     
+      
+      var cell1 = row.insertCell(row.cells.length-1);
+      console.log(cell1)
+cell1.innerHTML = value;
+      
+  console.log(`${key}: ${value}`);
+}
+
+         
+         sortTableByNumbers(5);
+         
+         
+         }
+      }
+          
+
+      
+    
+    }).catch(error => console.log('error', error));
+    
+    
+}
+
+
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table =$('.product_table_body')[0];
+  switching = true;
+  dir = "asc";
+
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+
+    for (i = 1; i < (rows.length - 1); i++) {
+
+      shouldSwitch = false;
+
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+ 
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      // Each time a switch is done, increase this count by 1:
+      switchcount ++;
+    } else {
+      /* If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again. */
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+
+
+
+function sortTableByNumbers() {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table =$('.product_table_body')[0];
+  switching = true;
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[0];
+      y = rows[i + 1].getElementsByTagName("TD")[0];
+      //check if the two rows should switch place:
+      if (Number(x.innerHTML) > Number(y.innerHTML)) {
+        //if so, mark as a switch and break the loop:
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+

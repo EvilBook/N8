@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 
 <head>
@@ -30,21 +31,22 @@
     <p></p>
 
     <div class="" id="letter_container"></div>
+    <div class="" id="search_container"><input class="search_products" type="text" placeholder="Search" data-relevance="names1"/></div>
 
     <div id="products_table" class="container">
       <table>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>New Price</th>
-            <th>EAN</th>
-            <th>Availability</th>
-            <th>Quantity</th>
-            <th>Brand</th>
-            <th>Design</th>
-            <th>Description</th>
-            <th>Material</th>
+            <th onclick="sortTable(0)">Name</th>
+            <th onclick="sortTableByNumbers(1)">Price</th>
+            <th onclick="sortTableByNumbers(2)">New Price</th>
+            <th onclick="sortTable(3)">EAN</th>
+            <th onclick="sortTable(4)">Availability</th>
+            <th onclick="sortTableByNumbers(5)">Quantity</th>
+            <th onclick="sortTable(6)">Brand</th>
+            <th onclick="sortTable(7)">Design</th>
+            <th onclick="sortTable(8)">Description</th>
+            <th onclick="sortTable(9)">Material</th>
             <th>Diameter</th>
             <th>Length</th>
             <th>Width</th>
@@ -52,14 +54,14 @@
             <th>Volume</th>
             <th>Weight</th>
             <th>Size</th>
-            <th>Subcategory</th>
-            <th>Category</th>
-            <th>Section</th>
+            <th onclick="sortTable(16)">Subcategory</th>
+            <th onclick="sortTable(17)">Category</th>
+            <th onclick="sortTable(18)">Section</th>
             <th>Update Product</th>
             <th>Delete Product</th>
           </tr>
         </thead>
-        <tbody id="product_table"></tbody>
+        <tbody id="product_table" class="product_table_body"></tbody>
       </table>
     </div>
 

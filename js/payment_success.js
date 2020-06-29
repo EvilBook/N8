@@ -1,6 +1,9 @@
 //"use strict";
 
 document.cookie = "items=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+document.cookie = "items=''; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+document.cookie = "items=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+
 var session_id = decodeURIComponent(window.location.search).replace("?", "").substr(11);
 var purchased_products = [];
 var purchased_products_ids = [];
@@ -16,6 +19,7 @@ $("#includedContent").load("/public/html/header.html", () => {
     typeclassificationheader = 'item';
     start();
       $('.bigimage').attr('height', '0');
+      Reload();
 
   });
   

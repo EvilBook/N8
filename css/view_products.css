@@ -69,3 +69,9 @@ nav {
   display: inline-block;
   vertical-align: top;
 }
+.low{
+    background-color:#FFB11A88;
+}
+.no{
+    background-color:#ff5964cc;
+}
