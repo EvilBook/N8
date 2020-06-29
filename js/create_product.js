@@ -80,6 +80,16 @@ var headers;
 var fileInput;
 var product_colour_txt;
 
+var notifier=$('.notifier');
+notifier.click(function(){
+    
+    notifier.css('display','none');
+    $('#main').removeClass('noscroll');
+    
+    
+})
+
+
 
 //fetches the classifications from DB into selectors
 fetchClassifications(sub_slc, cat_slc, sec_slc, null);
@@ -177,6 +187,10 @@ create_product_button.addEventListener("click", () => {
       formdata.append("colour", product_colour_txt.value);
     }
   }
+     for (var pair of formdata.entries()) {
+    console.log(pair[0] + ', ' + pair[1]);
+  }
+
 
   if (empty_fields === true) {
     text_error_txt.innerHTML = "Fields are empty!";
@@ -197,8 +211,8 @@ create_product_button.addEventListener("click", () => {
     fetch("http://192.168.0.108:3000/products/create-product", uploadImagesRequest)
       .then(response => response.text())
       .then((result) => {
-        console.log(result);
-        location.reload(true);
+           notifier.css('display', 'inline');
+            $('#main').addClass('noscroll');
       }).catch(error => console.log('error', error));
 
   }
@@ -312,6 +326,9 @@ function createClassification(txtarea, array, create_class, create_class_img, er
             $(selector_id).html = "";
             //to be changed, the drop down menu!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
             $('#tity').load(document.URL + ' ' + '#tity', () => {
+                $('#product_subcategory').html('')
+                $('#product_category').html('')
+                $('#product_section').html('')
               fetchClassifications($('#product_subcategory')[0], $('#product_category')[0], $('#product_section')[0]);
               txtarea.value = "";
             });
@@ -335,6 +352,9 @@ function createClassification(txtarea, array, create_class, create_class_img, er
             error_label.innerHTML = result;
 
             $(selector_id).load(document.URL + ' ' + selector_id, () => {
+                 $('#product_subcategory').html('')
+                $('#product_category').html('')
+                $('#product_section').html('')
               fetchClassifications($('#product_subcategory')[0], $('#product_category')[0], $('#product_section')[0], class_name);
               //$(default_option).val(class_name);
               txtarea.value = "";

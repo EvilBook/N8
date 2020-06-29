@@ -111,7 +111,9 @@ var row = table.insertRow(0);
       var cell1 = row.insertCell(row.cells.length-1);
       $(cell1).addClass(low);
       $(cell1).addClass(no);
-cell1.innerHTML = value;
+       
+
+cell1.innerHTML = value.toString().substring(0, 98);
    
       
       
@@ -280,7 +282,7 @@ var row = table.insertRow(0);
       var cell1 = row.insertCell(row.cells.length-1);
       $(cell1).addClass(low);
       $(cell1).addClass(no);
-cell1.innerHTML = value;
+cell1.innerHTML = value.toString().substring(0, 98);
    
       
       

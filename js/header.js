@@ -470,6 +470,7 @@ loadCategories(uniqueBoss);
     }//WHAT
 
 function setTitle(a){
+    a='';
     $(".bigtitle").text(a);
 }
 function setTitle2(a){

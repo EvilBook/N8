@@ -322,8 +322,8 @@ li a {
 .dropdown-content-cart {
   display: none;
   position: absolute;
-    top: 43px;
-    right:20px;
+    top: 20px;
+    right:4px;
     width:300px;
     height:92vh;
   background-color: #ffffff;
@@ -332,7 +332,7 @@ li a {
     border-color: #fcdebe;
     padding-top: 20px;
     
-  z-index: 3;
+  z-index: 4;
     
 }
 
@@ -826,3 +826,16 @@ box-shadow: 0px 0px 48px -34px rgba(0,0,0,0.68);
     pointer-events: none;
     display:none;
 }
+
+
+
+
+@media screen and (max-width: 481px){
+
+
+  /*write your CSS-Code here*/
+
+
+}
+
+

@@ -12,7 +12,8 @@ var added_products_prices=[];
 var $wrapper=$('.finalize_top, .finalize_bottom')
 
 
-
+$('.vat').text('VAT: ' + 0 + '.лв');
+  $('.total').html('Total: <span class="totaltotal">' + 0 + '</span> .лв');
 
 
 var selectedNewShipping = {
@@ -563,6 +564,7 @@ function createCart(products) {
         prc= prc*qty;
       added_products_prices.push(prc);
     product_id = products[i].id + products[i].color;
+      product_id=product_id.replace(/\s/g, "");
     tempCookieArray.push({
       id: products[i].id,
       quantity: products[i].quantity,

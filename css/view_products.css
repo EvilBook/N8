@@ -18,6 +18,17 @@ table, th, td {
   border-collapse: collapse;
   padding: 2px 3px;
   text-align: center;
+    overflow:auto;
+      table-layout: fixed;
+
+    
+}
+
+
+th,
+td {
+  width: 100px;height:50px;
+  overflow: hidden;
 }
 
 th {

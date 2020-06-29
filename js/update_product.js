@@ -97,6 +97,18 @@ var fileInput;
 var colour;
 var headers;
 
+var notifier=$('.notifier');
+var smol_notifier=$('.smol_notifier');
+notifier.click(function(){
+    
+    notifier.css('display','none');
+    $('#main').removeClass('noscroll');
+    
+    
+})
+
+
+
 //populates all the drop down menus
 populateSelectors(sub_table, sub_array, product_subcategory_slc);
 populateSelectors(cat_table, cat_array, product_category_slc);
@@ -303,9 +315,17 @@ function deleteImages(image_id, url) {
   fetch('http://192.168.0.108:3000/products/delete-images', requestOptions)
     .then(response => response.text())
     .then((result) => {
-      console.log(result);
       $('#images_table').load(document.URL + " #images_table", () => {
         displayProductImages();
+          //display notifier for success start
+              smol_notifier.css('display', 'block');
+    smol_notifier.addClass('show');
+setTimeout(function(){
+    
+    smol_notifier.removeClass('show');
+    
+}, 1400)
+          //display notifier for success end
       });
     }).catch(error => console.log('error', error));
 
@@ -401,7 +421,8 @@ function updateProductText(data) {
   fetch("http://192.168.0.108:3000/products/update-product", requestOptions)
     .then(response => response.text())
     .then((result) => {
-      console.log(result);
+            notifier.css('display', 'inline');
+            $('#main').addClass('noscroll');
       //location.reload(true);
     }).catch(error => console.log('error', error));
 }
@@ -459,6 +480,18 @@ function updateProductColours() {
 
       $('#images_table').load(document.URL + ' #images_table', () => {
         displayProductImages();
+          
+                    //display notifier for success start
+              smol_notifier.css('display', 'block');
+    smol_notifier.addClass('show');
+setTimeout(function(){
+    
+    smol_notifier.removeClass('show');
+    
+}, 1400)
+          //display notifier for success end
+          
+          
       });
 
     }).catch(error => console.log('error', error));
@@ -500,6 +533,18 @@ function newImagesOldColours(fileInput_id) {
 
       $('#images_table').load(document.URL + ' #images_table', () => {
         displayProductImages();
+          
+                    //display notifier for success start
+              smol_notifier.css('display', 'block');
+    smol_notifier.addClass('show');
+setTimeout(function(){
+    
+    smol_notifier.removeClass('show');
+    
+}, 1400)
+          //display notifier for success end
+          
+          
       });
 
     }).catch(error => console.log('error', error));
@@ -543,6 +588,15 @@ function newImagesNewColours() {
         document.getElementById('new_colours_images').innerHTML = "";
         displayProductImages();
         $(add_colour_row).show();
+                              //display notifier for success start
+              smol_notifier.css('display', 'block');
+    smol_notifier.addClass('show');
+setTimeout(function(){
+    
+    smol_notifier.removeClass('show');
+    
+}, 1400)
+          //display notifier for success end
       });
 
     }).catch(error => console.log('error', error));
@@ -598,6 +652,15 @@ function displayProductImages() {
     .then(response => response.json())
     .then(data => {
       createArraysOfStuff(data);
+                          //display notifier for success start
+              smol_notifier.css('display', 'block');
+    smol_notifier.addClass('show');
+setTimeout(function(){
+    
+    smol_notifier.removeClass('show');
+    
+}, 1400)
+          //display notifier for success end
     }).catch(error => console.error(error));
 }
 

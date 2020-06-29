@@ -82,7 +82,7 @@ getPurchasedItems(session_id)
 var return_button = document.getElementById('return_button');
 
 return_button.addEventListener("click", () => {
-    location.replace("http://192.168.0.108:3000/public/");
+    location.replace("http://192.168.0.108:3000/public/index.html?returning");
 });
 
 
